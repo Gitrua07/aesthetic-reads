@@ -91,7 +91,9 @@
 
   @media (max-width: 1024px) {
     flex-direction: column;
-    text-align: center;
+    /* text-align: center; */
+    width: 100vw;
+    height: 100vh;
   }
 }
 

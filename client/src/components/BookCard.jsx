@@ -5,6 +5,16 @@ export default function BookCard(props){
      * BookList components.
      */
     return(
-        <div></div>
+        <article>
+            {/*image here*/ }
+            {props.src}
+            <div>{props.title}</div>
+            {/*If you hover over it then the below UI should appear */}
+            <div>
+                list of the available mood board
+                Save
+            </div> 
+            {/* */}
+        </article>
     )
 }

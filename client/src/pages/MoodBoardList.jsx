@@ -19,10 +19,9 @@ export default function MoodBoardList(){
      */
     
     return(
-        <section>
+        <section className='flex h-full flex-col'>
             <Searchbar/>
             <MoodBoardsGrid/>
-            <SideBar/>
         </section>
     )
 }

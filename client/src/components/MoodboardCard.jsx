@@ -5,6 +5,6 @@ export default function MoodBoardCard(props){
      * MoodBoardsGrid.jsx component.
      */
     return(
-        <div></div>
+        <article className=''>fsdfds</article>
     )
 }

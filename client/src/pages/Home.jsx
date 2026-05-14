@@ -18,10 +18,9 @@ export default function Home(){
      */
     
     return(
-        <section>
+        <section className='flex h-full flex-col'>
             <Searchbar/>
             <BookList/>
-            <SideBar/>
         </section>
     )
 }
