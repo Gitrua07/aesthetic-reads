@@ -1,6 +1,7 @@
 import Searchbar from '../components/SearchBar';
 import BookList from '../components/BookList';
 import SideBar from '../components/SideBar';
+import {useState} from 'react';
 
 export default function Home(){
     /**
@@ -14,13 +15,18 @@ export default function Home(){
      * This page will contain the following components:
      * SearchBar.jsx
      * BookList.jsx
-     * SideBar.jsx
      */
-    
+
+    const [query, getQuery] = useState('')
+
+    const Search = (val) => {
+        getQuery(val)
+    }
+
     return(
         <section className='flex h-full flex-col'>
-            <Searchbar/>
-            <BookList/>
+            <Searchbar startSearch={Search}/>
+            <BookList query={query}/>
         </section>
     )
 }

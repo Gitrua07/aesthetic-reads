@@ -5,9 +5,8 @@ export default function BookCard(props){
      * BookList components.
      */
     return(
-        <article>
-            {/*image here*/ }
-            {props.src}
+        <article className="w-40">
+            <img className="rounded-xl w-80" src={props.src}/>
             <div>{props.title}</div>
             {/*If you hover over it then the below UI should appear */}
             <div>
