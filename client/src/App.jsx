@@ -1,10 +1,8 @@
-import { BrowserRouter, Routes, Route, Link } from 'react-router-dom'
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import Home from './pages/Home'
 import SideBar from './components/SideBar'
 import MoodBoardList from './pages/MoodBoardList'
-import home from './assets/home.png'
-import apps from './assets/apps.png'
-import profile from './assets/circle-user.png'
+import Book from './components/Book'
 import './App.css'
 
 function App() {
@@ -16,6 +14,7 @@ function App() {
           <Routes>
             <Route path='/' element={<Home />} />
             <Route path='/gallery' element={<MoodBoardList />} />
+            <Route path='/book/:bookId' element={<Book/>}/>
           </Routes>
         </main>
       </div>

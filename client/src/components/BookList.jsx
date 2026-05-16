@@ -15,16 +15,16 @@ export default function BookList(props){
         //append books into bookData array
         books.map((value, index) => {
             let bookInfo = {
+                "id": value.id,
                 "title": value.volumeInfo.title,
                 "author": value.volumeInfo.authors,
                 "description": value.volumeInfo.description,
                 "src": value.volumeInfo.imageLinks,
-                "link": `/${encodeURIComponent(value.volumeInfo.title)}`,
+                "link": `/book/${value.id}`
             }
             bookData.push(bookInfo)
         })
     }
-
 
     return(
         <section className='flex-1 min-h-0 overflow-y-auto'>
@@ -32,6 +32,7 @@ export default function BookList(props){
             {bookData.map((value,index)=>{
                 return(<BookCard 
                     title={value.title} 
+                    description={value.description}
                     src={value.src.thumbnail} 
                     link={value.link}
                     />)

@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 const API_KEY = import.meta.env.VITE_GOOGLE_BOOKS_API_KEY
 
 
-export default function useBooks(userQuery) {  // must start with "use"
+export default function useBooks(userQuery) { 
   const [books, setBooks] = useState([])
 
   useEffect(() => {
@@ -11,6 +11,5 @@ export default function useBooks(userQuery) {  // must start with "use"
       .then((data) => setBooks(data.items || []))
   }, [userQuery])
 
-  console.log(books)
   return books
 }
