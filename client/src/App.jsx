@@ -8,9 +8,9 @@ import './App.css'
 function App() {
   return (
     <BrowserRouter>
-      <div className='flex h-screen overflow-hidden'>
+      <div className='flex'>
         <SideBar />
-        <main className='flex-1 min-h-0'>
+        <main className='flex-1'>
           <Routes>
             <Route path='/' element={<Home />} />
             <Route path='/gallery' element={<MoodBoardList />} />

@@ -8,7 +8,7 @@ export default function SideBar() {
      */
     
     return (
-        <div className="flex bg-[rgb(255,255,255)] h-screen w-[80px] p-3 border-r border-[rgb(199,199,191)]">
+        <div className="flex bg-[rgb(255,255,255)] min-h-screen w-[80px] p-3 border-r border-[rgb(199,199,191)]">
             <ul>
                 {SideBarData.map((val, key) => {
                     return (<li key={key}>
