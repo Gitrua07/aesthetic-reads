@@ -6,7 +6,14 @@ export default function BookList(props){
      * This component returns a list of all
      * available books taking into account any
      * user input.
+     * TODO: 
+     * [] Make query output all books 
+     * [] Make UI pretty
+     * [] Extra: If you rewind from a page, should not return a 
+     *   blank page, should show the previous search result
+     * [] Implement mood board tag feature
      */
+
     let bookData = []
 
     let books

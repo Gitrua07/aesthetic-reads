@@ -12,13 +12,13 @@ export default function Home(){
      * paired to an existing mood board or to create
      * a new mood board.
      * 
-     * This page will contain the following components:
+     * This page contains the following components:
      * SearchBar.jsx
      * BookList.jsx
      */
 
+    //Retrives queries from search bar
     const [query, getQuery] = useState('')
-
     const Search = (val) => {
         getQuery(val)
     }

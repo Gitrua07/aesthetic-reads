@@ -8,7 +8,7 @@ Create a program where it allows users to collect a group of images and assigns 
 [X] Search books<br>
 [] Manually add books when assigning books to mood board<br>
 [] Save books<br>
-[] Display book cover<br>
+[X] Display book cover<br>
 [] Create mood boards<br>
 [] Assign books to a mood board<br>
 [] Add images to mood board<br>
