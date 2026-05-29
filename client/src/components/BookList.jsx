@@ -1,5 +1,6 @@
 import BookCard from './BookCard'
 import getBooks from '../api/getBook.js'
+import thumbnailPlaceHolder from '../assets/book-placeholder.jpg'
 
 export default function BookList(props){
     /**
@@ -7,7 +8,6 @@ export default function BookList(props){
      * available books taking into account any
      * user input.
      * TODO: 
-     * [] Make query output all books 
      * [] Make UI pretty
      * [] Extra: If you rewind from a page, should not return a 
      *   blank page, should show the previous search result
@@ -19,6 +19,7 @@ export default function BookList(props){
     let books
     if (props.query != ''){
         books = getBooks(props.query)
+        console.log(books)
         //append books into bookData array
         books.map((value, index) => {
             let bookInfo = {
@@ -26,8 +27,9 @@ export default function BookList(props){
                 "title": value.volumeInfo.title,
                 "author": value.volumeInfo.authors,
                 "description": value.volumeInfo.description,
-                "src": value.volumeInfo.imageLinks,
-                "link": `/book/${value.id}`
+                "link": `/book/${value.id}`,
+                "thumbnail": value.volumeInfo.imageLinks?.thumbnail ?? thumbnailPlaceHolder
+
             }
             bookData.push(bookInfo)
         })
@@ -40,7 +42,7 @@ export default function BookList(props){
                 return(<BookCard 
                     title={value.title} 
                     description={value.description}
-                    src={value.src.thumbnail} 
+                    src={value.thumbnail} 
                     link={value.link}
                     />)
             })}

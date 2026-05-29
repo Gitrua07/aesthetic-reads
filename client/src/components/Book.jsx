@@ -1,6 +1,7 @@
 import SearchBar from "./SearchBar"
 import { useParams } from 'react-router-dom'
 import useOneBook from '../api/getOneBook.js'
+import thumbnailPlaceHolder from '../assets/book-placeholder.jpg'
 
 export default function Book() {
     /**
@@ -25,9 +26,12 @@ export default function Book() {
     const domParse = new DOMParser()
     const description = bookInfo?.description
     const bookDesc = description ? domParse.parseFromString(description, 'text/html').body.textContent : 'No description available.'
-
+    let imageSrc = bookInfo?.imageLinks ?? thumbnailPlaceHolder
     //Checks if image small size exists
-    let imageSrc = !bookInfo?.imageLinks?.small ? bookInfo?.imageLinks?.small : bookInfo?.imageLinks?.thumbnail
+    if (imageSrc != thumbnailPlaceHolder){
+        imageSrc = !bookInfo?.imageLinks?.small ? bookInfo?.imageLinks?.small : bookInfo?.imageLinks?.thumbnail
+    }
+    
     
     //TODO: Make this into a JSON/sql file
     const moodBoardData = ['Sad Boy', 'Emo', 'Sunshine']
