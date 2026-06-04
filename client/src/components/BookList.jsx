@@ -8,10 +8,10 @@ export default function BookList(props){
      * available books taking into account any
      * user input.
      * TODO: 
-     * [] Make UI pretty
+     * [X] Make UI pretty
      * [] Extra: If you rewind from a page, should not return a 
      *   blank page, should show the previous search result
-     * [] Implement mood board tag feature
+     * [X] Implement mood board tag feature
      */
 
     let bookData = []
@@ -37,15 +37,15 @@ export default function BookList(props){
 
     return(
         <section className='flex-1 min-h-0 overflow-y-auto'>
-            <div className="flex flex-wrap gap-4 p-5">
-            {bookData.map((value,index)=>{
-                return(<BookCard 
+            <div className="flex flex-wrap gap-4 p-5 justify-center">
+            {bookData?.length > 0 
+                ? bookData.map((value,index)=> (<BookCard
+                    bookid={value.id} 
                     title={value.title} 
                     description={value.description}
                     src={value.thumbnail} 
                     link={value.link}
-                    />)
-            })}
+                    />)) : <div>Search is empty...</div>}
             </div>
         </section>
         

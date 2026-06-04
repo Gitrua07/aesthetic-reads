@@ -21,9 +21,7 @@ export default function MoodBoardSelected(){
      */
     return(
         <section>
-            <SearchBar/>
             <MoodBoardImages/>
-            <SideBar/>
         </section>
     )
 }

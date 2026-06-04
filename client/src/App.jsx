@@ -3,6 +3,7 @@ import Home from './pages/Home'
 import SideBar from './components/SideBar'
 import MoodBoardList from './pages/MoodBoardList'
 import Book from './components/Book'
+import MoodBoardSelected from './pages/MoodBoardSelected'
 import './App.css'
 
 function App() {
@@ -15,6 +16,7 @@ function App() {
             <Route path='/' element={<Home />} />
             <Route path='/gallery' element={<MoodBoardList />} />
             <Route path='/book/:bookId' element={<Book/>}/>
+            <Route path='/moodboard/:moodBoardId' element={<MoodBoardSelected/>}/>'
           </Routes>
         </main>
       </div>

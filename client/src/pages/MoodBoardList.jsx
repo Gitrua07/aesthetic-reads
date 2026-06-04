@@ -11,16 +11,10 @@ export default function MoodBoardList(){
      * create a mood board. If the user selects a mood board
      * then the user will be navigated to the MoodBoardSelected 
      * page. The user can create a new mood board on this page.
-     * 
-     * This page will contain the following components:
-     * SearchBar.jsx
-     * MoodBoardsGrid.jsx
-     * SideBar.jsx
      */
     
     return(
-        <section className='flex h-full flex-col'>
-            <Searchbar/>
+        <section className='flex h-full flex-col mx-10 my-20'>
             <MoodBoardsGrid/>
         </section>
     )
