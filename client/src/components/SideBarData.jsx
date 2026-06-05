@@ -13,4 +13,9 @@ export const SideBarData = [
         icon: apps,
         link: "/gallery"
     },
+    {
+        title: "Login",
+        icon: apps,
+        link: "/login"
+    }
 ]

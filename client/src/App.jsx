@@ -4,7 +4,10 @@ import SideBar from './components/SideBar'
 import MoodBoardList from './pages/MoodBoardList'
 import Book from './components/Book'
 import MoodBoardSelected from './pages/MoodBoardSelected'
+import Login from './pages/Login'
+import Register from './pages/Register'
 import './App.css'
+
 
 function App() {
   return (
@@ -15,6 +18,8 @@ function App() {
           <Routes>
             <Route path='/' element={<Home />} />
             <Route path='/gallery' element={<MoodBoardList />} />
+            <Route path='/login' element={<Login/>}/>
+            <Route path='/register' element={<Register/>} />
             <Route path='/book/:bookId' element={<Book/>}/>
             <Route path='/moodboard/:moodBoardId' element={<MoodBoardSelected/>}/>'
           </Routes>

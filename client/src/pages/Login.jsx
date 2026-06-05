@@ -1,4 +1,4 @@
-import Login from '../components/Login';
+import LoginComp from '../components/LoginComp';
 
 export default function Login(){
     /**
@@ -14,8 +14,8 @@ export default function Login(){
      * Login.jsx
      */
     return(
-        <section>
-            <Login/>
+        <section className='flex flex-col justify-center justify-items-center text-center h-full'>
+            <LoginComp />
         </section>
     )
 }
