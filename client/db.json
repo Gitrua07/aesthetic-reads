@@ -1,0 +1,23 @@
+{
+  "moodboards": [
+       {
+            "title": "Sad Boy",
+            "src": "/src/assets/book-placeholder.jpg",
+            "alt": "Sad Boy Moodboard",
+            "link": "/moodboard/1"
+        },
+        {
+            "title": "Emo",
+            "src": "/src/assets/book-placeholder.jpg",
+            "alt": "Emo Moodboard",
+            "link": "/moodboard/2"
+        },
+        {
+            "title": "Sunshine",
+            "src": "/src/assets/book-placeholder.jpg",
+            "alt": "Sunshine Moodboard",
+            "link": "/moodboard/3"
+        }
+  ],
+  "userinfo": []
+}

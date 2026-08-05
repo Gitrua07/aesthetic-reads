@@ -1,43 +1,72 @@
+import { useState, useEffect } from 'react'
+import { Link } from 'react-router-dom'
 import MoodBoardCard from './MoodboardCard'
-import thumbnailPlaceHolder from '../assets/book-placeholder.jpg'
+import axios from 'axios'
 
 export default function MoodBoardsGrid() {
     /**
      * This component returns a list of mood boards.
      * 'Sad Boy', 'Emo', 'Sunshine'
      */
-    const moodBoardData = [
+    const [moodboard, setMoodboard] = useState([])
+
+    useEffect(() => {
+        axios
+            .get('http://localhost:3001/moodboards')
+            .then(response => {
+                // console.log(response.data)
+                setMoodboard(moodboard.concat(response.data))
+            })
+    }, [])
+
+    const moodboardsArray = [
         {
-            title: 'Sad Boy',
-            src: thumbnailPlaceHolder,
-            alt: 'Sad Boy Moodboard',
-            link: `/moodboard/1`,
+            'title': 'Hello',
+            'link': '/moodboard/0',
+            'src': '../public/favicon.svg',
+            'alt': 'image 0'
         },
         {
-            title: 'Emo',
-            src: thumbnailPlaceHolder,
-            alt: 'Emo Moodboard',
-            link: `/moodboard/2`,
+            'title': 'Hello',
+            'link': '/moodboard/1',
+            'src': '../public/favicon.svg',
+            'alt': 'image 0'
         },
         {
-            title: 'Sunshine',
-            src: thumbnailPlaceHolder,
-            alt: 'Sunshine Moodboard',
-            link: `/moodboard/3`,
+            'title': 'Hello',
+            'link': '/moodboard/2',
+            'src': '../public/favicon.svg',
+            'alt': 'image 0'
         },
     ]
 
     return (
-        <section className='flex-1 min-h-0 overflow-y-auto'>
+        <section>
             <h1>Your Book Moodboards</h1>
             <div className="flex gap-10 p-5">
-                {moodBoardData.map((value, index) => {
+                {/* {moodboard.map((value, index) => {
                     return (
                         <MoodBoardCard
                             title={value.title}
                             src={value.src}
                             link={value.link}
                         />
+                    )
+                })} */}
+                {moodboardsArray.map((value, index) => {
+                    return (
+                        <div className='text-center flex flex-col gap-5' key={index}>
+                            <Link to={value.link}>
+                                <div className='h-100 w-100 flex flex-wrap rounded-xl'>
+                                    <div className='bg-red-100 h-50 w-50'><img src={value.src} alt={value.alt}/></div>
+                                    <div className='bg-blue-100 h-50 w-50'><img src={value.src} alt={value.alt}/></div>
+                                    <div className='bg-yellow-100 h-50 w-50'><img src={value.src} alt={value.alt}/></div>
+                                    <div className='bg-green-100 h-50 w-50'><img src={value.src} alt={value.alt}/></div>
+                                    <img />
+                                </div>
+                            </Link>
+                            <div><b>{value.title}</b></div>
+                        </div>
                     )
                 })}
             </div>

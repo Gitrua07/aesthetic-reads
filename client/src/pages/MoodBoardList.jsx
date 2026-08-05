@@ -12,10 +12,11 @@ export default function MoodBoardList(){
      * then the user will be navigated to the MoodBoardSelected 
      * page. The user can create a new mood board on this page.
      */
-    
+    // flex-1 h-full w-full min-overflow-y-auto flex-wrap
+    // flex h-full flex-col mx-10 my-20
     return(
-        <section className='flex h-full flex-col mx-10 my-20'>
-            <MoodBoardsGrid/>
+        <section className='w-full h-full flex flex-wrap'>
+            <MoodBoardsGrid />
         </section>
     )
 }

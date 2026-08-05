@@ -19,7 +19,7 @@ export default function BookList(props){
     let books
     if (props.query != ''){
         books = getBooks(props.query)
-        console.log(books)
+        // console.log(books)
         //append books into bookData array
         books.map((value, index) => {
             let bookInfo = {

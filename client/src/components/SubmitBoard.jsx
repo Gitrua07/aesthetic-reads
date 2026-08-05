@@ -1,25 +1,26 @@
-export default function SubmitBoard (props) {
-    const classNameSelect = props.classNameSelect
-    const onSubmit = props.onSubmit
-    const selectedMoodBoard = props.selectedMoodBoard
-    const setMoodBoard = props.setMoodBoard
-    const moodBoardData = props.moodBoardData
-    const classNameButton = props.classNameButton
+import axios from 'axios'
+export default function SubmitBoard(props) {
+    const {
+        handleMoodBoard, // matches BookCard prop
+        selectedMoodBoard,
+        setMoodBoard,
+        moodBoardData = [],
+        classNameSelect = '',
+        classNameButton = '',
+    } = props
 
     return (
-        <form onSubmit={onSubmit}>
+        <form onSubmit={handleMoodBoard}>
             <select
-                className='rounded-xl bg-white '
+                className={`rounded-xl bg-white ${classNameSelect}`}
                 value={selectedMoodBoard}
-                onChange={e => setMoodBoard}
+                onChange={e => setMoodBoard(e.target.value)}
             >
-                {moodBoardData.map((val) => {
-                    return (
-                        <option key={val} value={val}>{val}</option>
-                    )
-                })}
+                {moodBoardData.map((val) => (
+                    <option key={val} value={val}>{val}</option>
+                ))}
             </select>
-            <button type='submit' className='rounded-xl bg-white p-1'>Save</button>
+            <button type='submit' className={`rounded-xl bg-white p-1 ${classNameButton}`}>Save</button>
         </form>
     )
 }
