@@ -12,9 +12,9 @@ import './App.css'
 function App() {
   return (
     <BrowserRouter>
-      <div className='flex'>
+      <div className='flex'>{/*flex*/}
         <SideBar />
-        <main className='flex-1'>
+        <main className=''>{/*flex-1*/}
           <Routes>
             <Route path='/' element={<Home />} />
             <Route path='/gallery' element={<MoodBoardList />} />

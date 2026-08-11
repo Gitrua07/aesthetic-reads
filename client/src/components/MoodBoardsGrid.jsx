@@ -41,9 +41,9 @@ export default function MoodBoardsGrid() {
     ]
 
     return (
-        <section>
+        <section className='m-10'>
             <h1>Your Book Moodboards</h1>
-            <div className="flex gap-10 p-5">
+            <div className="mt-15 flex flex-wrap gap-5"> 
                 {/* {moodboard.map((value, index) => {
                     return (
                         <MoodBoardCard
@@ -55,7 +55,7 @@ export default function MoodBoardsGrid() {
                 })} */}
                 {moodboardsArray.map((value, index) => {
                     return (
-                        <div className='text-center flex flex-col gap-5' key={index}>
+                        <div className='text-center' key={index}>
                             <Link to={value.link}>
                                 <div className='h-100 w-100 flex flex-wrap rounded-xl'>
                                     <div className='bg-red-100 h-50 w-50'><img src={value.src} alt={value.alt}/></div>
