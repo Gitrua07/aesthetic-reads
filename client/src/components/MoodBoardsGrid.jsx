@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import MoodBoardCard from './MoodboardCard'
 import axios from 'axios'
+// import { v4 as uuidv4 } from 'uuid'
 
 export default function MoodBoardsGrid() {
     /**
@@ -9,15 +10,15 @@ export default function MoodBoardsGrid() {
      * 'Sad Boy', 'Emo', 'Sunshine'
      */
     const [moodboard, setMoodboard] = useState([])
-
-    useEffect(() => {
-        axios
-            .get('http://localhost:3001/moodboards')
-            .then(response => {
-                // console.log(response.data)
-                setMoodboard(moodboard.concat(response.data))
-            })
-    }, [])
+    const [newMoodBoard, setNewMoodBoard] = useState('')
+    // useEffect(() => {
+    //     axios
+    //         .get('http://localhost:3001/api/moodboards')
+    //         .then(response => {
+    //             // console.log(response.data)
+    //             setMoodboard(moodboard.concat(response.data))
+    //         })
+    // }, [])
 
     const moodboardsArray = [
         {
@@ -40,9 +41,30 @@ export default function MoodBoardsGrid() {
         },
     ]
 
+    const createMoodBoard = (event) => {
+        event.preventDefault()
+        const moodboardToSend = {title: newMoodBoard}
+        axios
+        .post('http://localhost:3001/api/moodboards', moodboardToSend)
+        .then(response => console.log(response))
+        .catch(response => console.error(response))
+        setNewMoodBoard('')
+    }
+
     return (
         <section className='m-10'>
             <h1>Your Book Moodboards</h1>
+            <div>
+                <form className='flex gap-5 justify-center items-center' onSubmit={createMoodBoard}>
+                    <button><img className='max-w-20 mt-10' src='src\assets\add.png'/></button>
+                    <input 
+                        type='text' 
+                        className='px-2 shadow-md rounded-md border border-gray-200 p-0 h-15'
+                        value={newMoodBoard}
+                        onChange={e => setNewMoodBoard(e.target.value)}
+                    ></input>
+                </form>
+            </div>
             <div className="mt-15 flex flex-wrap gap-5"> 
                 {/* {moodboard.map((value, index) => {
                     return (

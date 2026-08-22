@@ -1,18 +1,76 @@
-import express from 'express'
-import {moodBoardRouter} from './routes/moodboards.js'
-import {userInfoRouter} from './routes/userInfos.js'
-import cors from 'cors'
-
-const PORT = process.env.PORT || 8000
+const express = require('express')
 const app = express()
 
-app.use(cors({
-    origin: process.env.FRONTEND_URL || 'http://localhost:5173'
-}))
-
+const cors = require('cors')
+app.use(cors())
 app.use(express.json())
 
-app.use('/api', moodBoardRouter)
-app.use('/api', userInfoRouter)
+let moodboards = []
 
-app.listen(PORT, () => console.log(`connected to port ${PORT}`))
+let userinfos = [
+    {
+        id: 1,
+        name: 'gaia'
+    }
+]
+
+//GET routes
+app.get('/api/moodboards', (request, response) => {
+    response.json(moodboards)
+})
+
+app.get('/userinfos', (request, response)=> {
+    response.json(userinfos)
+})
+
+app.get('/api/moodboards/:id', (request, response) => {
+    const id = request.params.id
+    const moodboard = moodboards.find(moodboard => moodboard.id === id)
+    response.json(moodboard)
+})
+
+app.get('/userinfos/:id', (request, response) => {
+    const id = request.params.id
+    const userinfo = userinfos.find(userinfo => userinfo.id === id)
+    response.json(userinfo)
+})
+
+//DELETE routes
+app.delete('/api/moodboards/:id', (request, response) => {
+    const id = request.params.id
+    moodboards = moodboards.filter(moodboard => moodboard.id !== id)
+    response.status(204).end()
+})
+
+app.delete('/userinfos/:id', (request, response) => {
+    const id = request.params.id
+    userinfos = userinfos.filter(userinfo => userinfo.id !== id)
+    response.status(204).end()
+})
+
+//POST routes
+app.post('/userinfos', (request, response) => {
+    const id = 1
+    const contents = request.body.contents
+    const newObject = {
+        id: id,
+        name: '',
+        password: '',
+        email: ''
+    }
+})
+
+app.post('/api/moodboards', (request, response) => {
+    const {title} = request.body
+    const newObject = {
+        id: 0,
+        title: title
+    }
+    moodboards.push(newObject)
+    response.status(201).json(newObject)
+})
+
+const PORT = 3001
+app.listen(PORT, () => {
+    console.log(`Listening to port ${PORT}`)
+})

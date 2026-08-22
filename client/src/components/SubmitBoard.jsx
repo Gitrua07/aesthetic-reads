@@ -10,9 +10,9 @@ export default function SubmitBoard(props) {
     } = props
 
     return (
-        <form onSubmit={handleMoodBoard}>
+        <form className='flex gap-3' onSubmit={handleMoodBoard}>
             <select
-                className={`rounded-xl bg-white ${classNameSelect}`}
+                className={`rounded-xl min-w-[70px] bg-white ${classNameSelect}`}
                 value={selectedMoodBoard}
                 onChange={e => setMoodBoard(e.target.value)}
             >

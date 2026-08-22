@@ -53,24 +53,25 @@ export default function BookCard(props) {
     useEffect(()=> getMoodBoardData, [])
     console.log(moodBoardData)
 
-    // const handleMoodBoard = (event) => {
-    //     event.preventDefault()
-    //     console.log("HERE")
-    //      axios
-    //         .post('http://localhost:3001/moodboards')
-    //         .then(
-    //             response => console.log(response)
-    //         )
-    // }
-    async function handleMoodBoard(e) {
-        // console.log("HERELL")
-        e.preventDefault() //Prevents page refresh
-        await fetch('/api/moodboard', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ mood: selectedMoodBoard, bookId: props.bookid })
-        })
+    const handleMoodBoard = (event) => {
+        event.preventDefault()
+        console.log("HERE")
+         axios
+            .post('http://localhost:3001/moodboards')
+            .then(
+                response => console.log(response)
+            )
     }
+    
+    // async function handleMoodBoard(e) {
+    //     // console.log("HERELL")
+    //     e.preventDefault() //Prevents page refresh
+    //     await fetch('/api/moodboard', {
+    //         method: 'POST',
+    //         headers: { 'Content-Type': 'application/json' },
+    //         body: JSON.stringify({ mood: selectedMoodBoard, bookId: props.bookid })
+    //     })
+    // }
 
     return (
         <article className="w-40">
