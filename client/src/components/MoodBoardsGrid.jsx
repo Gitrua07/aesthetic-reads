@@ -43,29 +43,32 @@ export default function MoodBoardsGrid() {
 
     const createMoodBoard = (event) => {
         event.preventDefault()
-        const moodboardToSend = {title: newMoodBoard}
+        const moodboardToSend = { title: newMoodBoard }
         axios
-        .post('http://localhost:3001/api/moodboards', moodboardToSend)
-        .then(response => console.log(response))
-        .catch(response => console.error(response))
+            .post('http://localhost:3001/api/moodboards', moodboardToSend)
+            .then(response => console.log(response))
+            .catch(response => console.error(response))
         setNewMoodBoard('')
     }
 
     return (
-        <section className='m-10'>
-            <h1>Your Book Moodboards</h1>
-            <div>
-                <form className='flex gap-5 justify-center items-center' onSubmit={createMoodBoard}>
-                    <button><img className='max-w-20 mt-10' src='src\assets\add.png'/></button>
-                    <input 
-                        type='text' 
-                        className='px-2 shadow-md rounded-md border border-gray-200 p-0 h-15'
-                        value={newMoodBoard}
-                        onChange={e => setNewMoodBoard(e.target.value)}
-                    ></input>
-                </form>
+        <section className='max-w-full min-w-0 flex flex-wrap m-6 flex-col'>
+            <div className="flex flex-col gap-5 items-start">
+                <h1 className="text-neutral-900">Your Moodboards</h1>
+                <div className="">
+                    <form className='flex gap-5 justify-center items-center' onSubmit={createMoodBoard}>
+                        <button><img className='w-[50px] max-w-full min-w-0' src='src\assets\add.png' /></button>
+                        <input
+                            type='text'
+                            className='px-2 shadow-md rounded-md border border-gray-200 p-0 h-[50px] w-[300px] max-h-full min-h-0 max-w-full min-w-0'
+                            value={newMoodBoard}
+                            onChange={e => setNewMoodBoard(e.target.value)}
+                        ></input>
+                    </form>
+                </div>
             </div>
-            <div className="mt-15 flex flex-wrap gap-5"> 
+
+            <div className="mt-15 flex flex-wrap gap-5">
                 {/* {moodboard.map((value, index) => {
                     return (
                         <MoodBoardCard
@@ -77,17 +80,17 @@ export default function MoodBoardsGrid() {
                 })} */}
                 {moodboardsArray.map((value, index) => {
                     return (
-                        <div className='text-center' key={index}>
+                        <div key={index}>
                             <Link to={value.link}>
-                                <div className='h-100 w-100 flex flex-wrap rounded-xl'>
-                                    <div className='bg-red-100 h-50 w-50'><img src={value.src} alt={value.alt}/></div>
-                                    <div className='bg-blue-100 h-50 w-50'><img src={value.src} alt={value.alt}/></div>
-                                    <div className='bg-yellow-100 h-50 w-50'><img src={value.src} alt={value.alt}/></div>
-                                    <div className='bg-green-100 h-50 w-50'><img src={value.src} alt={value.alt}/></div>
+                                <div className='h-50 w-50 flex flex-wrap rounded-xl'>
+                                    <div className='bg-red-100 h-25 w-25'><img src={value.src} alt={value.alt} /></div>
+                                    <div className='bg-blue-100 h-25 w-25'><img src={value.src} alt={value.alt} /></div>
+                                    <div className='bg-yellow-100 h-25 w-25'><img src={value.src} alt={value.alt} /></div>
+                                    <div className='bg-green-100 h-25 w-25'><img src={value.src} alt={value.alt} /></div>
                                     <img />
                                 </div>
                             </Link>
-                            <div><b>{value.title}</b></div>
+                            <div className='px-2 py-3 text-start font-bold text-xl text-neutral-900'>{value.title}</div>
                         </div>
                     )
                 })}

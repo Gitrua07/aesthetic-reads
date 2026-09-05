@@ -1,6 +1,6 @@
-import Searchbar from '../components/SearchBar';
+// import Searchbar from '../components/SearchBar';
 import MoodBoardsGrid from '../components/MoodBoardsGrid';
-import SideBar from '../components/SideBar';
+// import SideBar from '../components/SideBar';
 
 export default function MoodBoardList(){
     /**
@@ -15,7 +15,7 @@ export default function MoodBoardList(){
     // flex-1 h-full w-full min-overflow-y-auto flex-wrap
     // flex h-full flex-col mx-10 my-20
     return(
-        <section className='w-full h-full flex flex-wrap'>
+        <section className=''>
             <MoodBoardsGrid />
         </section>
     )

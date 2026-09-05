@@ -1,6 +1,6 @@
 import Searchbar from '../components/SearchBar';
 import BookList from '../components/BookList';
-import SideBar from '../components/SideBar';
+// import SideBar from '../components/SideBar';
 import {useState} from 'react';
 
 export default function Home(){

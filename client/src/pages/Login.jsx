@@ -14,7 +14,7 @@ export default function Login(){
      * Login.jsx
      */
     return(
-        <section className='m-20 flex flex-col justify-center justify-items-center text-center h-full'>
+        <section className='m-20 flex flex-col justify-center justify-items-center text-center'>
             <LoginComp />
         </section>
     )
