@@ -6,6 +6,7 @@ import Book from './components/Book'
 import MoodBoardSelected from './pages/MoodBoardSelected'
 import Login from './pages/Login'
 import Register from './pages/Register'
+import Profile from './pages/Profile'
 import './App.css'
 
 
@@ -22,6 +23,7 @@ function App() {
             <Route path='/register' element={<Register/>} />
             <Route path='/book/:bookId' element={<Book/>}/>
             <Route path='/moodboard/:moodBoardId' element={<MoodBoardSelected/>}/>'
+            <Route path='/profile' element={<Profile/>}/>
           </Routes>
         </main>
       </div>

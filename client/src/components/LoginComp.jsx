@@ -7,7 +7,7 @@ export default function LoginComp() {
      */
 
     return (
-        <div className="flex flex-col gap-6">
+        <div className="flex flex-col gap-6 text-neutral-900">
             <h1>Login</h1>
             <form action='/user-info' method='get'>
                 <div>
@@ -23,7 +23,7 @@ export default function LoginComp() {
             <div>
                 <div>No account?</div>
                 <Link to='/register'>
-                    <div className='font-medium'>Register</div>
+                    <div className='font-medium underline text-blue-900'>Register</div>
                 </Link>
             </div>
         </div>

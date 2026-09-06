@@ -9,7 +9,7 @@ export default function Register(){
      */
 
     return(
-        <section className="flex flex-col gap-6 justify-center justify-items-center text-center m-10 h-full">
+        <section className="flex flex-col gap-6 justify-center justify-items-center text-center m-10 text-neutral-900">
             <h1>Register</h1>
             <form action='/user-info' method='post'>
                 <div>
