@@ -83,11 +83,10 @@ export default function MoodBoardsGrid() {
                         <div key={index}>
                             <Link to={value.link}>
                                 <div className='h-50 w-50 flex flex-wrap rounded-xl'>
-                                    <div className='bg-red-100 h-25 w-25'><img src={value.src} alt={value.alt} /></div>
-                                    <div className='bg-blue-100 h-25 w-25'><img src={value.src} alt={value.alt} /></div>
-                                    <div className='bg-yellow-100 h-25 w-25'><img src={value.src} alt={value.alt} /></div>
-                                    <div className='bg-green-100 h-25 w-25'><img src={value.src} alt={value.alt} /></div>
-                                    <img />
+                                    <div className='bg-red-100 h-25 w-25 rounded-tl-xl'><img src={value.src} alt={value.alt} /></div>
+                                    <div className='bg-blue-100 h-25 w-25 rounded-tr-xl'><img src={value.src} alt={value.alt} /></div>
+                                    <div className='bg-yellow-100 h-25 w-25 rounded-bl-xl'><img src={value.src} alt={value.alt} /></div>
+                                    <div className='bg-green-100 h-25 w-25 rounded-br-xl'><img src={value.src} alt={value.alt} /></div>
                                 </div>
                             </Link>
                             <div className='px-2 py-3 text-start font-bold text-xl text-neutral-900'>{value.title}</div>
