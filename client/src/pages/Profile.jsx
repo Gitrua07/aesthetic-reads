@@ -1,4 +1,5 @@
 import placeholder from '../assets/book-placeholder.jpg'
+import { Link } from 'react-router-dom'
 
 const Profile = () => {
     return (
@@ -6,11 +7,12 @@ const Profile = () => {
             <div><img className='w-30 h-30 rounded-full' src={placeholder} alt='profile' /></div>
             <div className='font-bold text-3xl'>Username</div>
             <div className='font-semibold'>BIOGRAPHY:</div>
-            <div className='shadow-lg py-5 px-5 rounded-xl'>Biography</div>
+            <div className='shadow-lg py-5 px-5 rounded-xl'></div>
             <div>
                 <form>
-                    <button>Edit Profile</button>
-                    <input/>
+                    <Link to='/edit-profile'>
+                        <button className='rounded-2xl p-3 outline outline-solid outline-black'>Edit Profile</button>
+                    </Link>
                 </form>
             </div>
         </div>
