@@ -22,7 +22,10 @@ const Profile = () => {
                         </Link>
                     </form>
                 </div>
-            </div> : <div>You are not logged in. Click to Log In here <Link to='/login'><button>Login</button></Link></div>}
+            </div> : 
+            <div className='flex flex-col items-center gap-5 my-10 mx-8 text-neutral-900'>
+                <div>Sorry, we are unable to show you your profile! <span className='underline'>Login by presssing the login button on the top-left</span>.</div>
+                </div>}
         </div>
     )
 }

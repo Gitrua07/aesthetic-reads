@@ -24,7 +24,7 @@ export default function Home(){
     }
 
     return(
-        <section className='flex h-full flex-col'>
+        <section className='flex flex-col'>
             <Searchbar startSearch={Search}/>
             <BookList query={query}/>
         </section>

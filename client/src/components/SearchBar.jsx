@@ -14,7 +14,7 @@ export default function SearchBar({ startSearch }){
         }
     }
     return(
-        <div className="m-5 h-full max-h-[100px] min-h-0">
+        <div className="m-5 h-18 max-h-[100px] min-h-0">
             <input 
             type="search" 
             placeholder='Search' 
