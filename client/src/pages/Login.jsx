@@ -1,6 +1,7 @@
 import LoginComp from '../components/LoginComp';
-
-export default function Login(){
+import { useAuth } from '../auth/AuthContext'
+import Profile from './Profile'
+export default function Login() {
     /**
      * Login:
      * This page contains the login contents.
@@ -13,9 +14,18 @@ export default function Login(){
      * This page will contain the following components:
      * Login.jsx
      */
-    return(
-        <section className='m-20 flex flex-col justify-center justify-items-center text-center'>
-            <LoginComp />
-        </section>
+
+    const { authUser,
+        setAuthUser,
+        isLoggedIn,
+        setLoggedIn } = useAuth()
+
+    return (
+        <div>
+            {isLoggedIn ? <Profile/> : <section className='m-20 flex flex-col justify-center justify-items-center text-center'>
+                <LoginComp />
+            </section>}
+
+        </div>
     )
 }
