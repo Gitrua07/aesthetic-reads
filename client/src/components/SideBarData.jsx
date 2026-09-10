@@ -15,11 +15,6 @@ export const SideBarData = [
         link: "/gallery"
     },
     {
-        title: "Login",
-        icon: apps,
-        link: "/login"
-    },
-    {
         title: "Profile",
         icon: profile,
         link: "/profile"
