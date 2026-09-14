@@ -16,10 +16,10 @@ export const SideBarData = [
         link: "/gallery",
         alt: "Gallery icon symbolized as four squares"
     },
-    {
-        title: "Profile",
-        icon: profile,
-        link: "/profile",
-        alt: "Profile icon symbolized as a simplified person"
-    }
+    // {
+    //     title: "Profile",
+    //     icon: profile,
+    //     link: "/profile",
+    //     alt: "Profile icon symbolized as a simplified person"
+    // }
 ]

@@ -6,6 +6,8 @@ export default function LoginComp() {
      * of the login page.
      */
 
+    
+
     return (
         <div className="flex flex-col gap-6 text-neutral-900">
             <h1>Login</h1>

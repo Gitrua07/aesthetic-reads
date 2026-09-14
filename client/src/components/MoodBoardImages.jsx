@@ -1,6 +1,8 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
-import { useAuth } from '../auth/AuthContext'
+//----UNLOCK WHEN YOU ARE DOING AUTHENTICATION----
+// import { useAuth } from '../auth/AuthContext'
+//----UNLOCK WHEN YOU ARE DOING AUTHENTICATION----
 
 export default function MoodBoardImages(props) {
     /**
@@ -46,11 +48,14 @@ export default function MoodBoardImages(props) {
     //     ]
     // }
 
-    const {
-        authUser,
-        setAuthUser,
-        isLoggedIn,
-        setLoggedIn } = useAuth()
+    //----UNLOCK WHEN YOU ARE DOING AUTHENTICATION----
+    // const {
+    //     authUser,
+    //     setAuthUser,
+    //     isLoggedIn,
+    //     setLoggedIn } = useAuth()
+    //----UNLOCK WHEN YOU ARE DOING AUTHENTICATION----
+
 
     const deleteBook = (e, index) => {
         e.preventDefault()
@@ -63,28 +68,47 @@ export default function MoodBoardImages(props) {
     }
 
     return (
-        <>
-            {
-                isLoggedIn ? <div className="m-10 text-center"><h1 className="p-10 pb-20">{moodboardsObj.name}</h1>
-                    <div className='flex flex-wrap gap-10'>
-                        {moodboardsObj.books.map((value, index) => {
-                            const link = `/book/${value}`
-                            return (
-                                <div key={index}>
-                                    <Link to={link}>
-                                        <div className="">
-                                            <img className="rounded-xl" src={moodboardsObj.thumbnails[index]} alt={value} />
-                                        </div>
-                                    </Link>
-                                    <button onClick={(e) => deleteBook(e, index)}>Delete Book</button>
+        <div className="m-10 text-center"><h1 className="p-10 pb-20">{moodboardsObj.name}</h1>
+            <div className='flex flex-wrap gap-10'>
+                {moodboardsObj.books.map((value, index) => {
+                    const link = `/book/${value}`
+                    return (
+                        <div key={index}>
+                            <Link to={link}>
+                                <div className="">
+                                    <img className="rounded-xl" src={moodboardsObj.thumbnails[index]} alt={value} />
                                 </div>
-                            )
-                        })}
-                    </div></div> : <div className='flex flex-col items-center gap-5 my-10 mx-8 text-neutral-900'>
-                <div>Sorry, we are unable to show you your profile! <span className='underline'>Login by pressing the login button on the top-left</span>.</div>
-                </div>
-            }
-        </>
+                            </Link>
+                            <button onClick={(e) => deleteBook(e, index)}>Delete Book</button>
+                        </div>
+                    )
+                })}
+            </div></div>
 
     )
 }
+
+//----REPLACE THIS IN RETURN WHEN DOING AUTHENTICATION----
+{/* <>
+{
+    isLoggedIn ? <div className="m-10 text-center"><h1 className="p-10 pb-20">{moodboardsObj.name}</h1>
+        <div className='flex flex-wrap gap-10'>
+            {moodboardsObj.books.map((value, index) => {
+                const link = `/book/${value}`
+                return (
+                    <div key={index}>
+                        <Link to={link}>
+                            <div className="">
+                                <img className="rounded-xl" src={moodboardsObj.thumbnails[index]} alt={value} />
+                            </div>
+                        </Link>
+                        <button onClick={(e) => deleteBook(e, index)}>Delete Book</button>
+                    </div>
+                )
+            })}
+        </div></div> : <div className='flex flex-col items-center gap-5 my-10 mx-8 text-neutral-900'>
+    <div>Sorry, we are unable to show you your profile! <span className='underline'>Login by pressing the login button on the top-left</span>.</div>
+    </div>
+}
+</> */}
+//----REPLACE THIS IN RETURN WHEN DOING AUTHENTICATION----
