@@ -2,10 +2,9 @@ import { useParams } from 'react-router-dom'
 import useOneBook from '../api/getOneBook.js'
 import thumbnailPlaceHolder from '../assets/book-placeholder.jpg'
 import { useState } from 'react'
-import SubmitBoard from "./SubmitBoard"
 import SaveMoodBoard from "./SaveMoodBoard"
 
-const BookTitle = ({ bookTitle }) => <h2>{bookTitle}</h2>
+const BookTitle = ({ bookTitle }) => <h1>{bookTitle}</h1>
 
 const Authors = ({ bookAuthor }) =>
     <div>by {bookAuthor.map((val, index) => {
@@ -50,8 +49,21 @@ export default function Book() {
     }
 
     //TODO: Make this into a JSON/sql file
-    const moodBoardData = ['Sad Boy', 'Emo', 'Sunshine']
-    const [selectedMoodBoard, setMoodBoard] = useState(moodBoardData[0] ?? '')
+    //----TEMP: Will be replaced by GET call to backend----
+    const [moodBoardData, setMoodBoardData] = useState([{
+        name: 'happy',
+        link: '/moodboard/0',
+        books: [],
+        thumbnails: []
+    },
+    {
+        name: 'sad',
+        link: '/moodboard/1',
+        books: [],
+        thumbnails: []
+    }])
+    //----TEMP: Will be replaced by GET call to backend----
+    const [selectedMoodBoard, setMoodBoard] = useState(moodBoardData[0].name ?? null)
 
     async function handleMoodBoard(e) {
         e.preventDefault()
@@ -64,15 +76,19 @@ export default function Book() {
 
     return (
         <div className="text-black p-5 my-15 mx-10">
+            <title>Book Info - Aesthetic Reads</title>
             <BookTitle bookTitle={bookTitle} />
             <Authors bookAuthor={bookAuthor} />
             <div className="flex">
                 <SaveMoodBoard
+                    bookid={bookId}
+                    thumbnail={imageSrc}
                     moodBoardData={moodBoardData}
                     imageSrc={imageSrc}
                     handleMoodBoard={handleMoodBoard}
                     selectedMoodBoard={selectedMoodBoard}
                     setMoodboard={setMoodBoard}
+                    setMoodBoardData={setMoodBoardData}
                 />
                 <BookSummary bookDesc={bookDesc} />
             </div>

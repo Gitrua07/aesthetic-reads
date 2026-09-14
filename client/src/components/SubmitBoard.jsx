@@ -19,7 +19,7 @@ export default function SubmitBoard(props) {
     const saveBook = () => {
         console.log(selectedMoodBoard)
         setMoodBoardData(moodBoards => moodBoards.map(moodBoard => moodBoard.name === selectedMoodBoard ? {...moodBoard, books: [...moodBoard.books, bookid], thumbnails: [...moodBoard.thumbnails, thumbnail]} : moodBoard))
-        console.log(setMoodBoard)
+        console.log(moodBoardData)
     }
 
     const id = 'id' + (new Date()).getTime()
