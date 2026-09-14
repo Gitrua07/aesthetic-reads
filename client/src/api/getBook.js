@@ -6,6 +6,7 @@ export default function useBooks(userQuery) {
   const [books, setBooks] = useState([])
 
   useEffect(() => {
+    if (!userQuery) return
     fetch(`https://www.googleapis.com/books/v1/volumes?q=${encodeURIComponent(userQuery)}&key=${API_KEY}&maxResults=40`)
       .then((res) => res.json())
       .then((data) => setBooks(data.items || []))

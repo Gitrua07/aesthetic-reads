@@ -15,7 +15,7 @@ export default function SideBar() {
                 {SideBarData.map((val, key) => {
                     return (<li className='' key={key}>
                         <Link to={val.link}>
-                            <img className="w-8 max-w-full min-w-0" src={val.icon} />
+                            <img className="w-8 max-w-full min-w-0" src={val.icon} alt={val.alt} />
                         </Link>
                     </li>)
                 })}

@@ -4,15 +4,18 @@ import SubmitBoard from './SubmitBoard'
 import MoodBoardServices from '../services/Moodboard'
 import axios from 'axios'
 
-const SubmitBoards = ({ handleMoodBoard, selectedMoodBoard, setMoodBoard, moodBoardData }) => {
+const SubmitBoards = ({thumbnail, bookid, handleMoodBoard, selectedMoodBoard, setMoodBoard, moodBoardData, setMoodBoardData }) => {
     return (
         <div className='text-black flex p-2 gap-5 absolute bottom-0 opacity-0 group-hover:opacity-100' >
             <SubmitBoard
                 classNameSelect='rounded-xl bg-white'
+                thumbnail={thumbnail}
+                bookid={bookid}
                 handleMoodBoard={handleMoodBoard}
                 selectedMoodBoard={selectedMoodBoard}
                 setMoodBoard={setMoodBoard}
                 moodBoardData={moodBoardData}
+                setMoodBoardData={setMoodBoardData}
                 classNameButton='rounded-xl bg-white p-1'
             />
         </div >
@@ -20,7 +23,7 @@ const SubmitBoards = ({ handleMoodBoard, selectedMoodBoard, setMoodBoard, moodBo
 }
 
 
-const BookTitle = ({ title }) => <div className='text-black font-medium'>{title}</div>
+const BookTitle = ({ title }) => <h3 className='text-black font-medium'>{title}</h3>
 
 export default function BookCard(props) {
     /**
@@ -29,29 +32,19 @@ export default function BookCard(props) {
      * BookList components.
      */
 
-    const [moodBoardData, setMoodBoardData] = useState([])
-    const [selectedMoodBoard, setMoodBoard] = useState(moodBoardData[0] ?? '')
-    const [val, setVal] = useState('')
+    const [selectedMoodBoard, setMoodBoard] = useState(props.moodBoardData[0].name ?? null)
 
     const getMoodBoardData = () => MoodBoardServices
         .getMoodBoard()
         .then(response => response.forEach(val => {
             const title = val.title
             console.log(title)
-            setMoodBoardData(moodBoardData.concat(title))
+            props.setMoodBoardData(props.moodBoardData.concat(title))
         }
         ))
-    // .then(response => {
-    //     console.log(response)
-    //     // const moodboards = response.data
 
-    //     // moodboards.map(moodboard =>  {
-    //     //     console.log(moodboard.name)
-    //     //     setMoodBoardData(moodBoardData.concat(moodboard.name))
-    //     // })
-    // })
     useEffect(()=> getMoodBoardData, [])
-    console.log(moodBoardData)
+    console.log(props.moodBoardData)
 
     const handleMoodBoard = (event) => {
         event.preventDefault()
@@ -77,11 +70,12 @@ export default function BookCard(props) {
         <article className="w-40">
             <div className='relative group'>
                 <Link to={props.link} >
-                    <img className="rounded-xl w-80" src={props.src} />
+                    <img className="rounded-xl w-80" src={props.src} alt="thumbnail showing this book"/>
                 </Link>
-                <SubmitBoards handleMoodBoard={handleMoodBoard} selectedMoodBoard={selectedMoodBoard} setMoodBoard={setMoodBoard} moodBoardData={moodBoardData} />
+                <SubmitBoards thumbnail={props.thumbnail} bookid={props.bookid} handleMoodBoard={handleMoodBoard} selectedMoodBoard={selectedMoodBoard} setMoodBoard={setMoodBoard} moodBoardData={props.moodBoardData} setMoodBoardData={props.setMoodBoardData} />
             </div>
             <BookTitle title={props.title} />
+            <div className='text-sm italic'>{props.author}</div>
         </article>
     )
 }

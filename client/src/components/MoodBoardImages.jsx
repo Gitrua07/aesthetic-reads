@@ -8,52 +8,41 @@ export default function MoodBoardImages(props) {
      */
 
     //TODO: Retrive moodboard date from backend
-    const moodboardName = 'my moodboard name'
-    const numBooks = [
-        {
-            id: 0,
-            'title': 'Hello',
-            'link': '/moodboard/0',
-            'src': '../public/favicon.svg',
-            'alt': 'image 0',
-            'book-link': `/book/0`
-        },
-        {
-            id: 1,
-            'title': 'Hello',
-            'link': '/moodboard/1',
-            'src': '../public/favicon.svg',
-            'alt': 'image 0',
-            'book-link': `/book/1`
-        },
-        {
-            id: 2,
-            'title': 'Hello',
-            'link': '/moodboard/2',
-            'src': '../public/favicon.svg',
-            'alt': 'image 0',
-            'book-link': `/book/2`
-        },
-    ]
+    const moodboardsObj = {
+        "name": "happy",
+        "link": "/moodboard/0",
+        "books": [
+            "q-hBEAAAQBAJ",
+            "ea1PAQAAMAAJ",
+            "Rz47AQAAMAAJ",
+            "rZIpAAAAYAAJ",
+            "pgcCAAAAYAAJ"
+        ],
+        "thumbnails": [
+            "http://books.google.com/books/content?id=q-hBEAAAQBAJ&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api",
+            "http://books.google.com/books/content?id=ea1PAQAAMAAJ&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api",
+            "http://books.google.com/books/content?id=Rz47AQAAMAAJ&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api",
+            "http://books.google.com/books/content?id=rZIpAAAAYAAJ&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api",
+            "http://books.google.com/books/content?id=pgcCAAAAYAAJ&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api"
+        ]
+    }
 
     return (
         <div className="m-10 text-center">
-            <h1 className="p-10 pb-20">{moodboardName}</h1>
+            <h1 className="p-10 pb-20">{moodboardsObj.name}</h1>
             <div className='flex flex-wrap gap-10'>
-                {
-                    numBooks.map((value, index) => {
-                        return (
-                            <div key={index}>
-                                <Link to={value['book-link']}>
-                                    <div className="w-40 h-40 bg-gray-300 rounded-xl">
-                                        <img src={value.src} alt={value.alt} />
-                                    </div>
-                                </Link>
-                                <div className='font-bold'>{value.title}</div>
-                            </div>
-                        )
-                    })
-                }
+                {moodboardsObj.books.map((value, index) => {
+                    const link = `/book/${value}`
+                    return (
+                        <div key={index}>
+                            <Link to={link}>
+                                <div className="">
+                                    <img className="rounded-xl" src={moodboardsObj.thumbnails[index]} alt={value} />
+                                </div>
+                            </Link>
+                        </div>
+                    )
+                })}
             </div>
         </div>
     )

@@ -1,6 +1,5 @@
 import Searchbar from '../components/SearchBar';
 import BookList from '../components/BookList';
-// import SideBar from '../components/SideBar';
 import {useState} from 'react';
 
 export default function Home(){
@@ -24,9 +23,12 @@ export default function Home(){
     }
 
     return(
-        <section className='flex flex-col'>
+        <div className='flex flex-col'>
+            <title>Home Page - Aesthetic Reads</title>
+            <h1 className="text-neutral-900 px-6 py-0 m-0">Home Page</h1>
+
             <Searchbar startSearch={Search}/>
             <BookList query={query}/>
-        </section>
+        </div>
     )
 }

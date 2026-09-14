@@ -19,27 +19,24 @@ export default function MoodBoardsGrid() {
     //             setMoodboard(moodboard.concat(response.data))
     //         })
     // }, [])
-
-    const moodboardsArray = [
-        {
-            'title': 'Hello',
-            'link': '/moodboard/0',
-            'src': '../public/favicon.svg',
-            'alt': 'image 0'
-        },
-        {
-            'title': 'Hello',
-            'link': '/moodboard/1',
-            'src': '../public/favicon.svg',
-            'alt': 'image 0'
-        },
-        {
-            'title': 'Hello',
-            'link': '/moodboard/2',
-            'src': '../public/favicon.svg',
-            'alt': 'image 0'
-        },
-    ]
+    const moodboardsArray2 = [{
+        "name": "happy",
+        "link": "/moodboard/0",
+        "books": [
+            "q-hBEAAAQBAJ",
+            "ea1PAQAAMAAJ",
+            "Rz47AQAAMAAJ",
+            "rZIpAAAAYAAJ",
+            "pgcCAAAAYAAJ"
+        ],
+        "thumbnails": [
+            "http://books.google.com/books/content?id=q-hBEAAAQBAJ&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api",
+            "http://books.google.com/books/content?id=ea1PAQAAMAAJ&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api",
+            "http://books.google.com/books/content?id=Rz47AQAAMAAJ&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api",
+            "http://books.google.com/books/content?id=rZIpAAAAYAAJ&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api",
+            "http://books.google.com/books/content?id=pgcCAAAAYAAJ&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api"
+        ]
+    }]
 
     const createMoodBoard = (event) => {
         event.preventDefault()
@@ -50,6 +47,22 @@ export default function MoodBoardsGrid() {
             .catch(response => console.error(response))
         setNewMoodBoard('')
     }
+
+    // {moodboardsArray2.map((value, index) => {
+    //     return (
+    //         <div key={index}>
+    //             <Link to={value.link}>
+    //                 <div className='h-50 w-50 flex flex-wrap rounded-xl'>
+    //                     {/* <div className='bg-red-100 h-25 w-25 rounded-tl-xl'><img src={value.src} alt={value.alt} /></div>
+    //                     <div className='bg-blue-100 h-25 w-25 rounded-tr-xl'><img src={value.src} alt={value.alt} /></div>
+    //                     <div className='bg-yellow-100 h-25 w-25 rounded-bl-xl'><img src={value.src} alt={value.alt} /></div>
+    //                     <div className='bg-green-100 h-25 w-25 rounded-br-xl'><img src={value.src} alt={value.alt} /></div> */}
+    //                 </div>
+    //             </Link>
+    //             <div className='px-2 py-3 text-start font-bold text-xl text-neutral-900'>{value.name}</div>
+    //         </div>
+    //     )
+    // })}
 
     return (
         <section className='max-w-full min-w-0 flex flex-wrap m-6 flex-col'>
@@ -69,30 +82,23 @@ export default function MoodBoardsGrid() {
             </div>
 
             <div className="mt-15 flex flex-wrap gap-5">
-                {/* {moodboard.map((value, index) => {
-                    return (
-                        <MoodBoardCard
-                            title={value.title}
-                            src={value.src}
-                            link={value.link}
-                        />
-                    )
-                })} */}
-                {moodboardsArray.map((value, index) => {
-                    return (
-                        <div key={index}>
-                            <Link to={value.link}>
-                                <div className='h-50 w-50 flex flex-wrap rounded-xl'>
-                                    <div className='bg-red-100 h-25 w-25 rounded-tl-xl'><img src={value.src} alt={value.alt} /></div>
-                                    <div className='bg-blue-100 h-25 w-25 rounded-tr-xl'><img src={value.src} alt={value.alt} /></div>
-                                    <div className='bg-yellow-100 h-25 w-25 rounded-bl-xl'><img src={value.src} alt={value.alt} /></div>
-                                    <div className='bg-green-100 h-25 w-25 rounded-br-xl'><img src={value.src} alt={value.alt} /></div>
-                                </div>
-                            </Link>
-                            <div className='px-2 py-3 text-start font-bold text-xl text-neutral-900'>{value.title}</div>
-                        </div>
-                    )
-                })}
+                {
+                    moodboardsArray2.map((value, index) => {
+                        return (
+                            <div key={index}>
+                                <Link to={value.link}>
+                                    <div className='h-50 w-50 flex flex-wrap rounded-xl'>
+                                        <div className='bg-red-100 h-25 w-25 rounded-tl-xl'><img className='h-25 w-25 rounded-tl-xl' src={value.thumbnails[0]} alt={value.books[0]} /></div>
+                                        <div className='bg-blue-100 h-25 w-25 rounded-tr-xl'><img className='h-25 w-25 rounded-tr-xl' src={value.thumbnails[1]} alt={value.books[1]} /></div>
+                                        <div className='bg-yellow-100 h-25 w-25 rounded-bl-xl'><img className='h-25 w-25 rounded-bl-xl' src={value.thumbnails[2]} alt={value.books[2]} /></div>
+                                        <div className='bg-green-100 h-25 w-25 rounded-br-xl'><img className='h-25 w-25 rounded-br-xl' src={value.thumbnails[3]} alt={value.books[3]} /></div>
+                                    </div>
+                                </Link>
+                                <div className='px-2 py-3 text-start font-bold text-xl text-neutral-900'>{value.name}</div>
+                            </div>
+                        )
+                    })
+                }
             </div>
         </section>
     )
