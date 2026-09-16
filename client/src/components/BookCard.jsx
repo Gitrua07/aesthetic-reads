@@ -25,6 +25,8 @@ const SubmitBoards = ({thumbnail, bookid, handleMoodBoard, selectedMoodBoard, se
 
 const BookTitle = ({ title }) => <h3 className='text-black font-medium'>{title}</h3>
 
+const getMoodBoardData = await MoodBoardServices.getMoodBoard()
+
 export default function BookCard(props) {
     /**
      * This component returns a display
@@ -32,29 +34,18 @@ export default function BookCard(props) {
      * BookList components.
      */
 
-    const [selectedMoodBoard, setMoodBoard] = useState(props.moodBoardData[0].name ?? null)
-
-    const getMoodBoardData = () => MoodBoardServices
-        .getMoodBoard()
-        .then(response => response.forEach(val => {
-            const title = val.title
-            console.log(title)
-            props.setMoodBoardData(props.moodBoardData.concat(title))
-        }
-        ))
-
-    useEffect(()=> getMoodBoardData, [])
-    console.log(props.moodBoardData)
+    useEffect(()=> props.setMoodBoardData(getMoodBoardData), [])
 
     const handleMoodBoard = (event) => {
         event.preventDefault()
-        console.log("HERE")
+        // console.log("HERE")
          axios
             .post('http://localhost:3001/moodboards')
-            .then(
-                response => console.log(response)
-            )
+
     }
+
+    const [selectedMoodBoard, setMoodBoard] = useState(props.moodBoardData[0]?.id ?? null)
+
     
     // async function handleMoodBoard(e) {
     //     // console.log("HERELL")

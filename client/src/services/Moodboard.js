@@ -1,13 +1,13 @@
 import axios from 'axios'
 
-const getMoodBoard = () => {
-    const request = axios.get('http://localhost:3001/moodboards')
-    return request.then(response => response.data)
+const getMoodBoard = async () => {
+    const request = await axios.get('http://localhost:3001/api/moodboards').then(response => response.data)
+    return request
 }
 
-const updateMoodBoard = moodObject => {
-    const request = axios.post(`http://localhost:3001/moodboards/`, moodObject)
-    return request.then(response => response.data)
+const updateMoodBoard = async (id, newMoodBoard) => {
+    const request = await axios.put(`http://localhost:3001/api/moodboards/${id}`, newMoodBoard).then(response => response.data)
+    return request
 }
 
 const deleteMoodBoard = id => {

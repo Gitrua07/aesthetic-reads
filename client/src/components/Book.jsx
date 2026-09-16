@@ -1,8 +1,9 @@
 import { useParams } from 'react-router-dom'
 import useOneBook from '../api/getOneBook.js'
 import thumbnailPlaceHolder from '../assets/book-placeholder.jpg'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import SaveMoodBoard from "./SaveMoodBoard"
+import MoodBoardServices from '../services/Moodboard.js'
 
 const BookTitle = ({ bookTitle }) => <h1>{bookTitle}</h1>
 
@@ -20,6 +21,8 @@ const BookSummary = ({ bookDesc }) =>
         <h2>Summary</h2>
         <div>{bookDesc}</div>
     </div>
+
+const getMoodBoard = await MoodBoardServices.getMoodBoard()
 
 export default function Book() {
     /**
@@ -48,22 +51,8 @@ export default function Book() {
         imageSrc = !bookInfo?.imageLinks?.small ? bookInfo?.imageLinks?.small : bookInfo?.imageLinks?.thumbnail
     }
 
-    //TODO: Make this into a JSON/sql file
-    //----TEMP: Will be replaced by GET call to backend----
-    const [moodBoardData, setMoodBoardData] = useState([{
-        name: 'happy',
-        link: '/moodboard/0',
-        books: [],
-        thumbnails: []
-    },
-    {
-        name: 'sad',
-        link: '/moodboard/1',
-        books: [],
-        thumbnails: []
-    }])
-    //----TEMP: Will be replaced by GET call to backend----
-    const [selectedMoodBoard, setMoodBoard] = useState(moodBoardData[0].name ?? null)
+    const [moodBoardData, setMoodBoardData] = useState([])
+    const [selectedMoodBoard, setMoodBoard] = useState(moodBoardData[0]?.name ?? null)
 
     async function handleMoodBoard(e) {
         e.preventDefault()
@@ -73,6 +62,8 @@ export default function Book() {
             body: JSON.stringify({ mood: selectedMoodBoard, bookId: bookId })
         })
     }
+
+    useEffect(() => setMoodBoardData(getMoodBoard), [])
 
     return (
         <div className="text-black p-5 my-15 mx-10">

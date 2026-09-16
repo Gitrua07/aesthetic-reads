@@ -18,6 +18,7 @@ export default function SubmitBoard(props) {
 
     const saveBook = () => {
         console.log(selectedMoodBoard)
+        const updatedMoodBoard = moodBoardData.filter(moodboard => moodboard.id === selectedMoodBoard ? moodboard : null) 
         setMoodBoardData(moodBoards => moodBoards.map(moodBoard => moodBoard.name === selectedMoodBoard ? {...moodBoard, books: [...moodBoard.books, bookid], thumbnails: [...moodBoard.thumbnails, thumbnail]} : moodBoard))
         console.log(moodBoardData)
     }

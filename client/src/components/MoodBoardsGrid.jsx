@@ -2,36 +2,25 @@ import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import MoodBoardCard from './MoodboardCard'
 import axios from 'axios'
+import MoodBoardServices from "../services/Moodboard.js"
 //----UNLOCK WHEN YOU ARE DOING AUTHENTICATION----
 // import { useAuth } from '../auth/AuthContext'
 //----UNLOCK WHEN YOU ARE DOING AUTHENTICATION----
 
 // import { v4 as uuidv4 } from 'uuid'
 
+const getMoodboard = await MoodBoardServices.getMoodBoard()
+
 export default function MoodBoardsGrid() {
     /**
      * This component returns a list of mood boards.
      * 'Sad Boy', 'Emo', 'Sunshine'
      */
-    const [moodboard, setMoodboard] = useState([{
-        "name": "happy",
-        "link": "/moodboard/0",
-        "books": [
-            "q-hBEAAAQBAJ",
-            "ea1PAQAAMAAJ",
-            "Rz47AQAAMAAJ",
-            "rZIpAAAAYAAJ",
-            "pgcCAAAAYAAJ"
-        ],
-        "thumbnails": [
-            "http://books.google.com/books/content?id=q-hBEAAAQBAJ&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api",
-            "http://books.google.com/books/content?id=ea1PAQAAMAAJ&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api",
-            "http://books.google.com/books/content?id=Rz47AQAAMAAJ&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api",
-            "http://books.google.com/books/content?id=rZIpAAAAYAAJ&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api",
-            "http://books.google.com/books/content?id=pgcCAAAAYAAJ&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api"
-        ]
-    }])
+    const [moodboard, setMoodboard] = useState([])
     const [newMoodBoard, setNewMoodBoard] = useState('')
+
+    //Retrieves moodboards from /api/moodboard endpoint
+    useEffect(() => setMoodboard(getMoodboard), [])
     // useEffect(() => {
     //     axios
     //         .get('http://localhost:3001/api/moodboards')

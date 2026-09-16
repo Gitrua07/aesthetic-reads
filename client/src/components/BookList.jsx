@@ -14,21 +14,7 @@ export default function BookList(props) {
      *   blank page, should show the previous search result
      * [X] Implement mood board tag feature
      */
-
-    //----TEMP: Will be replaced by GET call to backend----
-    const [moodBoardData, setMoodBoardData] = useState([{
-        name: 'happy',
-        link: '/moodboard/0',
-        books: [],
-        thumbnails: []
-    },
-    {
-        name: 'sad',
-        link: '/moodboard/1',
-        books: [],
-        thumbnails: []
-    }])
-    //----TEMP: Will be replaced by GET call to backend----
+    const [moodBoardData, setMoodBoardData] = useState([])
 
     let bookData = []
 
@@ -52,7 +38,7 @@ export default function BookList(props) {
                 <h2 className="text-neutral-900 px-6 py-0 m-0">Results</h2>
                 <ul className="flex flex-wrap gap-4 p-5 justify-center">
                     {bookData?.length > 0
-                        ? bookData.map((value) => (<li><BookCard
+                        ? bookData.map((value, index) => (<li key={index}><BookCard
                             thumbnail={value.thumbnail}
                             bookid={value.id}
                             title={value.title}

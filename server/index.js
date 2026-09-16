@@ -5,7 +5,20 @@ const cors = require('cors')
 app.use(cors())
 app.use(express.json())
 
-let moodboards = []
+const moodboards = [{
+    id: 0,
+    name: 'happy',
+    link: '/moodboard/0',
+    books: [],
+    thumbnails: []
+},
+{
+    id: 1,
+    name: 'sad',
+    link: '/moodboard/1',
+    books: [],
+    thumbnails: []
+}]
 
 let userinfos = [
     {
