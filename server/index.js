@@ -5,7 +5,7 @@ const cors = require('cors')
 app.use(cors())
 app.use(express.json())
 
-const moodboards = [{
+let moodboards = [{
     id: 0,
     name: 'happy',
     link: '/moodboard/0',
@@ -81,6 +81,14 @@ app.post('/api/moodboards', (request, response) => {
     }
     moodboards.push(newObject)
     response.status(201).json(newObject)
+})
+
+//PUT
+app.put('/api/moodboards/:id', (request, response) => {
+    const id = Number(request.params.id)
+    const newMoodBoard = {id, ...request.body}
+    moodboards = moodboards.map(moodboard => moodboard.id === id ? newMoodBoard : moodboard )
+    response.status(200).json(moodboards)
 })
 
 const PORT = 3001

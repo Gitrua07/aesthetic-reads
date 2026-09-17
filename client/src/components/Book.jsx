@@ -52,7 +52,7 @@ export default function Book() {
     }
 
     const [moodBoardData, setMoodBoardData] = useState([])
-    const [selectedMoodBoard, setMoodBoard] = useState(moodBoardData[0]?.name ?? null)
+    const [selectedMoodBoard, setMoodBoard] = useState(moodBoardData[0]?.id ?? 0)
 
     async function handleMoodBoard(e) {
         e.preventDefault()

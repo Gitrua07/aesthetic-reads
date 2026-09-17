@@ -6,6 +6,7 @@ const getMoodBoard = async () => {
 }
 
 const updateMoodBoard = async (id, newMoodBoard) => {
+    console.log(newMoodBoard)
     const request = await axios.put(`http://localhost:3001/api/moodboards/${id}`, newMoodBoard).then(response => response.data)
     return request
 }

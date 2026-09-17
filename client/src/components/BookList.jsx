@@ -28,7 +28,6 @@ export default function BookList(props) {
             "description": value.volumeInfo.description,
             "link": `/book/${value.id}`,
             "thumbnail": value.volumeInfo.imageLinks?.thumbnail ?? thumbnailPlaceHolder
-
         }
         bookData.push(bookInfo)
     })

@@ -1,4 +1,9 @@
 // import axios from 'axios'
+import MoodBoardServices from '../services/Moodboard'
+import { useEffect } from 'react'
+
+const updateBooks = async(id, moodboard) => await MoodBoardServices.updateMoodBoard(id, moodboard)
+
 export default function SubmitBoard(props) {
     const {
         thumbnail,
@@ -17,10 +22,12 @@ export default function SubmitBoard(props) {
      */
 
     const saveBook = () => {
-        console.log(selectedMoodBoard)
-        const updatedMoodBoard = moodBoardData.filter(moodboard => moodboard.id === selectedMoodBoard ? moodboard : null) 
-        setMoodBoardData(moodBoards => moodBoards.map(moodBoard => moodBoard.name === selectedMoodBoard ? {...moodBoard, books: [...moodBoard.books, bookid], thumbnails: [...moodBoard.thumbnails, thumbnail]} : moodBoard))
-        console.log(moodBoardData)
+        const moodBoardObjArr = moodBoardData.filter(moodboard => Number(moodboard.id) === Number(selectedMoodBoard))
+        const moodBoardObj = moodBoardObjArr[0]
+        const updatedMoodBoard = {...moodBoardObj, books: [...moodBoardObj.books, bookid], thumbnails: [...moodBoardObj.thumbnails, thumbnail]}
+        const moodBoardId = updatedMoodBoard.id
+        updateBooks(moodBoardId, updatedMoodBoard)
+        console.log(moodBoardId)
     }
 
     const id = 'id' + (new Date()).getTime()

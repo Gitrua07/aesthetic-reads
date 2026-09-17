@@ -33,18 +33,23 @@ export default function BookCard(props) {
      * of the book which will be listed on the 
      * BookList components.
      */
+    const [selectedMoodBoard, setMoodBoard] = useState(0)
+    console.log(selectedMoodBoard)
+    // useEffect(() => {
+    //     if (!selectedMoodBoard && props.moodBoardData?.length){
+    //         setMoodBoard(String(props.moodBoardData[0].id))
+    //     }
+    // }, [props.moodBoardData, selectedMoodBoard])
 
     useEffect(()=> props.setMoodBoardData(getMoodBoardData), [])
 
     const handleMoodBoard = (event) => {
         event.preventDefault()
-        // console.log("HERE")
-         axios
-            .post('http://localhost:3001/moodboards')
+        // // console.log("HERE")
+        //  axios
+        //     .post('http://localhost:3001/moodboards')
 
     }
-
-    const [selectedMoodBoard, setMoodBoard] = useState(props.moodBoardData[0]?.id ?? null)
 
     
     // async function handleMoodBoard(e) {
