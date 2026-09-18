@@ -22,7 +22,7 @@ const BookSummary = ({ bookDesc }) =>
         <div>{bookDesc}</div>
     </div>
 
-const getMoodBoard = await MoodBoardServices.getMoodBoard()
+// const getMoodBoard = await MoodBoardServices.getMoodBoard()
 
 export default function Book() {
     /**
@@ -52,18 +52,24 @@ export default function Book() {
     }
 
     const [moodBoardData, setMoodBoardData] = useState([])
-    const [selectedMoodBoard, setMoodBoard] = useState(moodBoardData[0]?.id ?? 0)
-
+    const [selectedMoodBoard, setMoodBoard] = useState(moodBoardData[0]?.name ?? '')
+    console.log("1. MoodBoardData --> ")
+    console.log(moodBoardData)
+    
     async function handleMoodBoard(e) {
         e.preventDefault()
-        await fetch('/api/moodboard', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ mood: selectedMoodBoard, bookId: bookId })
-        })
+        // await fetch('/api/moodboard', {
+        //     method: 'POST',
+        //     headers: { 'Content-Type': 'application/json' },
+        //     body: JSON.stringify({ mood: selectedMoodBoard, bookId: bookId })
+        // })
     }
 
-    useEffect(() => setMoodBoardData(getMoodBoard), [])
+    useEffect(() => {
+        MoodBoardServices.getMoodBoard().then(data => {
+            setMoodBoardData(data)
+        })
+    }, [])
 
     return (
         <div className="text-black p-5 my-15 mx-10">

@@ -1,8 +1,5 @@
 import { Link } from 'react-router-dom'
-import { useState, useEffect } from 'react'
 import SubmitBoard from './SubmitBoard'
-import MoodBoardServices from '../services/Moodboard'
-import axios from 'axios'
 
 const SubmitBoards = ({thumbnail, bookid, handleMoodBoard, selectedMoodBoard, setMoodBoard, moodBoardData, setMoodBoardData }) => {
     return (
@@ -22,10 +19,7 @@ const SubmitBoards = ({thumbnail, bookid, handleMoodBoard, selectedMoodBoard, se
     )
 }
 
-
 const BookTitle = ({ title }) => <h3 className='text-black font-medium'>{title}</h3>
-
-const getMoodBoardData = await MoodBoardServices.getMoodBoard()
 
 export default function BookCard(props) {
     /**
@@ -33,45 +27,30 @@ export default function BookCard(props) {
      * of the book which will be listed on the 
      * BookList components.
      */
-    const [selectedMoodBoard, setMoodBoard] = useState(0)
-    console.log(selectedMoodBoard)
-    // useEffect(() => {
-    //     if (!selectedMoodBoard && props.moodBoardData?.length){
-    //         setMoodBoard(String(props.moodBoardData[0].id))
-    //     }
-    // }, [props.moodBoardData, selectedMoodBoard])
 
-    useEffect(()=> props.setMoodBoardData(getMoodBoardData), [])
-
-    const handleMoodBoard = (event) => {
-        event.preventDefault()
-        // // console.log("HERE")
-        //  axios
-        //     .post('http://localhost:3001/moodboards')
-
-    }
-
-    
-    // async function handleMoodBoard(e) {
-    //     // console.log("HERELL")
-    //     e.preventDefault() //Prevents page refresh
-    //     await fetch('/api/moodboard', {
-    //         method: 'POST',
-    //         headers: { 'Content-Type': 'application/json' },
-    //         body: JSON.stringify({ mood: selectedMoodBoard, bookId: props.bookid })
-    //     })
-    // }
+    const {thumbnail, 
+        bookid, 
+        link, 
+        src, 
+        title, 
+        author, 
+        moodBoardData, 
+        setMoodBoardData, 
+        selectedMoodBoard, 
+        setMoodBoard} = props
+    // console.log("0. Retrieve Data from backend --> ")
+    // console.log(moodBoardData)
 
     return (
         <article className="w-40">
             <div className='relative group'>
-                <Link to={props.link} >
-                    <img className="rounded-xl w-80" src={props.src} alt="thumbnail showing this book"/>
+                <Link to={link} >
+                    <img className="rounded-xl w-80" src={src} alt="thumbnail showing this book"/>
                 </Link>
-                <SubmitBoards thumbnail={props.thumbnail} bookid={props.bookid} handleMoodBoard={handleMoodBoard} selectedMoodBoard={selectedMoodBoard} setMoodBoard={setMoodBoard} moodBoardData={props.moodBoardData} setMoodBoardData={props.setMoodBoardData} />
+                <SubmitBoards thumbnail={thumbnail} bookid={bookid} selectedMoodBoard={selectedMoodBoard} setMoodBoard={setMoodBoard} moodBoardData={moodBoardData} setMoodBoardData={setMoodBoardData} />
             </div>
-            <BookTitle title={props.title} />
-            <div className='text-sm italic'>{props.author}</div>
+            <BookTitle title={title} />
+            <div className='text-sm italic'>{author}</div>
         </article>
     )
 }

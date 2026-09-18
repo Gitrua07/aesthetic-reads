@@ -1,14 +1,10 @@
 // import axios from 'axios'
 import MoodBoardServices from '../services/Moodboard'
-import { useEffect } from 'react'
-
-const updateBooks = async(id, moodboard) => await MoodBoardServices.updateMoodBoard(id, moodboard)
 
 export default function SubmitBoard(props) {
     const {
         thumbnail,
         bookid,
-        handleMoodBoard, // matches BookCard prop
         selectedMoodBoard,
         setMoodBoard,
         moodBoardData,
@@ -17,24 +13,35 @@ export default function SubmitBoard(props) {
         classNameButton = '',
     } = props
 
+    // console.log("Database --> ")
+    // console.log(moodBoardData)
+    const id = 'id' + (new Date()).getTime()
+
     /**
      * Save process: 
      */
-
-    const saveBook = () => {
-        const moodBoardObjArr = moodBoardData.filter(moodboard => Number(moodboard.id) === Number(selectedMoodBoard))
-        const moodBoardObj = moodBoardObjArr[0]
-        const updatedMoodBoard = {...moodBoardObj, books: [...moodBoardObj.books, bookid], thumbnails: [...moodBoardObj.thumbnails, thumbnail]}
-        const moodBoardId = updatedMoodBoard.id
-        updateBooks(moodBoardId, updatedMoodBoard)
-        console.log(moodBoardId)
+    const saveBook = async(e) => {
+        e.preventDefault()
+        console.log(`1. Filter data of: `)
+        console.log(moodBoardData)
+        console.log(`And find the value: `)
+        console.log(selectedMoodBoard)
+        console.log("2. The isolated object -->")
+        const moodBoardFilter = moodBoardData.filter(moodboard => moodboard.name === selectedMoodBoard)[0]
+        console.log(moodBoardFilter)
+        console.log(`3. Object with added bookid and thumbnail -->  `)
+        const updatedMoodBoard = { ...moodBoardFilter, books: [...moodBoardFilter.books, bookid], thumbnails: [...moodBoardFilter.thumbnails, thumbnail]}
+        console.log(updatedMoodBoard)
+        console.log("call PUT method to update database -->")
+        const update = await MoodBoardServices.updateMoodBoard(updatedMoodBoard.id, updatedMoodBoard)
+        console.log(update)
+        console.log("Then update the moodboard database: ")
+        setMoodBoardData(update)
     }
-
-    const id = 'id' + (new Date()).getTime()
 
     return (
         <div>
-            <form className='flex flex-col gap-3' onSubmit={handleMoodBoard}>
+            <form className='flex flex-col gap-3' onSubmit={e => saveBook(e)}>
                 <label htmlFor={id} className='sr-only'>Choose a moodboard</label>
                 <select
                     id={id}
@@ -46,7 +53,7 @@ export default function SubmitBoard(props) {
                         <option key={val.name} value={val.name}>{val.name}</option>
                     ))}
                 </select>
-                <button type='submit' className={`focus:outline-2 focus:outline-blue-500 rounded-xl bg-white p-1 text-left ${classNameButton}`} onClick={() => saveBook()}>Save to moodboard</button>
+                <button type='submit' className={`focus:outline-2 focus:outline-blue-500 rounded-xl bg-white p-1 text-left ${classNameButton}`}>Save to moodboard</button>
             </form>
         </div>
 

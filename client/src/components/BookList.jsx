@@ -1,7 +1,8 @@
-import { useState } from 'react'
 import BookCard from './BookCard'
 import getBooks from '../api/getBook.js'
 import thumbnailPlaceHolder from '../assets/book-placeholder.jpg'
+import {useState, useEffect} from 'react'
+import MoodBoardServices from '../services/Moodboard'
 
 export default function BookList(props) {
     /**
@@ -14,11 +15,24 @@ export default function BookList(props) {
      *   blank page, should show the previous search result
      * [X] Implement mood board tag feature
      */
+
     const [moodBoardData, setMoodBoardData] = useState([])
-
+    const [selectedMoodBoard, setMoodBoard] = useState('')
+    const [loading, setLoading] = useState(true)
     let bookData = []
-
     const books = getBooks(props.query)
+    console.log(selectedMoodBoard)
+
+    //Retrieves moodboard data from backend
+    useEffect(()=> {
+        MoodBoardServices.getMoodBoard().then(data => {
+            setMoodBoardData(data)
+            setMoodBoard(data[0].name)
+            setLoading(false)
+        })
+    }, [])
+
+
     //append books into bookData array
     books.map((value) => {
         let bookInfo = {
@@ -31,6 +45,8 @@ export default function BookList(props) {
         }
         bookData.push(bookInfo)
     })
+
+    if(loading) return(<div>Loading...</div>)
 
     return (
         <div className='flex-1 min-h-0 overflow-y-auto'>
@@ -47,6 +63,8 @@ export default function BookList(props) {
                             author={value.author}
                             moodBoardData={moodBoardData}
                             setMoodBoardData={setMoodBoardData}
+                            selectedMoodBoard={selectedMoodBoard}
+                            setMoodBoard={setMoodBoard}
                         /></li>)) : <div>There are no results...</div>}
                 </ul>
         </div>
