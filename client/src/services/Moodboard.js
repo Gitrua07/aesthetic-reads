@@ -14,13 +14,19 @@ const updateMoodBoard = async (id, newMoodBoard) => {
     return request
 }
 
-const deleteMoodBoard = id => {
-    const request = axios.delete(`http://localhost:3001/moodboards/${id}`)
-    return request.then(response => response.data)
+const deleteMoodBoard = async(id) => {
+    const request = await axios.delete(`http://localhost:3001/api/moodboards/${id}`).then(response => response.data)
+    return request
+}
+
+const createMoodBoard = async(id, newMoodBoard) => {
+    const request = await axios.post(`http://localhost:3001/api/moodboards`, newMoodBoard).then(response => response.data)
+    return request
 }
 
 export default {
     getMoodBoard,
     updateMoodBoard,
-    deleteMoodBoard
+    deleteMoodBoard,
+    createMoodBoard
 }

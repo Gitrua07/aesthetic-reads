@@ -9,8 +9,6 @@ import MoodBoardServices from "../services/Moodboard.js"
 
 // import { v4 as uuidv4 } from 'uuid'
 
-const getMoodboard = await MoodBoardServices.getMoodBoard()
-
 export default function MoodBoardsGrid() {
     /**
      * This component returns a list of mood boards.
@@ -20,7 +18,11 @@ export default function MoodBoardsGrid() {
     const [newMoodBoard, setNewMoodBoard] = useState('')
 
     //Retrieves moodboards from /api/moodboard endpoint
-    useEffect(() => setMoodboard(getMoodboard), [])
+    useEffect(() => {
+        MoodBoardServices.getMoodBoard().then(data => {
+            setMoodboard(data)
+        })
+    }, [])
     // useEffect(() => {
     //     axios
     //         .get('http://localhost:3001/api/moodboards')
@@ -67,10 +69,19 @@ export default function MoodBoardsGrid() {
     // })}
 
 
-    const createMoodBoardT = (e) => {
+    const createMoodBoardT = async(e) => {
         e.preventDefault()
         const id = 'id' + (new Date()).getTime()
+        const newObject = {
+            id: id,
+            name: newMoodBoard,
+            link: `/moodboard/${id}`,
+            books: [],
+            thumbnails: []
+        }
+        MoodBoardServices.createMoodBoard(id, newObject)
         setMoodboard(moodboard => [...moodboard, {
+            id: id,
             name: newMoodBoard,
             link: `/moodboard/${id}`,
             books: [],
@@ -79,9 +90,12 @@ export default function MoodBoardsGrid() {
         console.log("CREATED!")
     }
 
-    const deleteMoodBoard = (e, link) => {
+    const deleteMoodBoard = async(e, id) => {
         e.preventDefault()
-        setMoodboard(moodboards => moodboards.filter(moodboard => moodboard.link !== link))
+        //Remove board from database
+        MoodBoardServices.deleteMoodBoard(id)
+        const updatedData = moodboard.filter(i => i.id !== id)
+        setMoodboard(updatedData)
         console.log("DELETED!")
     }
 
@@ -116,7 +130,7 @@ export default function MoodBoardsGrid() {
                                     </div>
                                 </Link>
                                 <div className='px-2 py-3 text-start font-bold text-xl text-neutral-900'>{value.name}</div>
-                                <button onClick={(e) => deleteMoodBoard(e, value.link)}>Delete Moodboard</button>
+                                <button onClick={(e) => deleteMoodBoard(e, value.id)}>Delete Moodboard</button>
                             </div>
                         )
                     })

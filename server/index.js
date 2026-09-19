@@ -51,7 +51,7 @@ app.get('/userinfos/:id', (request, response) => {
 //DELETE routes
 app.delete('/api/moodboards/:id', (request, response) => {
     const id = request.params.id
-    moodboards = moodboards.filter(moodboard => moodboard.id !== id)
+    moodboards = moodboards.filter(moodboard => String(moodboard.id) !== String(id))
     response.status(204).end()
 })
 
@@ -63,22 +63,19 @@ app.delete('/userinfos/:id', (request, response) => {
 
 //POST routes
 app.post('/userinfos', (request, response) => {
+    const {name, password, email} = response.body
     const id = 1
     const contents = request.body.contents
     const newObject = {
         id: id,
-        name: '',
-        password: '',
-        email: ''
+        name: name,
+        password: password,
+        email: email
     }
 })
 
-app.post('/api/moodboards', (request, response) => {
-    const {title} = request.body
-    const newObject = {
-        id: 0,
-        title: title
-    }
+app.post('/api/moodboards/', (request, response) => {
+    const newObject = request.body
     moodboards.push(newObject)
     response.status(201).json(newObject)
 })
