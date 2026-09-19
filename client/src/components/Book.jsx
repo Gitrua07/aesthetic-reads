@@ -52,7 +52,8 @@ export default function Book() {
     }
 
     const [moodBoardData, setMoodBoardData] = useState([])
-    const [selectedMoodBoard, setMoodBoard] = useState(moodBoardData[0]?.name ?? '')
+    const [selectedMoodBoard, setMoodBoard] = useState('')
+    const [loading, setLoading] = useState(true)
     console.log("1. MoodBoardData --> ")
     console.log(moodBoardData)
     
@@ -68,8 +69,12 @@ export default function Book() {
     useEffect(() => {
         MoodBoardServices.getMoodBoard().then(data => {
             setMoodBoardData(data)
+            setMoodBoard(data[0]?.name)
+            setLoading(false)
         })
     }, [])
+
+    if (loading) return (<div>Loading...</div>)
 
     return (
         <div className="text-black p-5 my-15 mx-10">
