@@ -1,52 +1,33 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
+import MoodBoardService from '../services/Moodboard'
+import { useParams } from 'react-router-dom'
+
 //----UNLOCK WHEN YOU ARE DOING AUTHENTICATION----
 // import { useAuth } from '../auth/AuthContext'
 //----UNLOCK WHEN YOU ARE DOING AUTHENTICATION----
 
-export default function MoodBoardImages(props) {
+export default function MoodBoardImages() {
     /**
      * This component returns a list of images
      * given the dataset and will be displayed on the 
      * MoodBoardsGrid.jsx component.
      */
-    const [moodboardsObj, usemoodboardsObj] = useState({
-        name: "happy",
-        link: "/moodboard/0",
-        books: [
-            "q-hBEAAAQBAJ",
-            "ea1PAQAAMAAJ",
-            "Rz47AQAAMAAJ",
-            "rZIpAAAAYAAJ",
-            "pgcCAAAAYAAJ"
-        ],
-        thumbnails: [
-            "http://books.google.com/books/content?id=q-hBEAAAQBAJ&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api",
-            "http://books.google.com/books/content?id=ea1PAQAAMAAJ&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api",
-            "http://books.google.com/books/content?id=Rz47AQAAMAAJ&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api",
-            "http://books.google.com/books/content?id=rZIpAAAAYAAJ&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api",
-            "http://books.google.com/books/content?id=pgcCAAAAYAAJ&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api"
-        ]
-    })
-    //TODO: Retrive moodboard date from backend
-    // const moodboardsObj = {
-    //     "name": "happy",
-    //     "link": "/moodboard/0",
-    //     "books": [
-    //         "q-hBEAAAQBAJ",
-    //         "ea1PAQAAMAAJ",
-    //         "Rz47AQAAMAAJ",
-    //         "rZIpAAAAYAAJ",
-    //         "pgcCAAAAYAAJ"
-    //     ],
-    //     "thumbnails": [
-    //         "http://books.google.com/books/content?id=q-hBEAAAQBAJ&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api",
-    //         "http://books.google.com/books/content?id=ea1PAQAAMAAJ&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api",
-    //         "http://books.google.com/books/content?id=Rz47AQAAMAAJ&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api",
-    //         "http://books.google.com/books/content?id=rZIpAAAAYAAJ&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api",
-    //         "http://books.google.com/books/content?id=pgcCAAAAYAAJ&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api"
-    //     ]
-    // }
+    const moodBoardId = useParams()
+    const [moodboardsObj, usemoodboardsObj] = useState({})
+    const [loading, isLoading] = useState(true)
+    console.log("Moodboard object retrieved --> ")
+    console.log(moodboardsObj)
+
+    useEffect(() => {
+        MoodBoardService.getMoodBoard().then(data => {
+            const id = moodBoardId.moodBoardId
+            const filterObj = data.filter(d => d.id == id)[0]
+            console.log(filterObj)
+            usemoodboardsObj(filterObj)
+            isLoading(false)
+        })
+    }, [moodBoardId])
 
     //----UNLOCK WHEN YOU ARE DOING AUTHENTICATION----
     // const {
@@ -59,18 +40,21 @@ export default function MoodBoardImages(props) {
 
     const deleteBook = (e, index) => {
         e.preventDefault()
-        usemoodboardsObj(moodboards => ({
-            ...moodboards,
-            books: moodboards.books.filter((_, i) => i !== index),
-            thumbnails: moodboards.thumbnails.filter((_, i) => i !== index)
-        }))
-
+        const bookid = moodboardsObj.books[index]
+        const thumbnailDelete = moodboardsObj.thumbnails[index]
+        console.log("Deleted moodboard with current structure being --> ")
+        const newMoodBoard = {...moodboardsObj, books: moodboardsObj.books.filter(book => bookid !== book), thumbnails: moodboardsObj.thumbnails.filter(thumbnail => thumbnail !== thumbnailDelete)}
+        console.log(newMoodBoard)
+        MoodBoardService.updateMoodBoard(moodboardsObj.id, newMoodBoard)
+        usemoodboardsObj(newMoodBoard)
     }
+
+    if (loading) return(<div>Loading...</div>)
 
     return (
         <div className="m-10 text-center"><h1 className="p-10 pb-20">{moodboardsObj.name}</h1>
             <div className='flex flex-wrap gap-10'>
-                {moodboardsObj.books.map((value, index) => {
+                {moodboardsObj.books?.map((value, index) => {
                     const link = `/book/${value}`
                     return (
                         <div key={index}>
