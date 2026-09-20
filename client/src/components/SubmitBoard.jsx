@@ -20,23 +20,27 @@ export default function SubmitBoard(props) {
     /**
      * Save process: 
      */
-    const saveBook = async(e) => {
+    const saveBook = async (e) => {
         e.preventDefault()
-        console.log(`1. Filter data of: `)
-        console.log(moodBoardData)
-        console.log(`And find the value: `)
-        console.log(selectedMoodBoard)
-        console.log("2. The isolated object -->")
-        const moodBoardFilter = moodBoardData.filter(moodboard => moodboard.name === selectedMoodBoard)[0]
-        console.log(moodBoardFilter)
-        console.log(`3. Object with added bookid and thumbnail -->  `)
-        const updatedMoodBoard = { ...moodBoardFilter, books: [...moodBoardFilter.books, bookid], thumbnails: [...moodBoardFilter.thumbnails, thumbnail]}
-        console.log(updatedMoodBoard)
-        console.log("call PUT method to update database -->")
-        const update = await MoodBoardServices.updateMoodBoard(updatedMoodBoard.id, updatedMoodBoard)
-        console.log(update)
-        console.log("Then update the moodboard database: ")
-        setMoodBoardData(update)
+        if (moodBoardData[0] != null) {
+            console.log(`1. Filter data of: `)
+            console.log(moodBoardData)
+            console.log(`And find the value: `)
+            console.log(selectedMoodBoard)
+            console.log("2. The isolated object -->")
+            const moodBoardFilter = moodBoardData.filter(moodboard => moodboard.name === selectedMoodBoard)[0]
+            console.log(moodBoardFilter)
+            console.log(`3. Object with added bookid and thumbnail -->  `)
+            const updatedMoodBoard = { ...moodBoardFilter, books: [...moodBoardFilter.books, bookid], thumbnails: [...moodBoardFilter.thumbnails, thumbnail] }
+            console.log(updatedMoodBoard)
+            console.log("call PUT method to update database -->")
+            const update = await MoodBoardServices.updateMoodBoard(updatedMoodBoard.id, updatedMoodBoard)
+            console.log(update)
+            console.log("Then update the moodboard database: ")
+            setMoodBoardData(update)
+        }else{
+            console.log("Empty array")
+        }
     }
 
     return (

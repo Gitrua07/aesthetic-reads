@@ -18,7 +18,6 @@ export default function BookList(props) {
 
     const [moodBoardData, setMoodBoardData] = useState([])
     const [selectedMoodBoard, setMoodBoard] = useState('')
-    const [loading, setLoading] = useState(true)
     let bookData = []
     const books = getBooks(props.query)
     console.log(selectedMoodBoard)
@@ -29,7 +28,7 @@ export default function BookList(props) {
             if (data.length > 0) {
                 setMoodBoardData(data)
                 setMoodBoard(data[0].name)
-                setLoading(false)
+                // setLoading(false)
             }
         })
     }, [])
@@ -47,8 +46,6 @@ export default function BookList(props) {
         }
         bookData.push(bookInfo)
     })
-
-    if (loading) return (<div>Loading...</div>)
 
     return (
         <div className='flex-1 min-h-0 overflow-y-auto'>
