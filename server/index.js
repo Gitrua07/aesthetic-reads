@@ -1,9 +1,125 @@
+require('dotenv').config()
+const { Sequelize, Model, DataTypes } = require('sequelize')
 const express = require('express')
 const app = express()
 
 const cors = require('cors')
 app.use(cors())
 app.use(express.json())
+
+const sequelize = new Sequelize(process.env.DATABASE_URL, {
+    dialect: 'postgres',
+    dialectOptions: {
+        ssl: {
+            require: true,
+            rejectUnauthorized: false
+        }
+    }
+})
+
+class User extends Model {}
+User.init({
+    id: {
+        type: DataTypes.INTEGER,
+        primaryKey: true,
+        autoIncrement: true
+    },
+    username: {
+        type: DataTypes.TEXT,
+        allowNull: false
+    },
+    email: {
+        type: DataTypes.TEXT,
+        allowNull: false,
+        unique: true
+    },
+    password: {
+        type: DataTypes.TEXT,
+        allowNull: false
+    }
+}, {
+    sequelize,
+    underscored: true,
+    timestamps: true,
+    updatedAt: false,
+    modelName: 'user'
+})
+
+
+class MoodBoard extends Model {}
+MoodBoard.init({
+    id: {
+        type: DataTypes.INTEGER,
+        primaryKey: true,
+        autoIncrement: true 
+    },
+    userId: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        references: {model: 'users', key: 'id'}
+    },
+    name: {
+        type: DataTypes.TEXT,
+        allowNull: false
+    }
+}, {
+    sequelize,
+    underscored: true,
+    timestamps: true,
+    updatedAt: false,
+    modelName: 'moodboard'
+})
+
+class Book extends Model {}
+Book.init({
+    id: {
+        type: DataTypes.INTEGER,
+        primaryKey: true,
+        autoIncrement: true
+    },
+    title: {
+        type: DataTypes.TEXT,
+        allowNull: false
+    },
+    authors: {
+        type: DataTypes.ARRAY(DataTypes.TEXT),
+        allowNull: false
+    },
+    thumbnails: {
+        type: DataTypes.ARRAY(DataTypes.TEXT),
+        allowNull: false
+    }
+}, {
+    sequelize,
+    underscored: true,
+    timestamps: false,
+    modelName: 'book'
+})
+
+class moodboardBook extends Model {}
+moodboardBook.init({
+    moodboard_id: {
+        type: DataTypes.INTEGER,
+        primaryKey: true,
+        allowNull: false,
+        references: {model: 'moodboard', key: 'id'},
+        onDelete: 'CASCADE'
+    },
+    user_id: {
+        type: DataTypes.INTEGER,
+        primaryKey: true,
+        allowNull: false,
+        references: {model: 'user', key: 'id'},
+        onDelete: 'CASCADE'
+    }
+},
+{
+    sequelize,
+    underscored: true,
+    timestamps: false,
+    modelName: 'moodboardBook'
+})
+
 
 let moodboards = []
 
@@ -16,11 +132,13 @@ let userinfos = [
 
 //GET routes
 app.get('/api/moodboards', (request, response) => {
-    response.json(moodboards)
+    const data = MoodBoard.findAll()
+    response.json(data)
 })
 
 app.get('/userinfos', (request, response)=> {
-    response.json(userinfos)
+    const data = User.findAll()
+    response.json(data)
 })
 
 app.get('/api/moodboards/:id', (request, response) => {
