@@ -56,10 +56,10 @@ export default function BookList(props) {
                         thumbnail={value.thumbnail}
                         bookid={value.id}
                         title={value.title}
+                        author={value.author}
                         description={value.description}
                         src={value.thumbnail}
                         link={value.link}
-                        author={value.author}
                         moodBoardData={moodBoardData}
                         setMoodBoardData={setMoodBoardData}
                         selectedMoodBoard={selectedMoodBoard}

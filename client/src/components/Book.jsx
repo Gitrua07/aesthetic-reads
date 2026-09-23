@@ -81,6 +81,8 @@ export default function Book() {
                 <SaveMoodBoard
                     bookid={bookId}
                     thumbnail={imageSrc}
+                    author={bookAuthor}
+                    title={bookTitle}
                     moodBoardData={moodBoardData}
                     imageSrc={imageSrc}
                     handleMoodBoard={handleMoodBoard}

@@ -1,13 +1,15 @@
 import { Link } from 'react-router-dom'
 import SubmitBoard from './SubmitBoard'
 
-const SubmitBoards = ({thumbnail, bookid, handleMoodBoard, selectedMoodBoard, setMoodBoard, moodBoardData, setMoodBoardData }) => {
+const SubmitBoards = ({thumbnail, bookid, title, author, handleMoodBoard, selectedMoodBoard, setMoodBoard, moodBoardData, setMoodBoardData }) => {
     return (
         <div className='text-black flex p-2 gap-5 absolute bottom-0 opacity-0 group-hover:opacity-100' >
             <SubmitBoard
                 classNameSelect='rounded-xl bg-white'
                 thumbnail={thumbnail}
                 bookid={bookid}
+                title={title}
+                author={author}
                 handleMoodBoard={handleMoodBoard}
                 selectedMoodBoard={selectedMoodBoard}
                 setMoodBoard={setMoodBoard}
@@ -40,14 +42,13 @@ export default function BookCard(props) {
         setMoodBoard} = props
     // console.log("0. Retrieve Data from backend --> ")
     // console.log(moodBoardData)
-
     return (
         <article className="w-40">
             <div className='relative group'>
                 <Link to={link} >
                     <img className="rounded-xl w-80" src={src} alt="thumbnail showing this book"/>
                 </Link>
-                <SubmitBoards thumbnail={thumbnail} bookid={bookid} selectedMoodBoard={selectedMoodBoard} setMoodBoard={setMoodBoard} moodBoardData={moodBoardData} setMoodBoardData={setMoodBoardData} />
+                <SubmitBoards thumbnail={thumbnail} bookid={bookid} title={title} author={author} selectedMoodBoard={selectedMoodBoard} setMoodBoard={setMoodBoard} moodBoardData={moodBoardData} setMoodBoardData={setMoodBoardData} />
             </div>
             <BookTitle title={title} />
             <div className='text-sm italic'>{author}</div>

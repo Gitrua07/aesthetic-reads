@@ -16,23 +16,31 @@ export default function MoodBoardsGrid() {
      */
     const [moodboard, setMoodboard] = useState([])
     const [newMoodBoard, setNewMoodBoard] = useState('')
-
+    const [books, setBooks] = useState([])
+    console.log("Book here --> ", books)
     //Retrieves moodboards from /api/moodboard endpoint
     useEffect(() => {
-        MoodBoardServices.getMoodBoard().then(data => {
-            setMoodboard(data)
-        })
+        const loadBoard = async () => {
+            const moodboards = await MoodBoardServices.getMoodBoard()
+            setMoodboard(moodboards)
+
+            const moodboardBooks = await Promise.all(
+                moodboards.map(moodboard => MoodBoardServices.getBookFromMoodboard(moodboard.id))
+            )
+            const book = await Promise.all(
+                moodboardBooks.map(values =>
+                    Promise.all(values.map(value => MoodBoardServices.getBookById(value.bookId)))
+                )
+            )
+
+            setBooks(book)
+        }
+
+        loadBoard()
     }, [])
-    // useEffect(() => {
-    //     axios
-    //         .get('http://localhost:3001/api/moodboards')
-    //         .then(response => {
-    //             // console.log(response.data)
-    //             setMoodboard(moodboard.concat(response.data))
-    //         })
-    // }, [])
-    //----TEMP: Replace with fetch to backend----
-    //----TEMP: Replace with fetch to backend----
+
+
+
 
     //----UNLOCK WHEN YOU ARE IMPLEMENTING AUTHENTICATION----
     // const {
@@ -42,34 +50,8 @@ export default function MoodBoardsGrid() {
     //     setLoggedIn } = useAuth()
     //----UNLOCK WHEN YOU ARE IMPLEMENTING AUTHENTICATION----
 
-    // const createMoodBoard = (event) => {
-    //     event.preventDefault()
-    //     const moodboardToSend = { title: newMoodBoard }
-    //     axios
-    //         .post('http://localhost:3001/api/moodboards', moodboardToSend)
-    //         .then(response => console.log(response))
-    //         .catch(response => console.error(response))
-    //     setNewMoodBoard('')
-    // }
 
-    // {moodboardsArray2.map((value, index) => {
-    //     return (
-    //         <div key={index}>
-    //             <Link to={value.link}>
-    //                 <div className='h-50 w-50 flex flex-wrap rounded-xl'>
-    //                     {/* <div className='bg-red-100 h-25 w-25 rounded-tl-xl'><img src={value.src} alt={value.alt} /></div>
-    //                     <div className='bg-blue-100 h-25 w-25 rounded-tr-xl'><img src={value.src} alt={value.alt} /></div>
-    //                     <div className='bg-yellow-100 h-25 w-25 rounded-bl-xl'><img src={value.src} alt={value.alt} /></div>
-    //                     <div className='bg-green-100 h-25 w-25 rounded-br-xl'><img src={value.src} alt={value.alt} /></div> */}
-    //                 </div>
-    //             </Link>
-    //             <div className='px-2 py-3 text-start font-bold text-xl text-neutral-900'>{value.name}</div>
-    //         </div>
-    //     )
-    // })}
-
-
-    const createMoodBoardT = async(e) => {
+    const createMoodBoardT = async (e) => {
         e.preventDefault()
         const id = 'id' + (new Date()).getTime()
         const newObject = {
@@ -90,7 +72,7 @@ export default function MoodBoardsGrid() {
         console.log("CREATED!")
     }
 
-    const deleteMoodBoard = async(e, id) => {
+    const deleteMoodBoard = async (e, id) => {
         e.preventDefault()
         //Remove board from database
         MoodBoardServices.deleteMoodBoard(id)
@@ -98,6 +80,37 @@ export default function MoodBoardsGrid() {
         setMoodboard(updatedData)
         console.log("DELETED!")
     }
+
+    // const getBookInfo = async(id) => {
+    //     await MoodBoardServices.getBookFromMoodboard(id).then(r => setMoodboardBooks(r))
+    //     moodboardBooks.map((value) => {
+    //         const d = async() => {
+    //             await MoodBoardServices.getBookById(value.bookId).then(data => setBooks(data))
+    //         }
+    //         d()
+    //     })
+    // }
+
+    const cssObjects = [
+        {
+            divClass: 'bg-red-100 h-25 w-25 rounded-tl-xl',
+            imgClass: 'h-25 w-25 rounded-tl-xl'
+        },
+        {
+            divClass: 'bg-blue-100 h-25 w-25 rounded-tr-xl',
+            imgClass: 'h-25 w-25 rounded-tr-xl'
+
+        },
+        {
+            divClass: 'bg-yellow-100 h-25 w-25 rounded-bl-xl',
+            imgClass: 'h-25 w-25 rounded-bl-xl'
+
+        },
+        {
+            divClass: 'bg-green-100 h-25 w-25 rounded-br-xl',
+            imgClass: 'h-25 w-25 rounded-br-xl'
+        }
+    ]
 
     return (
         <section className='max-w-full min-w-0 flex flex-wrap m-6 flex-col'>
@@ -119,14 +132,31 @@ export default function MoodBoardsGrid() {
             <div className="mt-15 flex flex-wrap gap-5">
                 {
                     moodboard.map((value, index) => {
+                        const link = `/moodboard/${value.id}`
+                        // getBookInfo(value.id)
+                        //   if (!value.link || !value.thumbnails) return (<div key={index}></div>)
+                        //<img className={cssObjects[index].imgClass} src={value.thumbnails[0]} alt={value.books[0]} />             
+                        console.log('index --> ', index)
+                        console.log('books --> ', books[index])
+                        const book = books[index] ?? []
+
+                        const bookSrcZero = book[0]?.thumbnails?.[0]
+                        const bookSrcOne = book[1]?.thumbnails?.[0]
+                        const bookSrcTwo = book[2]?.thumbnails?.[0]
+                        const bookSrcThree = book[3]?.thumbnails?.[0]
+
+                        const bookAltZero = book[0]?.title ?? ''
+                        const bookAltOne = book[1]?.title ?? ''
+                        const bookAltTwo = book[2]?.title ?? ''
+                        const bookAltThree = book[3]?.title ?? ''
                         return (
                             <div key={index}>
-                                <Link to={value.link}>
+                                <Link to={link}>
                                     <div className='h-50 w-50 flex flex-wrap rounded-xl'>
-                                        <div className='bg-red-100 h-25 w-25 rounded-tl-xl'><img className='h-25 w-25 rounded-tl-xl' src={value.thumbnails[0]} alt={value.books[0]} /></div>
-                                        <div className='bg-blue-100 h-25 w-25 rounded-tr-xl'><img className='h-25 w-25 rounded-tr-xl' src={value.thumbnails[1]} alt={value.books[1]} /></div>
-                                        <div className='bg-yellow-100 h-25 w-25 rounded-bl-xl'><img className='h-25 w-25 rounded-bl-xl' src={value.thumbnails[2]} alt={value.books[2]} /></div>
-                                        <div className='bg-green-100 h-25 w-25 rounded-br-xl'><img className='h-25 w-25 rounded-br-xl' src={value.thumbnails[3]} alt={value.books[3]} /></div>
+                                        <div className={cssObjects[0].divClass}><img className={cssObjects[0].imgClass} src={bookSrcZero} /></div>
+                                        <div className={cssObjects[1].divClass}><img className={cssObjects[1].imgClass} src={bookSrcOne} /></div>
+                                        <div className={cssObjects[2].divClass}><img className={cssObjects[2].imgClass} src={bookSrcTwo} /></div>
+                                        <div className={cssObjects[3].divClass}><img className={cssObjects[3].imgClass} src={bookSrcThree} /></div>
                                     </div>
                                 </Link>
                                 <div className='px-2 py-3 text-start font-bold text-xl text-neutral-900'>{value.name}</div>
@@ -139,6 +169,7 @@ export default function MoodBoardsGrid() {
         </section>
     )
 }
+
 
 //----REPLACE THIS IN RETURN WHEN DOING AUTHENTICATION----
 {/* <>

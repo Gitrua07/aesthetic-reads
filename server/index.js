@@ -17,7 +17,7 @@ const sequelize = new Sequelize(process.env.DATABASE_URL, {
     }
 })
 
-class User extends Model {}
+class User extends Model { }
 User.init({
     id: {
         type: DataTypes.INTEGER,
@@ -46,17 +46,17 @@ User.init({
 })
 
 
-class MoodBoard extends Model {}
+class MoodBoard extends Model { }
 MoodBoard.init({
     id: {
         type: DataTypes.INTEGER,
         primaryKey: true,
-        autoIncrement: true 
+        autoIncrement: true
     },
-    userId: {
+    userid: {
         type: DataTypes.INTEGER,
         allowNull: false,
-        references: {model: 'users', key: 'id'}
+        references: { model: 'users', key: 'id' }
     },
     name: {
         type: DataTypes.TEXT,
@@ -70,12 +70,12 @@ MoodBoard.init({
     modelName: 'moodboard'
 })
 
-class Book extends Model {}
+class Book extends Model { }
 Book.init({
     id: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.TEXT,
         primaryKey: true,
-        autoIncrement: true
+        allowNull: false
     },
     title: {
         type: DataTypes.TEXT,
@@ -96,102 +96,219 @@ Book.init({
     modelName: 'book'
 })
 
-class moodboardBook extends Model {}
-moodboardBook.init({
-    moodboard_id: {
+class MoodboardBook extends Model { }
+MoodboardBook.init({
+    id: {
         type: DataTypes.INTEGER,
         primaryKey: true,
+        autoIncrement: true
+    },
+    moodboardId: {
+        type: DataTypes.INTEGER,
         allowNull: false,
-        references: {model: 'moodboard', key: 'id'},
+        references: { model: 'moodboard', key: 'id' },
         onDelete: 'CASCADE'
     },
-    user_id: {
-        type: DataTypes.INTEGER,
-        primaryKey: true,
+    bookId: {
+        type: DataTypes.TEXT,
         allowNull: false,
-        references: {model: 'user', key: 'id'},
+        references: { model: 'book', key: 'id' },
         onDelete: 'CASCADE'
     }
 },
-{
-    sequelize,
-    underscored: true,
-    timestamps: false,
-    modelName: 'moodboardBook'
-})
-
-
-let moodboards = []
-
-let userinfos = [
     {
-        id: 1,
-        name: 'gaia'
-    }
-]
+        sequelize,
+        underscored: true,
+        timestamps: false,
+        modelName: 'moodboardBook',
+        indexes: [
+            {
+                unique: true,
+                fields: ['book_id', 'moodboard_id']
+            }
+        ]
+    })
 
 //GET routes
-app.get('/api/moodboards', (request, response) => {
-    const data = MoodBoard.findAll()
+app.get('/api/moodboards', async (request, response) => {
+    try {
+        const data = await MoodBoard.findAll()
+        response.json(data)
+        console.log(data)
+    } catch (error) {
+        response.status(400).json({ error })
+        // console.log("Error has occurred: ", error)
+    }
+})
+
+app.get('/users', async (request, response) => {
+    const data = await User.findAll()
     response.json(data)
 })
 
-app.get('/userinfos', (request, response)=> {
-    const data = User.findAll()
+app.get('/api/books', async(request, response) => {
+    const data = await Book.findAll()
     response.json(data)
 })
 
-app.get('/api/moodboards/:id', (request, response) => {
-    const id = request.params.id
-    const moodboard = moodboards.find(moodboard => moodboard.id === id)
-    response.json(moodboard)
+app.get('/api/moodboardBooks', async(request, response) => {
+    const data = await MoodboardBook.findAll()
+    response.json(data)
 })
 
-app.get('/userinfos/:id', (request, response) => {
+app.get('/api/moodboards/:id', async (request, response) => {
+    const id = Number(request.params.id)
+    const data = await MoodBoard.findByPk(id)
+    response.json(data)
+})
+
+app.get('/users/:id', async (request, response) => {
     const id = request.params.id
-    const userinfo = userinfos.find(userinfo => userinfo.id === id)
-    response.json(userinfo)
+    const data = await User.findByPk(id)
+    response.json(data)
+})
+
+app.get('/api/moodboardBooks/:moodboardId', async(request, response) => {
+    const data = await MoodboardBook.findAll({
+        where: {moodboardId: request.params.moodboardId}
+    })
+    response.json(data)
+})
+
+app.get('/api/books/:bookId', async(request, response) => {
+    const data = await Book.findByPk(request.params.bookId)
+    response.json(data)
 })
 
 //DELETE routes
-app.delete('/api/moodboards/:id', (request, response) => {
+app.delete('/api/moodboards/:id', async (request, response) => {
     const id = request.params.id
-    moodboards = moodboards.filter(moodboard => String(moodboard.id) !== String(id))
+    const data = await MoodBoard.destroy({
+        where: { id: id },
+    })
     response.status(204).end()
 })
 
-app.delete('/userinfos/:id', (request, response) => {
+app.delete('/users/:id', async (request, response) => {
     const id = request.params.id
-    userinfos = userinfos.filter(userinfo => userinfo.id !== id)
+    const data = await User.destroy({
+        where: { id: id },
+    })
+    response.status(204).end()
+})
+
+app.delete('/api/moodboardBooks/:moodboardId/books/:bookid', async(request, response) => {
+    const moodboardId = request.params.moodboardId
+    const bookId = request.params.bookid
+    const data = await MoodboardBook.destroy({
+        where: {moodboardId: moodboardId, bookId: bookId}
+    })
     response.status(204).end()
 })
 
 //POST routes
-app.post('/userinfos', (request, response) => {
-    const {name, password, email} = response.body
-    const id = 1
-    const contents = request.body.contents
-    const newObject = {
-        id: id,
-        name: name,
-        password: password,
-        email: email
+app.post('/users', async (request, response) => {
+    try {
+        const { name, password, email } = request.body
+        const data = await User.create({
+            username: name,
+            email: email,
+            password: password,
+        })
+    } catch (error) {
+        console.error(error)
     }
+
 })
 
-app.post('/api/moodboards', (request, response) => {
+app.post('/api/moodboards', async (request, response) => {
     const newObject = request.body
+    const userId = 1 //temp
+    const data = await MoodBoard.create({
+        name: newObject.name,
+        userid: userId
+    })
     moodboards.push(newObject)
     response.status(201).json(newObject)
 })
 
-//PUT
-app.put('/api/moodboards/:id', (request, response) => {
-    const id = request.params.id
-    const newMoodBoard = request.body
-    moodboards = moodboards.map(moodboard => moodboard.id === id ? newMoodBoard : moodboard )
-    response.status(200).json(moodboards)
+app.post('/api/moodboardBooks', async (request, response) => {
+    try {
+        //body = bookId, moodboardId, title, authors, thumbnails
+        const data = request.body
+        const bookId = data.bookId
+        const moodboardId = data.moodboardId
+
+        if (!moodboardId || !bookId) return response.status(400).json({error: 'bookId or moodboardId is missing'})
+
+        await Book.findOrCreate({
+            where: { id: bookId }, defaults: { title: data.title, authors: data.authors, thumbnails: data.thumbnails }
+        })
+
+        const [results, created] = await MoodboardBook.findOrCreate({
+            where: {
+                moodboardId: moodboardId,
+                bookId: bookId
+            }
+        })
+
+        response.status(200).json(results)
+
+    } catch (error) {
+        console.error(error)
+        response.status(500).json({ error: 'Failed to add book to Moodboard' })
+    }
 })
+
+//PUT - Note must change structure, so that response
+// contains all elements needed in books table
+// app.put('/api/moodboards/:id', async (request, response) => {
+//     const id = request.params.id
+//     const data = await MoodBoard.findByPk(id)
+
+//     if (!data) return response.status(404).json({ error: 'Data not found' })
+
+//     //request.body should contain the book data
+//     const bookData = request.body
+//     const bookDataId = 0 //replace name w/ bookData.id
+//     const bookTitle = 'fds'
+//     const authors = []
+//     const thumbnails = []
+
+//     //look through books to see if bookData.id matches with any items
+//     const isMatchBooks = await Book.findByPk(bookDataId)
+//     //if NOT, then append bookData to books table and append to moodboard_books table too
+//     if (!isMatchBooks) {
+//         const booksTable = await Book.create({
+//             title: bookTitle,
+//             authors: authors,
+//             thumbnails: thumbnails,
+//         })
+
+//         const moodboardsBooks = await MoodboardBook.create({
+//             moodboardId: id,
+//             userId: data.userid,
+//         })
+//     }
+
+//     //if YES, then don't append bookData to books table, check moodboard_books
+//     if (isMatchBooks) {
+//         //to see if bookData.id AND moodboard.id matches with any items
+//         const isMatchMoodboardBooks = await MoodboardBook.findByPk(bookDataId, id)
+//         if (!isMatchMoodboardBooks) {
+//             //if NO then append to board
+//             const moodboardsBooks = await MoodboardBook.create({
+//                 moodboardId: id,
+//                 userId: data.userid,
+//             })
+//         }
+//         //if YES then don't append
+//     }
+//     // await data.update(request.body)
+//     const newMoodBoard = request.body
+//     moodboards = moodboards.map(moodboard => moodboard.id === id ? newMoodBoard : moodboard)
+//     response.status(200).json(moodboards)
+// })
 
 const PORT = 3001
 app.listen(PORT, () => {

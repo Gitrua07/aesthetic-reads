@@ -11,6 +11,8 @@ export default function SaveMoodBoard(props) {
     const setMoodBoardData = props.setMoodBoardData
     const bookid = props.bookid
     const thumbnail = props.thumbnail
+    const author = props.author
+    const title = props.title
 
     return (
         <div className="bg-red-1 mr-5 mt-5 pr-5 pt-5">
@@ -23,6 +25,8 @@ export default function SaveMoodBoard(props) {
                     classNameSelect='px-3 border rounded-xl'
                     thumbnail={thumbnail}
                     bookid={bookid}
+                    author={author}
+                    title={title}
                     handleMoodBoard={handleMoodBoard}
                     selectedMoodBoard={selectedMoodBoard}
                     setMoodBoard={setMoodBoard}

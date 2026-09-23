@@ -5,6 +5,8 @@ export default function SubmitBoard(props) {
     const {
         thumbnail,
         bookid,
+        title,
+        author,
         selectedMoodBoard,
         setMoodBoard,
         moodBoardData,
@@ -12,7 +14,6 @@ export default function SubmitBoard(props) {
         classNameSelect = '',
         classNameButton = '',
     } = props
-
     // console.log("Database --> ")
     // console.log(moodBoardData)
     const id = 'id' + (new Date()).getTime()
@@ -23,21 +24,22 @@ export default function SubmitBoard(props) {
     const saveBook = async (e) => {
         e.preventDefault()
         if (moodBoardData[0] != null) {
-            console.log(`1. Filter data of: `)
-            console.log(moodBoardData)
-            console.log(`And find the value: `)
-            console.log(selectedMoodBoard)
-            console.log("2. The isolated object -->")
-            const moodBoardFilter = moodBoardData.filter(moodboard => moodboard.name === selectedMoodBoard)[0]
-            console.log(moodBoardFilter)
-            console.log(`3. Object with added bookid and thumbnail -->  `)
-            const updatedMoodBoard = { ...moodBoardFilter, books: [...moodBoardFilter.books, bookid], thumbnails: [...moodBoardFilter.thumbnails, thumbnail] }
-            console.log(updatedMoodBoard)
-            console.log("call PUT method to update database -->")
-            const update = await MoodBoardServices.updateMoodBoard(updatedMoodBoard.id, updatedMoodBoard)
-            console.log(update)
-            console.log("Then update the moodboard database: ")
-            setMoodBoardData(update)
+            const moodboardFilter =  moodBoardData.filter(moodboard => moodboard.name === selectedMoodBoard)[0]
+            const moodboardId = moodboardFilter.id
+            const bookId = bookid
+            console.log('Id of selected moodboard --> ',moodboardId)
+            console.log('Id of selected book --> ', bookId)
+            console.log('authors --> ', author)
+            const data = {
+                moodboardId: moodboardId,
+                bookId: bookId,
+                title: title,
+                authors: [author],
+                thumbnails: [thumbnail]
+            }
+            console.log("Data sent to back end --> ", data)
+            const addBook = await MoodBoardServices.addBookToMoodboard(data)
+            console.log("Returned data from back-end", addBook)
         }else{
             console.log("Empty array")
         }
