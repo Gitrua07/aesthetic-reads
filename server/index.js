@@ -232,6 +232,7 @@ app.post('/api/moodboards', async (request, response) => {
     response.status(201).json(newObject)
 })
 
+//There is a post error which doesn't affect the front-end overlay, check here for debugging
 app.post('/api/moodboardBooks', async (request, response) => {
     try {
         //body = bookId, moodboardId, title, authors, thumbnails

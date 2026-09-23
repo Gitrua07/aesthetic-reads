@@ -53,22 +53,9 @@ export default function MoodBoardsGrid() {
 
     const createMoodBoardT = async (e) => {
         e.preventDefault()
-        const id = 'id' + (new Date()).getTime()
-        const newObject = {
-            id: id,
-            name: newMoodBoard,
-            link: `/moodboard/${id}`,
-            books: [],
-            thumbnails: []
-        }
-        MoodBoardServices.createMoodBoard(id, newObject)
-        setMoodboard(moodboard => [...moodboard, {
-            id: id,
-            name: newMoodBoard,
-            link: `/moodboard/${id}`,
-            books: [],
-            thumbnails: []
-        }])
+        const newObject = {name: newMoodBoard}
+        MoodBoardServices.createMoodBoard(newObject)
+        setMoodboard(moodboard => [...moodboard, {name: newMoodBoard}])
         console.log("CREATED!")
     }
 
@@ -80,16 +67,6 @@ export default function MoodBoardsGrid() {
         setMoodboard(updatedData)
         console.log("DELETED!")
     }
-
-    // const getBookInfo = async(id) => {
-    //     await MoodBoardServices.getBookFromMoodboard(id).then(r => setMoodboardBooks(r))
-    //     moodboardBooks.map((value) => {
-    //         const d = async() => {
-    //             await MoodBoardServices.getBookById(value.bookId).then(data => setBooks(data))
-    //         }
-    //         d()
-    //     })
-    // }
 
     const cssObjects = [
         {

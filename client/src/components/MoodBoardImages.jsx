@@ -15,18 +15,33 @@ export default function MoodBoardImages() {
      */
     const moodBoardId = useParams()
     const [moodboardsObj, usemoodboardsObj] = useState({})
-    const [loading, isLoading] = useState(true)
+    const [books, setBooks] = useState([])
     console.log("Moodboard object retrieved --> ")
     console.log(moodboardsObj)
 
     useEffect(() => {
-        MoodBoardService.getMoodBoard().then(data => {
-            const id = moodBoardId.moodBoardId
-            const filterObj = data.filter(d => d.id == id)[0]
-            console.log(filterObj)
-            usemoodboardsObj(filterObj)
-            isLoading(false)
-        })
+        // MoodBoardService.getMoodBoard().then(data => {
+        //     const id = moodBoardId.moodBoardId
+        //     const filterObj = data.filter(d => d.id == id)[0]
+        //     console.log(filterObj)
+        //     usemoodboardsObj(filterObj)
+        //     isLoading(false)
+        // })
+        const loadBook = async() => {
+            const moodboard = await MoodBoardService.getMoodBoardById(moodBoardId.moodBoardId)
+            usemoodboardsObj(moodboard)
+
+            const moodboardBooks = await MoodBoardService.getBookFromMoodboard(moodboard.id)
+            console.log("moodboardBooks --> ", moodboardBooks)
+
+            const books = await Promise.all(
+                moodboardBooks.map((moodboardBook) => MoodBoardService.getBookById(moodboardBook.bookId))
+            )
+            console.log("books retrieved --> ", books)
+            setBooks(books)
+        }
+
+        loadBook()
     }, [moodBoardId])
 
     //----UNLOCK WHEN YOU ARE DOING AUTHENTICATION----
@@ -38,29 +53,25 @@ export default function MoodBoardImages() {
     //----UNLOCK WHEN YOU ARE DOING AUTHENTICATION----
 
 
-    const deleteBook = (e, index) => {
+    const deleteBook = async(e, index) => {
         e.preventDefault()
-        const bookid = moodboardsObj.books[index]
-        const thumbnailDelete = moodboardsObj.thumbnails[index]
-        console.log("Deleted moodboard with current structure being --> ")
-        const newMoodBoard = {...moodboardsObj, books: moodboardsObj.books.filter(book => bookid !== book), thumbnails: moodboardsObj.thumbnails.filter(thumbnail => thumbnail !== thumbnailDelete)}
-        console.log(newMoodBoard)
-        MoodBoardService.updateMoodBoard(moodboardsObj.id, newMoodBoard)
-        usemoodboardsObj(newMoodBoard)
+        const bookid = books[index].id
+        console.log(bookid)
+        const deleteBook = await MoodBoardService.deleteBook(moodBoardId.moodBoardId, bookid)
+        console.log("deleted this book --> ", deleteBook)
+        setBooks(books.filter(book => book.id != bookid))
     }
-
-    if (loading) return(<div>Loading...</div>)
 
     return (
         <div className="m-10 text-center"><h1 className="p-10 pb-20">{moodboardsObj.name}</h1>
             <div className='flex flex-wrap gap-10'>
-                {moodboardsObj.books?.map((value, index) => {
-                    const link = `/book/${value}`
+                {books?.map((value, index) => {
+                    const link = `/book/${value.id}`
                     return (
                         <div key={index}>
                             <Link to={link}>
                                 <div className="">
-                                    <img className="rounded-xl" src={moodboardsObj.thumbnails[index]} alt={value} />
+                                    <img className="rounded-xl" src={value.thumbnails[0]} alt={value.title} />
                                 </div>
                             </Link>
                             <button onClick={(e) => deleteBook(e, index)}>Delete Book</button>

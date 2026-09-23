@@ -5,6 +5,11 @@ const getMoodBoard = async () => {
     return request
 }
 
+const getMoodBoardById = async(id) => {
+    const request = await axios.get(`http://localhost:3001/api/moodboards/${id}`).then(response => response.data)
+    return request
+}
+
 const getBookFromMoodboard = async(moodboardId) => {
     const request = await axios.get(`http://localhost:3001/api/moodboardBooks/${moodboardId}`).then(response => response.data)
     return request
@@ -35,7 +40,12 @@ const deleteMoodBoard = async(id) => {
     return request
 }
 
-const createMoodBoard = async(id, newMoodBoard) => {
+const deleteBook = async(moodboardId, bookId) => {
+    const request = await axios.delete(`/api/moodboardBooks/${moodboardId}/books/${bookId}`).then(response => response.data)
+    return request
+}
+
+const createMoodBoard = async(newMoodBoard) => {
     const request = await axios.post(`http://localhost:3001/api/moodboards`, newMoodBoard).then(response => response.data)
     return request
 }
@@ -47,5 +57,7 @@ export default {
     createMoodBoard,
     addBookToMoodboard,
     getBookFromMoodboard,
-    getBookById
+    getBookById,
+    getMoodBoardById,
+    deleteBook
 }
