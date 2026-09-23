@@ -50,6 +50,29 @@ const createMoodBoard = async(newMoodBoard) => {
     return request
 }
 
+//User section
+
+const getAllUsers = async() => {
+    const request = await axios.get('http://localhost:3001/users').then(response => response.data)
+    return request
+}
+
+const getUser = async(id) => {
+    const request = await axios.get(`http://localhost:3001/users/${id}`).then(response => response.data)
+    return request
+}
+
+const createUser = async(newUser) => {
+    console.log(newUser)
+    const request = await axios.post('http://localhost:3001/users/', newUser).then(response => response.data)
+    return request
+}
+
+const login = async(credentials) => {
+    const request = await axios.post('http://localhost:3001/login', credentials).then(response => response.data)
+    return request
+}
+
 export default {
     getMoodBoard,
     updateMoodBoard,
@@ -59,5 +82,9 @@ export default {
     getBookFromMoodboard,
     getBookById,
     getMoodBoardById,
-    deleteBook
+    deleteBook,
+    getAllUsers,
+    getUser,
+    createUser,
+    login
 }

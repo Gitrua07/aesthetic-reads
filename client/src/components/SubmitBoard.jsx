@@ -1,5 +1,6 @@
 // import axios from 'axios'
 import MoodBoardServices from '../services/Moodboard'
+import { useAuth } from '../auth/AuthContext'
 
 export default function SubmitBoard(props) {
     const {
@@ -14,6 +15,11 @@ export default function SubmitBoard(props) {
         classNameSelect = '',
         classNameButton = '',
     } = props
+    
+    const { authUser,
+        setAuthUser,
+        isLoggedIn,
+        setLoggedIn } = useAuth()
     // console.log("Database --> ")
     // console.log(moodBoardData)
     const id = 'id' + (new Date()).getTime()
@@ -24,10 +30,10 @@ export default function SubmitBoard(props) {
     const saveBook = async (e) => {
         e.preventDefault()
         if (moodBoardData[0] != null) {
-            const moodboardFilter =  moodBoardData.filter(moodboard => moodboard.name === selectedMoodBoard)[0]
+            const moodboardFilter = moodBoardData.filter(moodboard => moodboard.name === selectedMoodBoard)[0]
             const moodboardId = moodboardFilter.id
             const bookId = bookid
-            console.log('Id of selected moodboard --> ',moodboardId)
+            console.log('Id of selected moodboard --> ', moodboardId)
             console.log('Id of selected book --> ', bookId)
             console.log('authors --> ', author)
             const data = {
@@ -40,13 +46,14 @@ export default function SubmitBoard(props) {
             console.log("Data sent to back end --> ", data)
             const addBook = await MoodBoardServices.addBookToMoodboard(data)
             console.log("Returned data from back-end", addBook)
-        }else{
+        } else {
             console.log("Empty array")
         }
     }
 
     return (
-        <div>
+    <>
+    {isLoggedIn ? <div>
             <form className='flex flex-col gap-3' onSubmit={e => saveBook(e)}>
                 <label htmlFor={id} className='sr-only'>Choose a moodboard</label>
                 <select
@@ -61,7 +68,10 @@ export default function SubmitBoard(props) {
                 </select>
                 <button type='submit' className={`focus:outline-2 focus:outline-blue-500 rounded-xl bg-white p-1 text-left ${classNameButton}`}>Save to moodboard</button>
             </form>
-        </div>
+                <label htmlFor={id} className='sr-only'>Choose a moodboard</label>
+                </div> : <div></div>}
+    </>
+        
 
     )
 }

@@ -22,6 +22,7 @@ export default function Login() {
 
     return (
         <div>
+            <title>Login - Aesthetic Reads</title>
             {isLoggedIn ? <Profile/> : <section className='m-20 flex flex-col justify-center justify-items-center text-center'>
                 <LoginComp />
             </section>}

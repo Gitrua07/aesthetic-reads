@@ -1,4 +1,5 @@
-require('dotenv').config()
+require('dotenv').config();
+const bcrypt = require('bcrypt')
 const { Sequelize, Model, DataTypes } = require('sequelize')
 const express = require('express')
 const app = express()
@@ -209,14 +210,25 @@ app.delete('/api/moodboardBooks/:moodboardId/books/:bookid', async(request, resp
 //POST routes
 app.post('/users', async (request, response) => {
     try {
-        const { name, password, email } = request.body
+        // const { name, password, email } = request.body
+        const userInfo = request.body
+        const name = userInfo.username
+        const email = userInfo.email
+        const password = userInfo.password
+        console.log(name, password, email)
+        const saltRounds = 10
+        const passwordHash = await bcrypt.hash(password, saltRounds)
         const data = await User.create({
             username: name,
             email: email,
-            password: password,
+            password: passwordHash,
         })
-    } catch (error) {
-        console.error(error)
+        return response.status(201).json(data)
+    } catch (err) {
+        console.log(request.body)
+        console.error(err)
+        return response.status(500).json({error: 'could not create user'})
+
     }
 
 })
@@ -261,56 +273,25 @@ app.post('/api/moodboardBooks', async (request, response) => {
     }
 })
 
-//PUT - Note must change structure, so that response
-// contains all elements needed in books table
-// app.put('/api/moodboards/:id', async (request, response) => {
-//     const id = request.params.id
-//     const data = await MoodBoard.findByPk(id)
+app.post('/login', async(request, response) => {
+    const credentials = request.body
+    const username = credentials.username
+    const password = credentials.password
 
-//     if (!data) return response.status(404).json({ error: 'Data not found' })
+    const userDatas = await User.findAll({
+        where: {username:username}
+    })
 
-//     //request.body should contain the book data
-//     const bookData = request.body
-//     const bookDataId = 0 //replace name w/ bookData.id
-//     const bookTitle = 'fds'
-//     const authors = []
-//     const thumbnails = []
+    const userData = userDatas[0]
 
-//     //look through books to see if bookData.id matches with any items
-//     const isMatchBooks = await Book.findByPk(bookDataId)
-//     //if NOT, then append bookData to books table and append to moodboard_books table too
-//     if (!isMatchBooks) {
-//         const booksTable = await Book.create({
-//             title: bookTitle,
-//             authors: authors,
-//             thumbnails: thumbnails,
-//         })
+    if (!userData) return response.status(401).json({error: 'Failed to find a user'})
+    
+    const verifyUser = await bcrypt.compare(password, userData.password)    
 
-//         const moodboardsBooks = await MoodboardBook.create({
-//             moodboardId: id,
-//             userId: data.userid,
-//         })
-//     }
+    if(!verifyUser) return response.status(401).json({error: 'Wrong password'})
 
-//     //if YES, then don't append bookData to books table, check moodboard_books
-//     if (isMatchBooks) {
-//         //to see if bookData.id AND moodboard.id matches with any items
-//         const isMatchMoodboardBooks = await MoodboardBook.findByPk(bookDataId, id)
-//         if (!isMatchMoodboardBooks) {
-//             //if NO then append to board
-//             const moodboardsBooks = await MoodboardBook.create({
-//                 moodboardId: id,
-//                 userId: data.userid,
-//             })
-//         }
-//         //if YES then don't append
-//     }
-//     // await data.update(request.body)
-//     const newMoodBoard = request.body
-//     moodboards = moodboards.map(moodboard => moodboard.id === id ? newMoodBoard : moodboard)
-//     response.status(200).json(moodboards)
-// })
-
+    return response.status(200).json(verifyUser)
+})
 const PORT = 3001
 app.listen(PORT, () => {
     console.log(`Listening to port ${PORT}`)

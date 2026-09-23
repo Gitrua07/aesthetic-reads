@@ -1,4 +1,5 @@
 import SubmitBoard from "./SubmitBoard"
+import { useAuth } from "../auth/AuthContext"
 
 const BookCover = ({ imageSrc }) => <img className='h-100 rounded-xl' src={imageSrc} alt='cover of book' />
 
@@ -14,6 +15,11 @@ export default function SaveMoodBoard(props) {
     const author = props.author
     const title = props.title
 
+    const { authUser,
+        setAuthUser,
+        isLoggedIn,
+        setLoggedIn } = useAuth()
+
     return (
         <div className="bg-red-1 mr-5 mt-5 pr-5 pt-5">
             <BookCover imageSrc={imageSrc} />
@@ -21,7 +27,7 @@ export default function SaveMoodBoard(props) {
                 <div className="font-light">
                     Mood Board:
                 </div>
-                <SubmitBoard
+                {isLoggedIn ? <SubmitBoard
                     classNameSelect='px-3 border rounded-xl'
                     thumbnail={thumbnail}
                     bookid={bookid}
@@ -33,7 +39,7 @@ export default function SaveMoodBoard(props) {
                     moodBoardData={moodBoardData}
                     setMoodBoardData={setMoodBoardData}
                     classNameButton='font-medium rounded-xl bg-white border px-3'
-                />
+                /> : <div className="italic text-gray-500">Login to save moodboards</div>}
             </div>
         </div>
     )

@@ -10,6 +10,7 @@ const Profile = () => {
 
     return (
         <div>
+            <title>Profile - Aesthetic Reads</title>
             {isLoggedIn ? <div className='flex flex-col gap-5 my-10 mx-8 text-neutral-900'>
                 <div><img className='w-30 h-30 rounded-full' src={placeholder} alt='profile' /></div>
                 <div className='font-bold text-3xl'>{authUser}</div>
