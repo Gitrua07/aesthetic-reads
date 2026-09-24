@@ -16,7 +16,9 @@ export default function Register(){
     const {authUser,
         setAuthUser,
         isLoggedIn,
-        setLoggedIn } = useAuth()
+        setLoggedIn,
+        authId, 
+        setAuthId } = useAuth()
     const navigate = useNavigate()
     const handleChange = (e) => {
         setUserInfo({...userInfo, [e.target.name]: e.target.value})
@@ -28,6 +30,7 @@ export default function Register(){
         console.log(data)
         setAuthUser(userInfo.username)
         setLoggedIn(true)
+        setAuthId(data.id)
         navigate(`/profile`)
     }
 

@@ -3,6 +3,7 @@ import getBooks from '../api/getBook.js'
 import thumbnailPlaceHolder from '../assets/book-placeholder.jpg'
 import { useState, useEffect } from 'react'
 import MoodBoardServices from '../services/Moodboard'
+import { useAuth } from '../auth/AuthContext'
 
 export default function BookList(props) {
     /**
@@ -18,13 +19,19 @@ export default function BookList(props) {
 
     const [moodBoardData, setMoodBoardData] = useState([])
     const [selectedMoodBoard, setMoodBoard] = useState('')
+    const { authUser,
+        setAuthUser,
+        isLoggedIn,
+        setLoggedIn,
+        authId,
+        setAuthId } = useAuth()
     let bookData = []
     const books = getBooks(props.query)
     console.log(selectedMoodBoard)
 
     //Retrieves moodboard data from backend
     useEffect(() => {
-        MoodBoardServices.getMoodBoard().then(data => {
+        MoodBoardServices.getMoodBoardByUserId(authId).then(data => {
             if (data.length > 0) {
                 setMoodBoardData(data)
                 setMoodBoard(data[0].name)

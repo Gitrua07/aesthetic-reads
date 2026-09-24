@@ -6,7 +6,9 @@ const Profile = () => {
     const { authUser,
         setAuthUser,
         isLoggedIn,
-        setLoggedIn } = useAuth()
+        setLoggedIn,
+        authId, 
+        setAuthId } = useAuth()
 
     return (
         <div>
@@ -14,6 +16,7 @@ const Profile = () => {
             {isLoggedIn ? <div className='flex flex-col gap-5 my-10 mx-8 text-neutral-900'>
                 <div><img className='w-30 h-30 rounded-full' src={placeholder} alt='profile' /></div>
                 <div className='font-bold text-3xl'>{authUser}</div>
+                <div>UserId: #{authId}</div>
                 <div className='font-semibold'>BIOGRAPHY:</div>
                 <div className='shadow-lg py-5 px-5 rounded-xl'></div>
                 <div>

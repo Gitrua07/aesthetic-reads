@@ -5,7 +5,9 @@ export default function Dashboard(){
     const { authUser,
         setAuthUser,
         isLoggedIn,
-        setLoggedIn } = useAuth()
+        setLoggedIn,
+        authId, 
+        setAuthId } = useAuth()
 
         const LogIn = (e) => {
             e.preventDefault()
@@ -19,6 +21,7 @@ export default function Dashboard(){
             e.preventDefault()
             setAuthUser(null)
             setLoggedIn(false)
+            setAuthId(null)
         }
 
     return (

@@ -4,12 +4,15 @@ import { AuthContext } from './AuthContext'
 export function AuthProvider(props) {
     const [authUser, setAuthUser] = useState(null)
     const [isLoggedIn, setLoggedIn] = useState(false)
+    const [authId, setAuthId] = useState(null)
 
     const value = {
         authUser,
         setAuthUser,
         isLoggedIn,
-        setLoggedIn
+        setLoggedIn,
+        authId, 
+        setAuthId
     }
 
     return (

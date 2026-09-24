@@ -19,7 +19,9 @@ export default function SubmitBoard(props) {
     const { authUser,
         setAuthUser,
         isLoggedIn,
-        setLoggedIn } = useAuth()
+        setLoggedIn,
+        authId,
+        setAuthId } = useAuth()
     // console.log("Database --> ")
     // console.log(moodBoardData)
     const id = 'id' + (new Date()).getTime()

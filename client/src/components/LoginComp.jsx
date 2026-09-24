@@ -13,15 +13,18 @@ export default function LoginComp() {
     const { authUser,
         setAuthUser,
         isLoggedIn,
-        setLoggedIn } = useAuth()
+        setLoggedIn,
+        authId,
+        setAuthId } = useAuth()
     const navigate = useNavigate()
 
     const handleSubmit = async(e) => {
         e.preventDefault()
         const response = await MoodBoardServices.login(loginInfo)
-        if (response){
+        if (response.isVerified){
             setAuthUser(loginInfo.username)
             setLoggedIn(true)
+            setAuthId(response.id)
             navigate('/profile')
         }
     }

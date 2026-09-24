@@ -15,11 +15,18 @@ export default function MoodBoardsGrid() {
     const [moodboard, setMoodboard] = useState([])
     const [newMoodBoard, setNewMoodBoard] = useState('')
     const [books, setBooks] = useState([])
-    console.log("Book here --> ", books)
+    const {
+        authUser,
+        setAuthUser,
+        isLoggedIn,
+        setLoggedIn,
+        authId,
+        setAuthId} = useAuth()
+    // console.log("Book here --> ", books)
     //Retrieves moodboards from /api/moodboard endpoint
     useEffect(() => {
         const loadBoard = async () => {
-            const moodboards = await MoodBoardServices.getMoodBoard()
+            const moodboards = await MoodBoardServices.getMoodBoardByUserId(authId)
             setMoodboard(moodboards)
 
             const moodboardBooks = await Promise.all(
@@ -37,16 +44,9 @@ export default function MoodBoardsGrid() {
         loadBoard()
     }, [])
 
-    const {
-        authUser,
-        setAuthUser,
-        isLoggedIn,
-        setLoggedIn } = useAuth()
-
-
     const createMoodBoardT = async (e) => {
         e.preventDefault()
-        const newObject = { name: newMoodBoard }
+        const newObject = { id: authId, name: newMoodBoard }
         MoodBoardServices.createMoodBoard(newObject)
         setMoodboard(moodboard => [...moodboard, { name: newMoodBoard }])
         console.log("CREATED!")

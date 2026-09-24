@@ -181,6 +181,14 @@ app.get('/api/books/:bookId', async(request, response) => {
     response.json(data)
 })
 
+app.get(`/api/moodboards/users/:userId`, async(request, response) => {
+    const data = await MoodBoard.findAll({
+        where: {userid: request.params.userId}
+    })
+    // response.json(data)
+    console.log(data)
+    response.json(data)
+})  
 //DELETE routes
 app.delete('/api/moodboards/:id', async (request, response) => {
     const id = request.params.id
@@ -235,10 +243,11 @@ app.post('/users', async (request, response) => {
 
 app.post('/api/moodboards', async (request, response) => {
     const newObject = request.body
-    const userId = 1 //temp
+
+    // const userId = 1 //temp
     const data = await MoodBoard.create({
         name: newObject.name,
-        userid: userId
+        userid: newObject.id
     })
     moodboards.push(newObject)
     response.status(201).json(newObject)
@@ -290,7 +299,7 @@ app.post('/login', async(request, response) => {
 
     if(!verifyUser) return response.status(401).json({error: 'Wrong password'})
 
-    return response.status(200).json(verifyUser)
+    return response.status(200).json({isVerified: verifyUser, id: userData.id})
 })
 const PORT = 3001
 app.listen(PORT, () => {

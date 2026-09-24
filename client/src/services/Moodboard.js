@@ -10,6 +10,11 @@ const getMoodBoardById = async(id) => {
     return request
 }
 
+const getMoodBoardByUserId = async(userId) => {
+    const request = await axios.get(`http://localhost:3001/api/moodboards/users/${userId}`).then(response => response.data)
+    return request
+}
+
 const getBookFromMoodboard = async(moodboardId) => {
     const request = await axios.get(`http://localhost:3001/api/moodboardBooks/${moodboardId}`).then(response => response.data)
     return request
@@ -46,6 +51,7 @@ const deleteBook = async(moodboardId, bookId) => {
 }
 
 const createMoodBoard = async(newMoodBoard) => {
+    console.log(newMoodBoard)
     const request = await axios.post(`http://localhost:3001/api/moodboards`, newMoodBoard).then(response => response.data)
     return request
 }
@@ -86,5 +92,6 @@ export default {
     getAllUsers,
     getUser,
     createUser,
-    login
+    login,
+    getMoodBoardByUserId
 }
