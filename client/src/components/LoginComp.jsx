@@ -17,7 +17,9 @@ export default function LoginComp() {
         authId,
         setAuthId,
         bio,
-        setBio } = useAuth()
+        setBio,
+        profilePic,
+        setProfilePic } = useAuth()
     const navigate = useNavigate()
 
     const handleSubmit = async(e) => {

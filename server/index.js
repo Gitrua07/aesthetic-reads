@@ -40,7 +40,11 @@ User.init({
     },
     biography: {
         type: DataTypes.TEXT
+    },
+    profilePicUrl: {
+        type: DataTypes.TEXT
     }
+
 }, {
     sequelize,
     underscored: true,
@@ -166,7 +170,7 @@ app.get('/api/moodboards/:id', async (request, response) => {
         const data = await MoodBoard.findByPk(id)
         response.json(data)
     } catch (err) {
-        response.status(401).json({error: err})
+        response.status(401).json({ error: err })
     }
 })
 
@@ -213,11 +217,16 @@ app.delete('/api/moodboards/:id', async (request, response) => {
 })
 
 app.delete('/users/:id', async (request, response) => {
-    const id = request.params.id
+    try{
+        const id = request.params.id
     const data = await User.destroy({
         where: { id: id },
     })
     response.status(204).end()
+    }catch(err){
+        response.status(401).json({error: err})
+    }
+    
 })
 
 app.delete('/api/moodboardBooks/:moodboardId/books/:bookid', async (request, response) => {
@@ -232,7 +241,6 @@ app.delete('/api/moodboardBooks/:moodboardId/books/:bookid', async (request, res
 //POST routes
 app.post('/users', async (request, response) => {
     try {
-        // const { name, password, email } = request.body
         const userInfo = request.body
         const name = userInfo.username
         const email = userInfo.email
@@ -249,7 +257,7 @@ app.post('/users', async (request, response) => {
     } catch (err) {
         console.log(request.body)
         console.error(err)
-        return response.status(500).json({ error: 'could not create user' })
+        return response.status(500).json({ error: 'could not create user', err })
 
     }
 
@@ -311,8 +319,32 @@ app.post('/login', async (request, response) => {
 
     if (!verifyUser) return response.status(401).json({ error: 'Wrong password' })
 
-    return response.status(200).json({ isVerified: verifyUser, id: userData.id , bio: userData.biography})
+    return response.status(200).json({ isVerified: verifyUser, id: userData.id, bio: userData.biography, profilePicUrl: userData.profilePicUrl})
 })
+
+app.put('/api/users/:userid/biography', async (request, response) => {
+    try {
+        const userId = request.params.userid
+        const biography = request.body.biography
+
+        const user = await User.findByPk(userId)
+        await user.update({ biography: biography })
+        response.json(biography)
+    } catch (err) {
+        response.status(401).json({ error: err })
+    }
+})
+
+app.put('/api/users/:userid/profile', async (request, response) => {
+    const userId = request.params.userid
+    const profile = request.body.profilePicUrl
+
+    const user = await User.findByPk(userId)
+    await user.update({ profilePicUrl: profile })
+    response.json(profile)
+})
+
+
 const PORT = 3001
 app.listen(PORT, () => {
     console.log(`Listening to port ${PORT}`)

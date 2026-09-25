@@ -7,21 +7,19 @@ export default function Dashboard(){
         isLoggedIn,
         setLoggedIn,
         authId, 
-        setAuthId } = useAuth()
-
-        const LogIn = (e) => {
-            e.preventDefault()
-            setAuthUser(
-                'Billy'
-            )
-            setLoggedIn(true)
-        }
+        setAuthId,
+        bio,
+        setBio,
+        profilePic,
+        setProfilePic } = useAuth()
 
         const LogOut = (e) => {
             e.preventDefault()
             setAuthUser(null)
             setLoggedIn(false)
             setAuthId(null)
+            setBio(null)
+            setProfilePic('src/assets/book-placeholder.jpg')
         }
 
     return (

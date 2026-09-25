@@ -83,6 +83,22 @@ const login = async(credentials) => {
     return request
 }
 
+const edit = async(biography, profile, userId) => {
+    console.log("profile --> ", profile)
+    console.log("biography --> ", biography)
+    const request1 = await axios.put(`/api/users/${userId}/profile`, {profilePicUrl: profile}).then(response => response.data)
+    const request2 = await axios.put(`/api/users/${userId}/biography`, {biography}).then(response => response.data)
+    const results = [request1, request2]
+    console.log(results)
+    return results
+}
+
+const deleteUser = async(id) => {
+    console.log("ID --> ", id)
+    const request = await axios.delete(`http://localhost:3001/users/${id}`).then(response => response.data)
+    return request
+}
+
 export default {
     getMoodBoard,
     updateMoodBoard,
@@ -97,5 +113,7 @@ export default {
     getUser,
     createUser,
     login,
-    getMoodBoardByUserId
+    getMoodBoardByUserId,
+    edit,
+    deleteUser
 }

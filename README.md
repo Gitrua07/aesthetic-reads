@@ -6,12 +6,11 @@ Create a program where it allows users to collect a group of images and assigns 
 
 ## Features - TODO
 [X] Search books<br>
-[] Manually add books when assigning books to mood board<br>
-[] Save books<br>
+[X] Manually add books when assigning books to mood board<br>
+[X] Save books<br>
 [X] Display book cover<br>
-[] Create mood boards<br>
-[] Assign books to a mood board<br>
-[] Add images to mood board<br>
+[X] Create mood boards<br>
+[X] Assign books to a mood board<br>
 
 ## Program Execution Instructions
 For server\ and client\ run `npm run dev` on command terminal.<br>
@@ -20,4 +19,10 @@ Go to server url address to see webapplication.
 ## Credits
 
 * book-placeholder.jpg: Photo by <a href="https://unsplash.com/@fluffyflick?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Rasmus Smedstrup Mortensen</a> on <a href="https://unsplash.com/photos/blue-sky-with-white-clouds-_ZtPsxAomeI?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Unsplash</a>
+
+### Profile pictures
+<a href="https://www.flaticon.com/free-icons/woman" title="woman icons">Woman icons created by Magnific - Flaticon</a>
+<a href="https://www.flaticon.com/free-icons/girl" title="girl icons">Girl icons created by Magnific - Flaticon</a>
+<a href="https://www.flaticon.com/free-icons/man" title="man icons">Man icons created by Magnific - Flaticon</a>
+<a href="https://www.flaticon.com/free-icons/doctor" title="doctor icons">Doctor icons created by Magnific - Flaticon</a>
       

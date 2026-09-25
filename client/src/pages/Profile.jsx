@@ -1,7 +1,7 @@
 import placeholder from '../assets/book-placeholder.jpg'
 import { Link } from 'react-router-dom'
 import { useAuth } from '../auth/AuthContext'
-
+import MoodBoardServices from '../services/Moodboard.js'
 const Profile = () => {
     const { authUser,
         setAuthUser,
@@ -13,7 +13,17 @@ const Profile = () => {
         setBio,
         profilePic, 
         setProfilePic } = useAuth()
-
+    
+    const deleteUser = async(e) => {
+        e.preventDefault()
+        await MoodBoardServices.deleteUser(authId)
+        setLoggedIn(false)
+        setAuthId(null)
+        setAuthUser(null)
+        setBio(null)
+        setProfilePic(null)
+    }
+    
     return (
         <div>
             <title>Profile - Aesthetic Reads</title>
@@ -28,6 +38,9 @@ const Profile = () => {
                     <Link className='focus:outline-2 focus:outline-blue-500 rounded-2xl p-3 outline outline-solid outline-black w-28' to='/edit-profile'>
                         Edit Profile
                     </Link>
+                </div>
+                <div>
+                    <button onClick={(e) => deleteUser(e)}>Delete User</button>
                 </div>
             </section> :
                 <div className='flex flex-col items-center gap-5 my-10 mx-8 text-neutral-900'>

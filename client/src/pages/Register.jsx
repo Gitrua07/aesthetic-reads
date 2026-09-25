@@ -2,7 +2,6 @@ import { useState } from "react"
 import MoodBoardServices from '../services/Moodboard.js'
 import { useNavigate } from "react-router-dom"
 import { useAuth } from "../auth/AuthContext.jsx"
-
 export default function Register(){
     /**
      * Register:
@@ -18,7 +17,11 @@ export default function Register(){
         isLoggedIn,
         setLoggedIn,
         authId, 
-        setAuthId } = useAuth()
+        setAuthId,
+        bio,
+        setBio,
+        profilePic,
+        setProfilePic } = useAuth()
     const navigate = useNavigate()
     const handleChange = (e) => {
         setUserInfo({...userInfo, [e.target.name]: e.target.value})
@@ -31,6 +34,8 @@ export default function Register(){
         setAuthUser(userInfo.username)
         setLoggedIn(true)
         setAuthId(data.id)
+        setProfilePic('src/assets/book-placeholder.jpg')
+        setBio(null)
         navigate(`/profile`)
     }
 

@@ -1,13 +1,20 @@
 import { Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '../auth/AuthContext'
 import { useState } from 'react'
+import MoodBoardServices from '../services/Moodboard.js'
+import girl from '../assets/girl.png'
+import doctor from '../assets/doctor.png'
+import man from '../assets/man.png'
+import woman from '../assets/woman.png'
+
 
 const Edit = () => {
-    const {setBio, bio, profilePic, 
+    const { authId,
+        setAuthId, setBio, bio, profilePic,
         setProfilePic } = useAuth()
     const [biography, setBiography] = useState(bio ?? "")
     const [profile, setProfile] = useState(profilePic)
-    const navigate = useNavigate() 
+    const navigate = useNavigate()
 
     const handleChange = (e) => {
         console.log(e.target.value)
@@ -15,16 +22,16 @@ const Edit = () => {
     }
 
     const handlePicChange = (e) => {
-        const file = e.target.files[0]
-        if (!file) return
-        console.log(file)
-        setProfile(URL.createObjectURL(file))
+        const selectedPic = e.target.value
+        setProfile(selectedPic)
+        console.log(profile)
     }
 
-    const handleSubmit = async(e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault()
         setBio(biography)
         setProfilePic(profile)
+        await MoodBoardServices.edit(biography, profile, authId)
         navigate('/profile')
     }
 
@@ -34,8 +41,42 @@ const Edit = () => {
             <h1 className='text-3xl font-bold text-neutral-900'>Edit Profile</h1>
             <form className='flex flex-col gap-5 text-neutral-900' onSubmit={(e) => handleSubmit(e)}>
                 <div className='flex flex-col gap-2'>
-                    <label for='profile'>Change your profile picture: </label>
-                    <input onChange={handlePicChange} className='outline outline-solid p-2 w-60 rounded-2xl' type='file' accept='.jpg, .jpeg, .png' />
+                    <label className='cursor-pointer'>
+                        <input
+                            type='radio'
+                            name='profile'
+                            value={girl}
+                            onChange={handlePicChange}
+                        />
+                        <img src={girl} alt="" />
+                    </label>
+                    <label className='cursor-pointer'>
+                        <input
+                            type='radio'
+                            name='profile'
+                            value={woman}
+                            onChange={handlePicChange}
+                        />
+                        <img src={woman} alt="" />
+                    </label>
+                    <label className='cursor-pointer'>
+                        <input
+                            type='radio'
+                            name='profile'
+                            value={doctor}
+                            onChange={handlePicChange}
+                        />
+                        <img src={doctor} alt="" />
+                    </label>
+                    <label className='cursor-pointer'>
+                        <input
+                            type='radio'
+                            name='profile'
+                            value={man}
+                            onChange={handlePicChange}
+                        />
+                        <img src={man} alt="" />
+                    </label>
                 </div>
                 <div className='flex flex-col gap-2'>
                     <label for='bio'>Edit your biography:</label>
