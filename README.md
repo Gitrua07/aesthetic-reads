@@ -1,20 +1,41 @@
-# aesthetic-reads
+# Aesthetic Reads
 
-## Overview
+Aesthetic reads is a React website that allows users to create mood boards using book covers. 
 
-Create a program where it allows users to collect a group of images and assigns those images to 1+ book(s). These images should fit the “vibe” of the assigned book. The user interface will be modelled like pinterest. There will be a search bar for books which is linked to a book API and will output at most 40 books. As well, there is an option to add those books manually. Images must be saved from external sources (e.g Unsplash) which the user will need to search on the internet. The mood boards are titled based on the vibe they resemble, for example these vibes can be Dark Academia, Soft Cottagecore, Melancholic Winter, or Surreal Art-Inspired Reads.
+## Moodboard Visuals 
+<img width="1889" height="832" alt="image" src="https://github.com/user-attachments/assets/776c96b3-f0db-43f2-891a-04d4db0ee529" />
 
-## Features - TODO
-[X] Search books<br>
-[X] Manually add books when assigning books to mood board<br>
-[X] Save books<br>
-[X] Display book cover<br>
-[X] Create mood boards<br>
-[X] Assign books to a mood board<br>
+<img width="1920" height="877" alt="image" src="https://github.com/user-attachments/assets/98491e56-453e-4d6d-a803-ce25bf86e222" />
 
-## Program Execution Instructions
-For server\ and client\ run `npm run dev` on command terminal.<br>
-Go to server url address to see webapplication.
+## Tech Stack
+* React
+* Node.js
+* PostgreSQL (psql, sequelizer, Aiven database)
+* Express.js
+* TailwindCSS
+* Google Books API
+* Axios library
+
+## Key Features 
+* Search for books, each search query provides ~10 books
+* Create and delete mood board
+* Save books to mood board on home page
+* Create user account
+* Choose profile picture and create a user biography
+
+## Local Usage
+Have psql installed and use:
+`psql LINK HERE`
+This program uses Aiven hosting, Aiven will provide a unique link.
+
+After installing, for both server and client: 
+`npm run dev`
+
+## What I've learned
+* How to handle promises using async/await commands
+* REST methods (POST, PUT, DELETE, GET)
+* How to implement postgres using sequelizer with Aiven hosting
+* How to implement user administration
 
 ## Credits
 
