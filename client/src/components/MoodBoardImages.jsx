@@ -13,21 +13,16 @@ export default function MoodBoardImages() {
      * given the dataset and will be displayed on the 
      * MoodBoardsGrid.jsx component.
      */
+
     const moodBoardId = useParams()
+    console.log("moodboard Id --> ", moodBoardId.moodBoardId)
     const [moodboardsObj, usemoodboardsObj] = useState({})
     const [books, setBooks] = useState([])
     console.log("Moodboard object retrieved --> ")
     console.log(moodboardsObj)
 
     useEffect(() => {
-        // MoodBoardService.getMoodBoard().then(data => {
-        //     const id = moodBoardId.moodBoardId
-        //     const filterObj = data.filter(d => d.id == id)[0]
-        //     console.log(filterObj)
-        //     usemoodboardsObj(filterObj)
-        //     isLoading(false)
-        // })
-        const loadBook = async() => {
+        const loadBook = async () => {
             const moodboard = await MoodBoardService.getMoodBoardById(moodBoardId.moodBoardId)
             usemoodboardsObj(moodboard)
 
@@ -53,7 +48,7 @@ export default function MoodBoardImages() {
     //----UNLOCK WHEN YOU ARE DOING AUTHENTICATION----
 
 
-    const deleteBook = async(e, index) => {
+    const deleteBook = async (e, index) => {
         e.preventDefault()
         const bookid = books[index].id
         console.log(bookid)
@@ -63,22 +58,24 @@ export default function MoodBoardImages() {
     }
 
     return (
-        <div className="m-10 text-center"><h1 className="p-10 pb-20">{moodboardsObj.name}</h1>
-            <div className='flex flex-wrap gap-10'>
+        <div className="m-10 text-center">
+            <title>Your Moodboard - Aesthetic Reads</title>
+            <h1 className="text-neutral-900 p-10 pb-20 text-left">{moodboardsObj.name ?? ""}</h1>
+            <ul className='flex flex-wrap gap-5'>
                 {books?.map((value, index) => {
                     const link = `/book/${value.id}`
+                    const alt = `leads to ${value.title} book page`
                     return (
-                        <div key={index}>
-                            <Link to={link}>
-                                <div className="">
-                                    <img className="rounded-xl" src={value.thumbnails[0]} alt={value.title} />
-                                </div>
+                        <li className="flex flex-col gap-2" key={index}>
+                            <Link className="focus:outline-2 focus:outline-blue-500 rounded-xl" to={link}>
+                                <img className="rounded-xl w-35" src={value.thumbnails[0]} alt={alt} />
                             </Link>
-                            <button onClick={(e) => deleteBook(e, index)}>Delete Book</button>
-                        </div>
+                            <button className="text-sm focus:outline-2 focus:outline-blue-500 rounded-xl text-left" onClick={(e) => deleteBook(e, index)}>Delete Book</button>
+                        </li>
                     )
                 })}
-            </div></div>
+            </ul>
+        </div>
 
     )
 }

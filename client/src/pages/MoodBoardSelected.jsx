@@ -1,6 +1,4 @@
-import SearchBar from '../components/SideBar';
 import MoodBoardImages from '../components/MoodBoardImages';
-import SideBar from '../components/SideBar';
 
 export default function MoodBoardSelected(){
     /**
@@ -20,8 +18,8 @@ export default function MoodBoardSelected(){
      * SideBar.jsx
      */
     return(
-        <section>
+        <div>
             <MoodBoardImages/>
-        </section>
+        </div>
     )
 }

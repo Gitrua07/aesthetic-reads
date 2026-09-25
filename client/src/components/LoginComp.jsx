@@ -15,7 +15,9 @@ export default function LoginComp() {
         isLoggedIn,
         setLoggedIn,
         authId,
-        setAuthId } = useAuth()
+        setAuthId,
+        bio,
+        setBio } = useAuth()
     const navigate = useNavigate()
 
     const handleSubmit = async(e) => {
@@ -25,6 +27,7 @@ export default function LoginComp() {
             setAuthUser(loginInfo.username)
             setLoggedIn(true)
             setAuthId(response.id)
+            setBio(response.bio)
             navigate('/profile')
         }
     }

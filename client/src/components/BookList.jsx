@@ -27,18 +27,19 @@ export default function BookList(props) {
         setAuthId } = useAuth()
     let bookData = []
     const books = getBooks(props.query)
-    console.log(selectedMoodBoard)
 
     //Retrieves moodboard data from backend
     useEffect(() => {
-        MoodBoardServices.getMoodBoardByUserId(authId).then(data => {
-            if (data.length > 0) {
-                setMoodBoardData(data)
-                setMoodBoard(data[0].name)
-                // setLoading(false)
-            }
-        })
-    }, [])
+        if(authId){
+            MoodBoardServices.getMoodBoardByUserId(authId).then(data => {
+                if (data.length > 0) {
+                    setMoodBoardData(data)
+                    setMoodBoard(data[0].name)
+                    // setLoading(false)
+                }
+            })
+        }
+    }, [authId])
 
 
     //append books into bookData array

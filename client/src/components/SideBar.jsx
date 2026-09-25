@@ -9,17 +9,17 @@ export default function SideBar() {
     //text-neutral-900 text-center mt-6 text-sm mb-1 font-serif
     //flex justify-center
     return (
-        <div className="flex bg-[rgb(255,255,255)] justify-center min-h-screen w-[80px] max-w-full min-w-0 p-3 border-r border-[rgb(199,199,191)]">
+        <nav className="flex bg-[rgb(255,255,255)] justify-center min-h-screen w-[80px] max-w-full min-w-0 p-3 border-r border-[rgb(199,199,191)]">
             <ul className='flex flex-col items-center gap-8 max-w-full min-w-0'>
                 <li className='text-neutral-900 text-center font-serif text-sm mt-3'>aesthetic reads</li>
                 {SideBarData.map((val, key) => {
                     return (<li className='' key={key}>
-                        <Link to={val.link}>
+                        <Link className='focus:outline-2 focus:outline-blue-500 rounded-full' to={val.link}>
                             <img className="w-8 max-w-full min-w-0" src={val.icon} alt={val.alt} />
                         </Link>
                     </li>)
                 })}
             </ul>
-        </div>
+        </nav>
     )
 }

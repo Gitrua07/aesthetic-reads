@@ -37,6 +37,9 @@ User.init({
     password: {
         type: DataTypes.TEXT,
         allowNull: false
+    },
+    biography: {
+        type: DataTypes.TEXT
     }
 }, {
     sequelize,
@@ -147,20 +150,24 @@ app.get('/users', async (request, response) => {
     response.json(data)
 })
 
-app.get('/api/books', async(request, response) => {
+app.get('/api/books', async (request, response) => {
     const data = await Book.findAll()
     response.json(data)
 })
 
-app.get('/api/moodboardBooks', async(request, response) => {
+app.get('/api/moodboardBooks', async (request, response) => {
     const data = await MoodboardBook.findAll()
     response.json(data)
 })
 
 app.get('/api/moodboards/:id', async (request, response) => {
-    const id = Number(request.params.id)
-    const data = await MoodBoard.findByPk(id)
-    response.json(data)
+    try {
+        const id = Number(request.params.id)
+        const data = await MoodBoard.findByPk(id)
+        response.json(data)
+    } catch (err) {
+        response.status(401).json({error: err})
+    }
 })
 
 app.get('/users/:id', async (request, response) => {
@@ -169,33 +176,40 @@ app.get('/users/:id', async (request, response) => {
     response.json(data)
 })
 
-app.get('/api/moodboardBooks/:moodboardId', async(request, response) => {
+app.get('/api/moodboardBooks/:moodboardId', async (request, response) => {
     const data = await MoodboardBook.findAll({
-        where: {moodboardId: request.params.moodboardId}
+        where: { moodboardId: request.params.moodboardId }
     })
     response.json(data)
 })
 
-app.get('/api/books/:bookId', async(request, response) => {
+app.get('/api/books/:bookId', async (request, response) => {
     const data = await Book.findByPk(request.params.bookId)
     response.json(data)
 })
 
-app.get(`/api/moodboards/users/:userId`, async(request, response) => {
-    const data = await MoodBoard.findAll({
-        where: {userid: request.params.userId}
-    })
-    // response.json(data)
-    console.log(data)
-    response.json(data)
-})  
+app.get(`/api/moodboards/users/:userId`, async (request, response) => {
+    try {
+        const data = await MoodBoard.findAll({
+            where: { userid: request.params.userId }
+        })
+        response.json(data)
+    } catch (err) {
+        response.status(401).json({ error: 'User does not exist' })
+    }
+})
 //DELETE routes
 app.delete('/api/moodboards/:id', async (request, response) => {
-    const id = request.params.id
-    const data = await MoodBoard.destroy({
-        where: { id: id },
-    })
-    response.status(204).end()
+    try {
+        const id = request.params.id
+        console.log("id --> ", id)
+        const data = await MoodBoard.destroy({
+            where: { id: id },
+        })
+        response.status(204).end()
+    } catch (err) {
+        response.status(401).json({ error: err })
+    }
 })
 
 app.delete('/users/:id', async (request, response) => {
@@ -206,11 +220,11 @@ app.delete('/users/:id', async (request, response) => {
     response.status(204).end()
 })
 
-app.delete('/api/moodboardBooks/:moodboardId/books/:bookid', async(request, response) => {
+app.delete('/api/moodboardBooks/:moodboardId/books/:bookid', async (request, response) => {
     const moodboardId = request.params.moodboardId
     const bookId = request.params.bookid
     const data = await MoodboardBook.destroy({
-        where: {moodboardId: moodboardId, bookId: bookId}
+        where: { moodboardId: moodboardId, bookId: bookId }
     })
     response.status(204).end()
 })
@@ -235,7 +249,7 @@ app.post('/users', async (request, response) => {
     } catch (err) {
         console.log(request.body)
         console.error(err)
-        return response.status(500).json({error: 'could not create user'})
+        return response.status(500).json({ error: 'could not create user' })
 
     }
 
@@ -243,14 +257,12 @@ app.post('/users', async (request, response) => {
 
 app.post('/api/moodboards', async (request, response) => {
     const newObject = request.body
-
-    // const userId = 1 //temp
     const data = await MoodBoard.create({
         name: newObject.name,
         userid: newObject.id
     })
-    moodboards.push(newObject)
-    response.status(201).json(newObject)
+
+    response.status(201).json(data)
 })
 
 //There is a post error which doesn't affect the front-end overlay, check here for debugging
@@ -261,7 +273,7 @@ app.post('/api/moodboardBooks', async (request, response) => {
         const bookId = data.bookId
         const moodboardId = data.moodboardId
 
-        if (!moodboardId || !bookId) return response.status(400).json({error: 'bookId or moodboardId is missing'})
+        if (!moodboardId || !bookId) return response.status(400).json({ error: 'bookId or moodboardId is missing' })
 
         await Book.findOrCreate({
             where: { id: bookId }, defaults: { title: data.title, authors: data.authors, thumbnails: data.thumbnails }
@@ -282,24 +294,24 @@ app.post('/api/moodboardBooks', async (request, response) => {
     }
 })
 
-app.post('/login', async(request, response) => {
+app.post('/login', async (request, response) => {
     const credentials = request.body
     const username = credentials.username
     const password = credentials.password
 
     const userDatas = await User.findAll({
-        where: {username:username}
+        where: { username: username }
     })
 
     const userData = userDatas[0]
 
-    if (!userData) return response.status(401).json({error: 'Failed to find a user'})
-    
-    const verifyUser = await bcrypt.compare(password, userData.password)    
+    if (!userData) return response.status(401).json({ error: 'Failed to find a user' })
 
-    if(!verifyUser) return response.status(401).json({error: 'Wrong password'})
+    const verifyUser = await bcrypt.compare(password, userData.password)
 
-    return response.status(200).json({isVerified: verifyUser, id: userData.id})
+    if (!verifyUser) return response.status(401).json({ error: 'Wrong password' })
+
+    return response.status(200).json({ isVerified: verifyUser, id: userData.id , bio: userData.biography})
 })
 const PORT = 3001
 app.listen(PORT, () => {

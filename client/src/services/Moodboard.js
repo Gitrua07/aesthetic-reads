@@ -6,11 +6,14 @@ const getMoodBoard = async () => {
 }
 
 const getMoodBoardById = async(id) => {
+    console.log(`calling: http://localhost:3001/api/moodboards/${id}`)
     const request = await axios.get(`http://localhost:3001/api/moodboards/${id}`).then(response => response.data)
     return request
 }
 
 const getMoodBoardByUserId = async(userId) => {
+    if (!userId) return null
+    console.log(`calling: http://localhost:3001/api/moodboards/users/${userId}`)
     const request = await axios.get(`http://localhost:3001/api/moodboards/users/${userId}`).then(response => response.data)
     return request
 }
@@ -41,6 +44,7 @@ const addBookToMoodboard = async (data) => {
 }
 
 const deleteMoodBoard = async(id) => {
+    console.log(id)
     const request = await axios.delete(`http://localhost:3001/api/moodboards/${id}`).then(response => response.data)
     return request
 }

@@ -15,9 +15,10 @@ export default function MoodBoardList(){
     // flex-1 h-full w-full min-overflow-y-auto flex-wrap
     // flex h-full flex-col mx-10 my-20
     return(
-        <section className=''>
+        <div >
             <title>Your Moodboards - Aesthetic Reads</title>
+            <h1 className="text-neutral-900 px-6">Your Moodboards</h1>
             <MoodBoardsGrid />
-        </section>
+        </div>
     )
 }

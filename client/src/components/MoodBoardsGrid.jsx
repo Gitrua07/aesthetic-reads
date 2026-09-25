@@ -21,8 +21,8 @@ export default function MoodBoardsGrid() {
         isLoggedIn,
         setLoggedIn,
         authId,
-        setAuthId} = useAuth()
-    // console.log("Book here --> ", books)
+        setAuthId } = useAuth()
+
     //Retrieves moodboards from /api/moodboard endpoint
     useEffect(() => {
         const loadBoard = async () => {
@@ -48,8 +48,7 @@ export default function MoodBoardsGrid() {
         e.preventDefault()
         const newObject = { id: authId, name: newMoodBoard }
         MoodBoardServices.createMoodBoard(newObject)
-        setMoodboard(moodboard => [...moodboard, { name: newMoodBoard }])
-        console.log("CREATED!")
+        setMoodboard(moodboard => [...moodboard, { id: authId, name: newMoodBoard }])
     }
 
     const deleteMoodBoard = async (e, id) => {
@@ -58,7 +57,6 @@ export default function MoodBoardsGrid() {
         MoodBoardServices.deleteMoodBoard(id)
         const updatedData = moodboard.filter(i => i.id !== id)
         setMoodboard(updatedData)
-        console.log("DELETED!")
     }
 
     const cssObjects = [
@@ -86,7 +84,6 @@ export default function MoodBoardsGrid() {
         <>
             {isLoggedIn ? <section className='max-w-full min-w-0 flex flex-wrap m-6 flex-col'>
                 <div className="flex flex-col gap-5 items-start">
-                    <h1 className="text-neutral-900">Your Moodboards</h1>
                     <div className="">
                         <form className='flex gap-5 justify-center items-center'>
                             <input
@@ -95,48 +92,45 @@ export default function MoodBoardsGrid() {
                                 value={newMoodBoard}
                                 onChange={e => setNewMoodBoard(e.target.value)}
                             ></input>
-                            <button type="submit" onClick={(e) => createMoodBoardT(e)}><img className='w-[50px] max-w-full min-w-0' src='src\assets\add.png' /></button>
+                            <button className='w-[50px] focus:outline-2 focus:outline-blue-500 rounded-full' type="submit" onClick={(e) => createMoodBoardT(e)}><img className='w-[50px] max-w-full min-w-0' src='src/assets/add.png' alt='plus or addition icon' /></button>
                         </form>
                     </div>
                 </div>
 
-                <div className="mt-15 flex flex-wrap gap-5">
-                    {
-                        moodboard.map((value, index) => {
-                            const link = `/moodboard/${value.id}`
-                            // getBookInfo(value.id)
-                            //   if (!value.link || !value.thumbnails) return (<div key={index}></div>)
-                            //<img className={cssObjects[index].imgClass} src={value.thumbnails[0]} alt={value.books[0]} />             
-                            console.log('index --> ', index)
-                            console.log('books --> ', books[index])
-                            const book = books[index] ?? []
+                <ul className="mt-15 flex flex-wrap gap-5">
+                        {
+                            moodboard.map((value, index) => {
+                                // console.log(value)
+                                const link = `/moodboard/${value.id}`
+                                // getBookInfo(value.id)
+                                //   if (!value.link || !value.thumbnails) return (<div key={index}></div>)
+                                //<img className={cssObjects[index].imgClass} src={value.thumbnails[0]} alt={value.books[0]} />             
+                                // console.log('index --> ', index)
+                                // console.log('books --> ', books[index])
+                                const book = books[index] ?? []
 
-                            const bookSrcZero = book[0]?.thumbnails?.[0]
-                            const bookSrcOne = book[1]?.thumbnails?.[0]
-                            const bookSrcTwo = book[2]?.thumbnails?.[0]
-                            const bookSrcThree = book[3]?.thumbnails?.[0]
+                                const bookSrcZero = book[0]?.thumbnails?.[0] ?? 'src/assets/book-placeholder.jpg'
+                                const bookSrcOne = book[1]?.thumbnails?.[0] ?? 'src/assets/book-placeholder.jpg'
+                                const bookSrcTwo = book[2]?.thumbnails?.[0] ?? 'src/assets/book-placeholder.jpg'
+                                const bookSrcThree = book[3]?.thumbnails?.[0] ?? 'src/assets/book-placeholder.jpg'
 
-                            const bookAltZero = book[0]?.title ?? ''
-                            const bookAltOne = book[1]?.title ?? ''
-                            const bookAltTwo = book[2]?.title ?? ''
-                            const bookAltThree = book[3]?.title ?? ''
-                            return (
-                                <div key={index}>
-                                    <Link to={link}>
-                                        <div className='h-50 w-50 flex flex-wrap rounded-xl'>
-                                            <div className={cssObjects[0].divClass}><img className={cssObjects[0].imgClass} src={bookSrcZero} /></div>
-                                            <div className={cssObjects[1].divClass}><img className={cssObjects[1].imgClass} src={bookSrcOne} /></div>
-                                            <div className={cssObjects[2].divClass}><img className={cssObjects[2].imgClass} src={bookSrcTwo} /></div>
-                                            <div className={cssObjects[3].divClass}><img className={cssObjects[3].imgClass} src={bookSrcThree} /></div>
-                                        </div>
-                                    </Link>
-                                    <div className='px-2 py-3 text-start font-bold text-xl text-neutral-900'>{value.name}</div>
-                                    <button onClick={(e) => deleteMoodBoard(e, value.id)}>Delete Moodboard</button>
-                                </div>
-                            )
-                        })
-                    }
-                </div>
+                                return (
+                                    <li key={index}>
+                                        <Link className='focus:outline-2 focus:outline-blue-500 rounded-md' to={link}>
+                                            <div className='rounded-xl h-50 w-50 flex flex-wrap'>
+                                                <div className={cssObjects[0].divClass}><img className={cssObjects[0].imgClass} src={bookSrcZero} alt="" /></div>
+                                                <div className={cssObjects[1].divClass}><img className={cssObjects[1].imgClass} src={bookSrcOne} alt="" /></div>
+                                                <div className={cssObjects[2].divClass}><img className={cssObjects[2].imgClass} src={bookSrcTwo} alt="" /></div>
+                                                <div className={cssObjects[3].divClass}><img className={cssObjects[3].imgClass} src={bookSrcThree} alt="" /></div>
+                                            </div>
+                                        </Link>
+                                        <h2 className='px-2 py-3 text-start font-bold text-xl text-neutral-900'>{value.name}</h2>
+                                        <button className='focus:outline-2 focus:outline-blue-500 rounded-md' onClick={(e) => deleteMoodBoard(e, value.id)}>Delete Moodboard</button>
+                                    </li>
+                                )
+                            })
+                        }
+                </ul>
             </section> : <div className='flex flex-col items-center gap-5 my-10 mx-8 text-neutral-900'>
                 <div>Sorry, we are unable to show you your profile! <span className='underline'>Login by pressing the login button on the top-left</span>.</div>
             </div>}
