@@ -3,39 +3,45 @@
 Aesthetic reads is a React website that allows users to create mood boards using book covers. 
 
 ## Moodboard Visuals 
-<img width="1889" height="832" alt="image" src="https://github.com/user-attachments/assets/776c96b3-f0db-43f2-891a-04d4db0ee529" />
+<img width="1889" height="832" alt="gallery overview" src="https://github.com/user-attachments/assets/776c96b3-f0db-43f2-891a-04d4db0ee529" />
 
-<img width="1920" height="877" alt="image" src="https://github.com/user-attachments/assets/98491e56-453e-4d6d-a803-ce25bf86e222" />
+<img width="1920" height="877" alt="an overview of the favourite mood board" src="https://github.com/user-attachments/assets/98491e56-453e-4d6d-a803-ce25bf86e222" />
 
 ## Tech Stack
-* React
-* Node.js
-* PostgreSQL (psql, sequelizer, Aiven database)
-* Express.js
-* TailwindCSS
-* Google Books API
-* Axios library
+* **Frontend**: React, Tailwind CSS, Axios
+* **Backend**: Node.js, Express, Sequelize
+* **Database**: PostgreSQL (hosted on Aiven)
+* **APIs**: Google Books API
 
 ## Key Features 
-* Search for books, each search query provides ~10 books
+* Search for books using author/title via Google Books API
 * Create and delete mood board
 * Save books to mood board on home page
 * Create user account
 * Choose profile picture and create a user biography
 
 ## Local Usage
-Have psql installed and use:
-`psql LINK HERE`
-This program uses Aiven hosting, Aiven will provide a unique link.
-
-After installing, for both server and client: 
-`npm run dev`
+1. Clone the repo and install dependencies:
+```bash
+   git clone git@github.com:Gitrua07/aesthetic-reads.git
+   cd aesthetic-reads/server && npm install
+   cd ../client && npm install
+```
+2. Create `server/.env`:
+```
+   DATABASE_URL=your_postgres_connection_string
+   GOOGLE_BOOKS_API_KEY=your_key
+```
+Any PostgreSQL database works; I used Aiven for hosting.
+3. Start the server and client (in separate terminals):
+```bash
+   npm run dev
+```
 
 ## What I've learned
-* How to handle promises using async/await commands
-* REST methods (POST, PUT, DELETE, GET)
-* How to implement postgres using sequelizer with Aiven hosting
-* How to implement user administration
+* I implemented an authentication context which makes access to user information accessible in all components
+* When accessing back-end methods using Axios, applied async/await to handle Promises
+* Implemented POST method to create user account to user table and mood boards to mood board table
 
 ## Credits
 
