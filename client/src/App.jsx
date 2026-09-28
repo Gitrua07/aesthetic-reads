@@ -18,9 +18,9 @@ function App() {
   return (
     <AuthProvider>
       <BrowserRouter>
-        <div className='flex'>{/*flex*/}
+        <div className='flex'>
           <SideBar />
-          <main className='flex-1'>{/*flex-1*/}
+          <main className='flex-1'>
             <Dashboard />
             <Routes>
               <Route path='/' element={<Home />} />
@@ -28,7 +28,7 @@ function App() {
               <Route path='/login' element={<Login />} />
               <Route path='/register' element={<Register />} />
               <Route path='/book/:bookId' element={<Book />} />
-              <Route path='/moodboard/:moodBoardId' element={<MoodBoardSelected />} />'
+              <Route path='/moodboard/:moodBoardId' element={<MoodBoardSelected />} />
               <Route path='/profile' element={<Profile />} />
               <Route path='/edit-profile' element={<Edit />} />
             </Routes>

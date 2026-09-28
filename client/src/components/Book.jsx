@@ -50,7 +50,7 @@ export default function Book() {
             setMoodBoardData(data)
             setMoodBoard(data[0]?.name)
         })
-    }, [])
+    }, )
 
     return (
         <div className="text-black p-5 my-15 mx-10">

@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const api = axios.create({ baseURL: import.meta.env.VITE_API_URL })
+const api = axios.create()
 
 const getBookFromMoodboard = async(moodboardId) => {
     const { data } = await api.get(`/api/moodboardBooks/${moodboardId}`)
@@ -13,12 +13,12 @@ const getBookById = async(bookId) => {
 }
 
 const addBookToMoodboard = async (data0) => {
-    const { data } = await api.post('/api/moodboardBooks', data0).then(response => response.data)
+    const { data } = await api.post('/api/moodboardBooks', data0)
     return data
 }
 
 const deleteBook = async(moodboardId, bookId) => {
-    const { data } = await api.delete(`/api/moodboardBooks/${moodboardId}/books/${bookId}`).then(response => response.data)
+    const { data } = await api.delete(`/api/moodboardBooks/${moodboardId}/books/${bookId}`)
     return data
 }
 

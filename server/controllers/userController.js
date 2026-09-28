@@ -1,25 +1,6 @@
 const { User } = require('../database.js')
 const bcrypt = require('bcrypt')
 
-const getAllUsers = async (request, response) => {
-  try{
-    const data = await User.findAll()
-    response.json(data)
-  }catch(err){
-    response.status(401).json({ error: err })
-  }
-}
-
-const getUser = async (request, response) => {
-  try{
-    const id = request.params.id
-    const data = await User.findByPk(id)
-    response.json(data)
-  }catch(err){
-    response.status(401).json({ error: err })
-  }
-}
-
 const deleteUser = async (request, response) => {
   try{
     const id = request.params.id
@@ -93,4 +74,4 @@ const changeUserImage = async (request, response) => {
   }
 }
 
-module.exports = { getAllUsers, getUser, deleteUser, postUser, changeUserBio, changeUserImage }
+module.exports = { deleteUser, postUser, changeUserBio, changeUserImage }

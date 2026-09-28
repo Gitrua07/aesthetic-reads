@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const api = axios.create({ baseURL: import.meta.env.VITE_API_URL })
+const api = axios.create()
 
 const getMoodBoard = async () => {
     const { data } = await api.get('/api/moodboards')
@@ -19,7 +19,7 @@ const getMoodBoardByUserId = async(userId) => {
 }
 
 const deleteMoodBoard = async(id) => {
-    const { data } = await api.delete(`/api/moodboards/${id}`).then(response => response.data)
+    const { data } = await api.delete(`/api/moodboards/${id}`)
     return data
 }
 
@@ -29,7 +29,7 @@ const createMoodBoard = async(newMoodBoard) => {
 }
 
 const login = async(credentials) => {
-    const { data } = await api.post('/login', credentials)
+    const { data } = await api.post('/api/login', credentials)
     return data
 }
 
