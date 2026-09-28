@@ -19,7 +19,7 @@ export default function MoodBoardsGrid() {
     //Retrieves moodboards from /api/moodboard endpoint
     useEffect(() => {
         const loadBoard = async () => {
-            const moodboards = await MoodBoardServices.getMoodBoardByUserId(authId)
+            const moodboards = await MoodBoardServices.getMoodBoardByUserId()
             setMoodboard(moodboards)
 
             const moodboardBooks = await Promise.all(

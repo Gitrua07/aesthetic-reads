@@ -10,13 +10,14 @@ export default function LoginComp() {
      */
 
     const [loginInfo, setLoginInfo] = useState({username: "", password: ""})
-    const { setAuthUser, setLoggedIn, setAuthId, setBio, setProfilePic} = useAuth()
+    const { setAuthUser, setLoggedIn, setAuthId, setBio, setProfilePic, setAuthStatus} = useAuth()
     const navigate = useNavigate()
 
     const handleSubmit = async(e) => {
         e.preventDefault()
         const response = await MoodBoardServices.login(loginInfo)
         if (response.isVerified){
+            setAuthStatus('authenticated')
             setAuthUser(loginInfo.username)
             setLoggedIn(true)
             setAuthId(response.id)

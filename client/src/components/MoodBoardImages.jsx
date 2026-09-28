@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import MoodBoardServices from "../services/MoodboardService.js"
+import BookServices from'../services/BookService.js'
 import { useParams } from 'react-router-dom'
 
 
@@ -22,10 +23,10 @@ export default function MoodBoardImages() {
 
             if (!moodboard.id) return 
 
-            const moodboardBooks = await MoodBoardServices.getBookFromMoodboard(moodboard.id)
+            const moodboardBooks = await BookServices.getBookFromMoodboard(moodboard.id)
 
             const books = await Promise.all(
-                moodboardBooks.map((moodboardBook) => MoodBoardServices.getBookById(moodboardBook.bookId))
+                moodboardBooks.map((moodboardBook) => BookServices.getBookById(moodboardBook.bookId))
             )
             setBooks(books)
         }
@@ -36,7 +37,7 @@ export default function MoodBoardImages() {
     const deleteBook = async (e, index) => {
         e.preventDefault()
         const bookid = books[index].id
-        await MoodBoardServices.deleteBook(moodBoardId, bookid)
+        await BookServices.deleteBook(moodBoardId, bookid)
         setBooks(books.filter(book => book.id != bookid))
     }
 

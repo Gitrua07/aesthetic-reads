@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom'
 import { useAuth } from '../auth/AuthContext'
 import placeholder from '../assets/book-placeholder.jpg'
+import MoodboardServices from '../services/MoodboardService.js'
 
 export default function Dashboard(){
     const { authUser,
@@ -9,10 +10,14 @@ export default function Dashboard(){
         setLoggedIn,
         setAuthId,
         setBio,
-        setProfilePic } = useAuth()
+        setProfilePic,
+        setAuthStatus
+        } = useAuth()
 
-        const LogOut = (e) => {
+        const LogOut = async(e) => {
             e.preventDefault()
+            await MoodboardServices.logout()
+            setAuthStatus('anonymous')
             setAuthUser(null)
             setLoggedIn(false)
             setAuthId(null)

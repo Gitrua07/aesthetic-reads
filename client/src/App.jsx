@@ -11,6 +11,7 @@ import Edit from './pages/Edit'
 import './App.css'
 import { AuthProvider } from './auth/AuthProvider'
 import Dashboard from './components/Dashboard'
+import ProtectedRoute from './components/ProtectedRoute'
 
 
 function App() {
@@ -24,12 +25,12 @@ function App() {
             <Dashboard />
             <Routes>
               <Route path='/' element={<Home />} />
-              <Route path='/gallery' element={<MoodBoardList />} />
+              <Route path='/gallery' element={<ProtectedRoute><MoodBoardList /></ProtectedRoute>} />
               <Route path='/login' element={<Login />} />
               <Route path='/register' element={<Register />} />
               <Route path='/book/:bookId' element={<Book />} />
               <Route path='/moodboard/:moodBoardId' element={<MoodBoardSelected />} />
-              <Route path='/profile' element={<Profile />} />
+              <Route path='/profile' element={<ProtectedRoute><Profile /></ProtectedRoute>} />
               <Route path='/edit-profile' element={<Edit />} />
             </Routes>
           </main>

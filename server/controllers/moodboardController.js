@@ -23,7 +23,7 @@ const getMoodboard = async (request, response) => {
 const getMoodboardByUserId = async (request, response) => {
   try {
     const data = await MoodBoard.findAll({
-      where: { userid: request.params.userId }
+      where: { userid: request.user.id }
     })
     response.json(data)
   } catch (err) {

@@ -3,7 +3,7 @@ const { deleteUser, postUser } = require('../controllers/userController.js')
 const userRouter = express.Router()
 
 //DELETE methods
-userRouter.delete('/:id', deleteUser)
+userRouter.delete('/me', deleteUser)
 
 //POST methods
 userRouter.post('/', postUser)

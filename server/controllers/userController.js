@@ -1,6 +1,6 @@
 const { User } = require('../database.js')
 const bcrypt = require('bcrypt')
-
+const { setAuthCookie } = require('../utils/authCookie.js')
 const deleteUser = async (request, response) => {
   try{
     const id = request.params.id
@@ -29,6 +29,8 @@ const postUser = async (request, response) => {
       email: email,
       password: passwordHash,
     })
+    setAuthCookie(response, data.id)
+
     const { password: _, ...safeUser } = data.toJSON()
     return response.status(201).json(safeUser)
   } catch (err) {
@@ -40,7 +42,7 @@ const postUser = async (request, response) => {
 
 const changeUserBio = async (request, response) => {
   try {
-    const userId = request.params.userid
+    const userId = request.user.id
     const biography = request.body.biography
 
     if (!userId) return response.status(400).json({ error: 'user does not exist' })
@@ -58,7 +60,7 @@ const changeUserBio = async (request, response) => {
 
 const changeUserImage = async (request, response) => {
   try{
-    const userId = request.params.userid
+    const userId = request.user.id
     const profile = request.body.profilePicUrl
 
     if(!userId) return response.status(400).json({ error: 'User cannot be found' })

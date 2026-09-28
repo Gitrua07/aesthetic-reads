@@ -8,13 +8,13 @@ const getMoodBoard = async () => {
 }
 
 const getMoodBoardById = async(id) => {
+    if (!id) return []
     const { data } = await api.get(`/api/moodboards/${id}`)
     return data
 }
 
-const getMoodBoardByUserId = async(userId) => {
-    if (!userId) return []
-    const { data } = await api.get(`/api/moodboards/users/${userId}`)
+const getMoodBoardByUserId = async() => {
+    const { data } = await api.get(`/api/moodboards/users/me`)
     return data
 }
 
@@ -29,8 +29,17 @@ const createMoodBoard = async(newMoodBoard) => {
 }
 
 const login = async(credentials) => {
-    const { data } = await api.post('/api/login', credentials)
+    const { data } = await api.post('/api/auth/login', credentials)
     return data
+}
+
+const logout = async() => {
+    await api.post('/api/auth/logout')
+}
+
+const getMe = async() => {
+   const { data } = await api.get('/api/auth/me')
+   return data
 }
 
 export default {
@@ -39,5 +48,7 @@ export default {
     createMoodBoard,
     getMoodBoardById,
     login,
-    getMoodBoardByUserId
+    getMoodBoardByUserId,
+    logout,
+    getMe
 }

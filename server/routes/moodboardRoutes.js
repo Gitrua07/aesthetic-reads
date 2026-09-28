@@ -4,6 +4,7 @@ const { getAllMoodboards, getMoodboard, getMoodboardByUserId, deleteMoodboard, p
 const { getAllMoodboardBooks, getMoodboardBook, deleteMoodboardBook, postMoodboardBook } = require('../controllers/moodboardBookController.js')
 const { getAllBooks, getBook } = require('../controllers/BookController.js')
 const { changeUserBio, changeUserImage } = require('../controllers/userController.js')
+const requireAuth = require('../middleware/requireAuth.js')
 
 const moodboardRouter = express.Router()
 
@@ -14,7 +15,7 @@ moodboardRouter.get('/moodboardBooks', getAllMoodboardBooks)
 moodboardRouter.get('/moodboards/:id', getMoodboard)
 moodboardRouter.get('/moodboardBooks/:moodboardId', getMoodboardBook)
 moodboardRouter.get('/books/:bookId', getBook)
-moodboardRouter.get('/moodboards/users/:userId', getMoodboardByUserId)
+moodboardRouter.get('/moodboards/users/me', requireAuth, getMoodboardByUserId)
 
 //DELETE methods
 moodboardRouter.delete('/moodboards/:id', deleteMoodboard)
@@ -26,7 +27,7 @@ moodboardRouter.post('/moodboards', postMoodboard)
 moodboardRouter.post('/moodboardBooks', postMoodboardBook)
 
 //PUT methods
-moodboardRouter.put('/users/:userid/biography', changeUserBio)
-moodboardRouter.put('/users/:userid/profile', changeUserImage)
+moodboardRouter.put('/users/me/biography', requireAuth, changeUserBio)
+moodboardRouter.put('/users/me/profile', requireAuth, changeUserImage)
 
 module.exports = moodboardRouter
