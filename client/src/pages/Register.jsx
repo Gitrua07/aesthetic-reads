@@ -1,5 +1,5 @@
 import { useState } from "react"
-import MoodBoardServices from '../services/Moodboard.js'
+import UserServices from '../services/UserService.js'
 import { useNavigate } from "react-router-dom"
 import { useAuth } from "../auth/AuthContext.jsx"
 export default function Register(){
@@ -12,15 +12,11 @@ export default function Register(){
      * on this page.
      */
     const [userInfo, setUserInfo] = useState({username: "",  email: "", password: ""})
-    const {authUser,
+    const {
         setAuthUser,
-        isLoggedIn,
         setLoggedIn,
-        authId, 
         setAuthId,
-        bio,
         setBio,
-        profilePic,
         setProfilePic } = useAuth()
     const navigate = useNavigate()
     const handleChange = (e) => {
@@ -29,8 +25,7 @@ export default function Register(){
 
     const createUser = async(e) => {
         e.preventDefault()
-        const data = await MoodBoardServices.createUser(userInfo)
-        console.log(data)
+        const data = await UserServices.createUser(userInfo)
         setAuthUser(userInfo.username)
         setLoggedIn(true)
         setAuthId(data.id)

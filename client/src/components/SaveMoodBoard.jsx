@@ -4,25 +4,13 @@ import { useAuth } from "../auth/AuthContext"
 const BookCover = ({ imageSrc }) => <img className='h-100 rounded-xl' src={imageSrc} alt='cover of book' />
 
 export default function SaveMoodBoard(props) {
-    const moodBoardData = props.moodBoardData
-    const imageSrc = props.imageSrc
-    const handleMoodBoard = props.handleMoodBoard
-    const selectedMoodBoard = props.selectedMoodBoard
-    const setMoodBoard = props.setMoodBoard
-    const setMoodBoardData = props.setMoodBoardData
-    const bookid = props.bookid
-    const thumbnail = props.thumbnail
-    const author = props.author
-    const title = props.title
+    const {moodBoardData, selectedMoodBoard, setMoodBoard, setMoodBoardData, bookid, thumbnail, author, title } = props
 
-    const { authUser,
-        setAuthUser,
-        isLoggedIn,
-        setLoggedIn } = useAuth()
+    const { isLoggedIn } = useAuth()
 
     return (
-        <div className="bg-red-1 mr-5 mt-5 pr-5 pt-5">
-            <BookCover imageSrc={imageSrc} />
+        <div className="mr-5 mt-5 pr-5 pt-5">
+            <BookCover imageSrc={thumbnail} />
             <div className="flex gap-5 mt-5 ">
                 <div className="font-light">
                     Mood Board:
@@ -33,7 +21,6 @@ export default function SaveMoodBoard(props) {
                     bookid={bookid}
                     author={author}
                     title={title}
-                    handleMoodBoard={handleMoodBoard}
                     selectedMoodBoard={selectedMoodBoard}
                     setMoodBoard={setMoodBoard}
                     moodBoardData={moodBoardData}

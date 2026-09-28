@@ -1,8 +1,7 @@
 import BookCard from './BookCard'
 import getBooks from '../api/getBook.js'
-import thumbnailPlaceHolder from '../assets/book-placeholder.jpg'
 import { useState, useEffect } from 'react'
-import MoodBoardServices from '../services/Moodboard'
+import MoodBoardServices from "../services/MoodboardService.js"
 import { useAuth } from '../auth/AuthContext'
 
 export default function BookList(props) {
@@ -10,21 +9,11 @@ export default function BookList(props) {
      * This component returns a list of all
      * available books taking into account any
      * user input.
-     * TODO: 
-     * [X] Make UI pretty
-     * [] Extra: If you rewind from a page, should not return a 
-     *   blank page, should show the previous search result
-     * [X] Implement mood board tag feature
      */
 
     const [moodBoardData, setMoodBoardData] = useState([])
     const [selectedMoodBoard, setMoodBoard] = useState('')
-    const { authUser,
-        setAuthUser,
-        isLoggedIn,
-        setLoggedIn,
-        authId,
-        setAuthId } = useAuth()
+    const { authId } = useAuth()
     let bookData = []
     const books = getBooks(props.query)
 
@@ -35,7 +24,6 @@ export default function BookList(props) {
                 if (data.length > 0) {
                     setMoodBoardData(data)
                     setMoodBoard(data[0].name)
-                    // setLoading(false)
                 }
             })
         }
@@ -50,7 +38,7 @@ export default function BookList(props) {
             "author": value.volumeInfo.authors,
             "description": value.volumeInfo.description,
             "link": `/book/${value.id}`,
-            "thumbnail": value.volumeInfo.imageLinks?.thumbnail ?? thumbnailPlaceHolder
+            "thumbnail": value.volumeInfo.imageLinks?.thumbnail ?? null
         }
         bookData.push(bookInfo)
     })
@@ -60,19 +48,18 @@ export default function BookList(props) {
             <h2 className="text-neutral-900 px-6 py-0 m-0">Results</h2>
             <ul className="flex flex-wrap gap-4 p-5 justify-center">
                 {bookData?.length > 0
-                    ? bookData.map((value, index) => (<li key={index}><BookCard
+                    ? bookData.map((value, ) => (<li key={value.id}><BookCard
                         thumbnail={value.thumbnail}
                         bookid={value.id}
                         title={value.title}
                         author={value.author}
-                        description={value.description}
                         src={value.thumbnail}
                         link={value.link}
                         moodBoardData={moodBoardData}
                         setMoodBoardData={setMoodBoardData}
                         selectedMoodBoard={selectedMoodBoard}
                         setMoodBoard={setMoodBoard}
-                    /></li>)) : <div>There are no results...</div>}
+                    /></li>)) : <div>No search yet...</div>}
             </ul>
         </div>
 

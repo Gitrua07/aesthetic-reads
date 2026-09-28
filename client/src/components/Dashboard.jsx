@@ -1,16 +1,14 @@
 import { Link } from 'react-router-dom'
 import { useAuth } from '../auth/AuthContext'
+import placeholder from '../assets/book-placeholder.jpg'
 
 export default function Dashboard(){
     const { authUser,
         setAuthUser,
         isLoggedIn,
         setLoggedIn,
-        authId, 
         setAuthId,
-        bio,
         setBio,
-        profilePic,
         setProfilePic } = useAuth()
 
         const LogOut = (e) => {
@@ -19,7 +17,7 @@ export default function Dashboard(){
             setLoggedIn(false)
             setAuthId(null)
             setBio(null)
-            setProfilePic('src/assets/book-placeholder.jpg')
+            setProfilePic(placeholder)
         }
 
     return (

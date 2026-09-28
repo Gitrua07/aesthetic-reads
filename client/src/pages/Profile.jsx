@@ -1,7 +1,12 @@
 import placeholder from '../assets/book-placeholder.jpg'
 import { Link } from 'react-router-dom'
 import { useAuth } from '../auth/AuthContext'
-import MoodBoardServices from '../services/Moodboard.js'
+import UserServices from '../services/UserService.js'
+import girl from '../assets/girl.png'
+import doctor from '../assets/doctor.png'
+import man from '../assets/man.png'
+import woman from '../assets/woman.png'
+
 const Profile = () => {
     const { authUser,
         setAuthUser,
@@ -16,22 +21,32 @@ const Profile = () => {
     
     const deleteUser = async(e) => {
         e.preventDefault()
-        await MoodBoardServices.deleteUser(authId)
-        setLoggedIn(false)
-        setAuthId(null)
-        setAuthUser(null)
-        setBio(null)
-        setProfilePic(null)
+        if(window.confirm("Do you want to delete your account?")){
+            await UserServices.deleteUser(authId)
+            setLoggedIn(false)
+            setAuthId(null)
+            setAuthUser(null)
+            setBio(null)
+            setProfilePic(null)
+        }
     }
-    
+
+    let profileLink = man
+    if(profilePic === 'girl'){
+      profileLink = girl
+    }else if(profilePic === 'doctor'){
+      profileLink = doctor
+    }else{
+      profileLink = woman
+    }
+
     return (
         <div>
             <title>Profile - Aesthetic Reads</title>
             <h1 className="pb-8 px-8 text-neutral-900">Profile</h1>
             {isLoggedIn ? <section className='flex flex-col gap-5 my-10 mx-8 text-neutral-900'>
-                <div><img className='w-30 h-30 rounded-full' src={profilePic} alt='profile' /></div>
+                <div><img className='w-30 h-30 rounded-full' src={profileLink ?? placeholder} alt='profile' /></div>
                 <h2 className='font-bold text-3xl'>{authUser}</h2>
-                <div>UserId: #{authId}</div>
                 <h3>Biography:</h3>
                 <div className='shadow-lg py-5 px-5 rounded-xl'>{bio}</div>
                 <div>
@@ -44,7 +59,7 @@ const Profile = () => {
                 </div>
             </section> :
                 <div className='flex flex-col items-center gap-5 my-10 mx-8 text-neutral-900'>
-                    <div>Sorry, we are unable to show you your profile! <span className='underline'>Login by pressing the login button on the top-left</span>.</div>
+                    <div>Sorry, we are unable to show you your profile! <Link className='underline' to='/login'>Click here to login</Link>.</div>
                 </div>}
         </div>
     )

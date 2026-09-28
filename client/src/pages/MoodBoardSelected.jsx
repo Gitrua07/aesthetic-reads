@@ -11,12 +11,8 @@ export default function MoodBoardSelected(){
      * clicks on the area of books, it will expand.
      * The user can also add images and manually add
      * books on this page.
-     * 
-     * This page will contain the following components:
-     * MoodBoardImages.jsx
-     * SearchBar.jsx
-     * SideBar.jsx
      */
+    
     return(
         <div>
             <MoodBoardImages/>

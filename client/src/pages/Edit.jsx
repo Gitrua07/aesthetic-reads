@@ -1,37 +1,35 @@
-import { Link, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../auth/AuthContext'
 import { useState } from 'react'
-import MoodBoardServices from '../services/Moodboard.js'
+import UserServices from '../services/UserService.js'
 import girl from '../assets/girl.png'
 import doctor from '../assets/doctor.png'
 import man from '../assets/man.png'
 import woman from '../assets/woman.png'
 
+const AVATARS = {girl, doctor, man, woman}
+
 
 const Edit = () => {
-    const { authId,
-        setAuthId, setBio, bio, profilePic,
-        setProfilePic } = useAuth()
+    const { authId, setBio, bio, profilePic, setProfilePic } = useAuth()
     const [biography, setBiography] = useState(bio ?? "")
     const [profile, setProfile] = useState(profilePic)
     const navigate = useNavigate()
 
     const handleChange = (e) => {
-        console.log(e.target.value)
         setBiography(e.target.value)
     }
 
     const handlePicChange = (e) => {
         const selectedPic = e.target.value
         setProfile(selectedPic)
-        console.log(profile)
     }
 
     const handleSubmit = async (e) => {
         e.preventDefault()
+        await UserServices.edit(biography, profile, authId)
         setBio(biography)
         setProfilePic(profile)
-        await MoodBoardServices.edit(biography, profile, authId)
         navigate('/profile')
     }
 
@@ -40,43 +38,22 @@ const Edit = () => {
             <title>Edit Profile - Aesthetic Reads</title>
             <h1 className='text-3xl font-bold text-neutral-900'>Edit Profile</h1>
             <form className='flex flex-col gap-5 text-neutral-900' onSubmit={(e) => handleSubmit(e)}>
-                <div className='flex flex-col gap-2'>
-                    <label className='cursor-pointer'>
-                        <input
-                            type='radio'
-                            name='profile'
-                            value={girl}
-                            onChange={handlePicChange}
-                        />
-                        <img src={girl} alt="" />
-                    </label>
-                    <label className='cursor-pointer'>
-                        <input
-                            type='radio'
-                            name='profile'
-                            value={woman}
-                            onChange={handlePicChange}
-                        />
-                        <img src={woman} alt="" />
-                    </label>
-                    <label className='cursor-pointer'>
-                        <input
-                            type='radio'
-                            name='profile'
-                            value={doctor}
-                            onChange={handlePicChange}
-                        />
-                        <img src={doctor} alt="" />
-                    </label>
-                    <label className='cursor-pointer'>
-                        <input
-                            type='radio'
-                            name='profile'
-                            value={man}
-                            onChange={handlePicChange}
-                        />
-                        <img src={man} alt="" />
-                    </label>
+                <label>Choose Your Profile Picture</label>
+                <div className='flex gap-2'>
+                    {
+                        Object.entries(AVATARS).map(([key, src]) => (
+                            <label key={key} className='cursor-pointer'>
+                                <input
+                                  type='radio'
+                                  name='profile'
+                                  value={key}
+                                  checked={profile === key}
+                                  onChange={handlePicChange}
+                                />
+                                <img className='w-30' src={src} alt={`${key} avatar`}/>
+                            </label>
+                        ))
+                    }
                 </div>
                 <div className='flex flex-col gap-2'>
                     <label for='bio'>Edit your biography:</label>

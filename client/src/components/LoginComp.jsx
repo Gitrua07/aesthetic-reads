@@ -1,7 +1,7 @@
 import { Link, useNavigate } from 'react-router-dom'
 import { useState } from 'react'
 import { useAuth } from '../auth/AuthContext'
-import MoodBoardServices from '../services/Moodboard.js' 
+import MoodBoardServices from '../services/MoodboardService.js'
 
 export default function LoginComp() {
     /**
@@ -10,16 +10,7 @@ export default function LoginComp() {
      */
 
     const [loginInfo, setLoginInfo] = useState({username: "", password: ""})
-    const { authUser,
-        setAuthUser,
-        isLoggedIn,
-        setLoggedIn,
-        authId,
-        setAuthId,
-        bio,
-        setBio,
-        profilePic,
-        setProfilePic } = useAuth()
+    const { setAuthUser, setLoggedIn, setAuthId, setBio, setProfilePic} = useAuth()
     const navigate = useNavigate()
 
     const handleSubmit = async(e) => {
@@ -30,12 +21,12 @@ export default function LoginComp() {
             setLoggedIn(true)
             setAuthId(response.id)
             setBio(response.bio)
+            setProfilePic(response.profilePicUrl)
             navigate('/profile')
         }
     }
 
     const handleChange = (e) => {
-        e.preventDefault()
         setLoginInfo({...loginInfo, [e.target.name]: e.target.value})
     }
     
@@ -45,12 +36,12 @@ export default function LoginComp() {
             <h1>Login</h1>
             <form action='/user-info' onSubmit={e=> handleSubmit(e)}>
                 <div>
-                    <label for='username'>Username: </label>
-                    <input value={loginInfo.username} onChange={handleChange} className='border px-1 ml-2 rounded-md' type='text' name='username' id='username' required />
+                    <label htmlFor='username'>Username: </label>
+                    <input autoComplete='username' value={loginInfo.username} onChange={handleChange} className='border px-1 ml-2 rounded-md' type='text' name='username' id='username' required />
                 </div>
                 <div>
-                    <label for='password'>Password:</label>
-                    <input value={loginInfo.password} onChange={handleChange} className='px-1 border ml-4 my-4 rounded-md' type='text' name='password' id='password' require />
+                    <label htmlFor='password'>Password:</label>
+                    <input autoComplete='current-password' value={loginInfo.password} onChange={handleChange} className='px-1 border ml-4 my-4 rounded-md' type='password' name='password' id='password' required />
                 </div>
                 <button type='submit' className="font-medium border px-2 py-1 rounded-xl">Submit</button>
             </form>

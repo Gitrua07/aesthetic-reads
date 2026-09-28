@@ -1,27 +1,20 @@
 import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
-import MoodBoardCard from './MoodboardCard'
-import axios from 'axios'
-import MoodBoardServices from "../services/Moodboard.js"
+import MoodBoardServices from "../services/MoodboardService.js"
+import BookServices from '../services/BookService.js'
 import { useAuth } from '../auth/AuthContext'
-
-// import { v4 as uuidv4 } from 'uuid'
+import plus from '../assets/add.png'
+import placeholder from '../assets/book-placeholder.jpg'
 
 export default function MoodBoardsGrid() {
     /**
      * This component returns a list of mood boards.
-     * 'Sad Boy', 'Emo', 'Sunshine'
      */
+
     const [moodboard, setMoodboard] = useState([])
     const [newMoodBoard, setNewMoodBoard] = useState('')
     const [books, setBooks] = useState([])
-    const {
-        authUser,
-        setAuthUser,
-        isLoggedIn,
-        setLoggedIn,
-        authId,
-        setAuthId } = useAuth()
+    const { isLoggedIn, authId } = useAuth()
 
     //Retrieves moodboards from /api/moodboard endpoint
     useEffect(() => {
@@ -30,11 +23,11 @@ export default function MoodBoardsGrid() {
             setMoodboard(moodboards)
 
             const moodboardBooks = await Promise.all(
-                moodboards.map(moodboard => MoodBoardServices.getBookFromMoodboard(moodboard.id))
+                moodboards.map(moodboard => BookServices.getBookFromMoodboard(moodboard.id))
             )
             const book = await Promise.all(
                 moodboardBooks.map(values =>
-                    Promise.all(values.map(value => MoodBoardServices.getBookById(value.bookId)))
+                    Promise.all(values.map(value => BookServices.getBookById(value.bookId)))
                 )
             )
 
@@ -42,9 +35,9 @@ export default function MoodBoardsGrid() {
         }
 
         loadBoard()
-    }, [])
+    }, [authId])
 
-    const createMoodBoardT = async (e) => {
+    const handleCreateMoodboard = async (e) => {
         e.preventDefault()
         const newObject = { id: authId, name: newMoodBoard }
         MoodBoardServices.createMoodBoard(newObject)
@@ -62,7 +55,7 @@ export default function MoodBoardsGrid() {
     const cssObjects = [
         {
             divClass: 'bg-red-100 h-25 w-25 rounded-tl-xl',
-            imgClass: 'h-25 w-25 rounded-tl-xl'
+            imgClass: 'h-25 w-25 rounded-tl-xl',
         },
         {
             divClass: 'bg-blue-100 h-25 w-25 rounded-tr-xl',
@@ -92,7 +85,7 @@ export default function MoodBoardsGrid() {
                                 value={newMoodBoard}
                                 onChange={e => setNewMoodBoard(e.target.value)}
                             ></input>
-                            <button className='w-[50px] focus:outline-2 focus:outline-blue-500 rounded-full' type="submit" onClick={(e) => createMoodBoardT(e)}><img className='w-[50px] max-w-full min-w-0' src='src/assets/add.png' alt='plus or addition icon' /></button>
+                            <button className='w-[50px] focus:outline-2 focus:outline-blue-500 rounded-full' type="submit" onClick={(e) => handleCreateMoodboard(e)}><img className='w-[50px] max-w-full min-w-0' src={plus} alt='plus or addition icon' /></button>
                         </form>
                     </div>
                 </div>
@@ -100,28 +93,25 @@ export default function MoodBoardsGrid() {
                 <ul className="mt-15 flex flex-wrap gap-5">
                         {
                             moodboard.map((value, index) => {
-                                // console.log(value)
                                 const link = `/moodboard/${value.id}`
-                                // getBookInfo(value.id)
-                                //   if (!value.link || !value.thumbnails) return (<div key={index}></div>)
-                                //<img className={cssObjects[index].imgClass} src={value.thumbnails[0]} alt={value.books[0]} />             
-                                // console.log('index --> ', index)
-                                // console.log('books --> ', books[index])
                                 const book = books[index] ?? []
 
-                                const bookSrcZero = book[0]?.thumbnails?.[0] ?? 'src/assets/book-placeholder.jpg'
-                                const bookSrcOne = book[1]?.thumbnails?.[0] ?? 'src/assets/book-placeholder.jpg'
-                                const bookSrcTwo = book[2]?.thumbnails?.[0] ?? 'src/assets/book-placeholder.jpg'
-                                const bookSrcThree = book[3]?.thumbnails?.[0] ?? 'src/assets/book-placeholder.jpg'
+                                const bookSrcZero = book[0]?.thumbnails?.[0] ?? placeholder
+                                const bookSrcOne = book[1]?.thumbnails?.[0] ?? placeholder
+                                const bookSrcTwo = book[2]?.thumbnails?.[0] ?? placeholder
+                                const bookSrcThree = book[3]?.thumbnails?.[0] ?? placeholder
+
+                                const bookSrc = [bookSrcZero, bookSrcOne, bookSrcTwo, bookSrcThree]
 
                                 return (
                                     <li key={index}>
                                         <Link className='focus:outline-2 focus:outline-blue-500 rounded-md' to={link}>
                                             <div className='rounded-xl h-50 w-50 flex flex-wrap'>
-                                                <div className={cssObjects[0].divClass}><img className={cssObjects[0].imgClass} src={bookSrcZero} alt="" /></div>
-                                                <div className={cssObjects[1].divClass}><img className={cssObjects[1].imgClass} src={bookSrcOne} alt="" /></div>
-                                                <div className={cssObjects[2].divClass}><img className={cssObjects[2].imgClass} src={bookSrcTwo} alt="" /></div>
-                                                <div className={cssObjects[3].divClass}><img className={cssObjects[3].imgClass} src={bookSrcThree} alt="" /></div>
+                                                {
+                                                    cssObjects.map((val, index) => (
+                                                        <div className={val.divClass}><img className={val.imgClass} src={bookSrc[index]} alt=''/></div>
+                                                    ))
+                                                }
                                             </div>
                                         </Link>
                                         <h2 className='px-2 py-3 text-start font-bold text-xl text-neutral-900'>{value.name}</h2>

@@ -1,6 +1,6 @@
 import LoginComp from '../components/LoginComp';
 import { useAuth } from '../auth/AuthContext'
-import Profile from './Profile'
+import { Navigate } from 'react-router-dom';
 export default function Login() {
     /**
      * Login:
@@ -9,21 +9,16 @@ export default function Login() {
      * password. It will let users navigate to the 
      * register page. When the user has inputted a correct
      * username and password, then the user will be
-     * relocated to the Home.jsx page.
+     * relocated to the profile page.
      * 
-     * This page will contain the following components:
-     * Login.jsx
      */
 
-    const { authUser,
-        setAuthUser,
-        isLoggedIn,
-        setLoggedIn } = useAuth()
+    const { isLoggedIn } = useAuth()
 
     return (
         <div>
             <title>Login - Aesthetic Reads</title>
-            {isLoggedIn ? <Profile/> : <section className='m-20 flex flex-col justify-center justify-items-center text-center'>
+            {isLoggedIn ? <Navigate to='/profile' replace/>: <section className='m-20 flex flex-col justify-center text-center'>
                 <LoginComp />
             </section>}
 

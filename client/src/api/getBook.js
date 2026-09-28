@@ -7,9 +7,15 @@ export default function useBooks(userQuery) {
 
   useEffect(() => {
     if (!userQuery) return
-    fetch(`https://www.googleapis.com/books/v1/volumes?q=${encodeURIComponent(userQuery)}&key=${API_KEY}&maxResults=40`)
+    const controller = new AbortController()
+    const url = `https://www.googleapis.com/books/v1/volumes?q=${encodeURIComponent(userQuery)}&key=${API_KEY}&maxResults=40` 
+    fetch(url, {signal: controller.signal} )
       .then((res) => res.json())
       .then((data) => setBooks(data.items || []))
+      .catch((err) => {
+        if (err.name !== 'AbortError') console.error(err) 
+      })
+    return () => controller.abort()
   }, [userQuery])
 
   return books

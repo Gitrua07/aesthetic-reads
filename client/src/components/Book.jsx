@@ -3,26 +3,19 @@ import useOneBook from '../api/getOneBook.js'
 import thumbnailPlaceHolder from '../assets/book-placeholder.jpg'
 import { useState, useEffect } from 'react'
 import SaveMoodBoard from "./SaveMoodBoard"
-import MoodBoardServices from '../services/Moodboard.js'
+import MoodBoardServices from "../services/MoodboardService.js"
+import { useAuth } from '../auth/AuthContext.jsx'
 
 const BookTitle = ({ bookTitle }) => <h1>{bookTitle}</h1>
 
 const Authors = ({ bookAuthor }) =>
-    <div>by {bookAuthor.map((val, index) => {
-        let textVal = index != bookAuthor.length - 1 ? val + ',' : val
-        return (
-            <span key={index}>{textVal} </span>
-        )
-    })}
-    </div>
+    <div>by {bookAuthor.join(', ')}</div>
 
 const BookSummary = ({ bookDesc }) =>
     <div className="w-1/2 p-10 border border-[rgb(199,199,191)] rounded-xl m-10">
         <h2>Summary</h2>
         <div>{bookDesc}</div>
     </div>
-
-// const getMoodBoard = await MoodBoardServices.getMoodBoard()
 
 export default function Book() {
     /**
@@ -40,33 +33,20 @@ export default function Book() {
     const bookInfo = book?.volumeInfo
     const bookTitle = bookInfo?.title
     const bookAuthor = bookInfo?.authors ?? ['Not Available']
+    const { authId } = useAuth()
 
     //Obtains the book description by parsing it into html -> text
     const domParse = new DOMParser()
     const description = bookInfo?.description
     const bookDesc = description ? domParse.parseFromString(description, 'text/html').body.textContent : 'No description available.'
-    let imageSrc = bookInfo?.imageLinks ?? thumbnailPlaceHolder
-    //Checks if image small size exists
-    if (imageSrc != thumbnailPlaceHolder) {
-        imageSrc = !bookInfo?.imageLinks?.small ? bookInfo?.imageLinks?.small : bookInfo?.imageLinks?.thumbnail
-    }
+    const imageSrc = bookInfo?.imageLinks?.small ?? bookInfo?.imageLinks?.thumbnail ?? thumbnailPlaceHolder
+    
 
     const [moodBoardData, setMoodBoardData] = useState([])
     const [selectedMoodBoard, setMoodBoard] = useState('')
-    console.log("1. MoodBoardData --> ")
-    console.log(moodBoardData)
-    
-    async function handleMoodBoard(e) {
-        e.preventDefault()
-        // await fetch('/api/moodboard', {
-        //     method: 'POST',
-        //     headers: { 'Content-Type': 'application/json' },
-        //     body: JSON.stringify({ mood: selectedMoodBoard, bookId: bookId })
-        // })
-    }
 
     useEffect(() => {
-        MoodBoardServices.getMoodBoard().then(data => {
+        MoodBoardServices.getMoodBoardByUserId(authId).then(data => {
             setMoodBoardData(data)
             setMoodBoard(data[0]?.name)
         })
@@ -84,10 +64,8 @@ export default function Book() {
                     author={bookAuthor}
                     title={bookTitle}
                     moodBoardData={moodBoardData}
-                    imageSrc={imageSrc}
-                    handleMoodBoard={handleMoodBoard}
                     selectedMoodBoard={selectedMoodBoard}
-                    setMoodboard={setMoodBoard}
+                    setMoodBoard={setMoodBoard}
                     setMoodBoardData={setMoodBoardData}
                 />
                 <BookSummary bookDesc={bookDesc} />
