@@ -22,7 +22,7 @@ const Profile = () => {
     const deleteUser = async(e) => {
         e.preventDefault()
         if(window.confirm("Do you want to delete your account?")){
-            await UserServices.deleteUser(authId)
+            await UserServices.deleteUser()
             setLoggedIn(false)
             setAuthId(null)
             setAuthUser(null)

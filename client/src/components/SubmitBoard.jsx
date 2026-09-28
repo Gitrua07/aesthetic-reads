@@ -1,4 +1,5 @@
 import MoodBoardServices from "../services/MoodboardService.js"
+import BookServices from '../services/BookService.js'
 import { useAuth } from '../auth/AuthContext'
 
 export default function SubmitBoard(props) {
@@ -31,7 +32,7 @@ export default function SubmitBoard(props) {
                 thumbnails: [thumbnail]
             }
 
-            await MoodBoardServices.addBookToMoodboard(data)
+            await BookServices.addBookToMoodboard(data)
         }
     }
 

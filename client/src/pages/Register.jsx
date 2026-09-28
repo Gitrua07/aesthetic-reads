@@ -2,6 +2,8 @@ import { useState } from "react"
 import UserServices from '../services/UserService.js'
 import { useNavigate } from "react-router-dom"
 import { useAuth } from "../auth/AuthContext.jsx"
+import placeholder from '../assets/book-placeholder.jpg'
+
 export default function Register(){
     /**
      * Register:
@@ -17,7 +19,7 @@ export default function Register(){
         setLoggedIn,
         setAuthId,
         setBio,
-        setProfilePic } = useAuth()
+        setProfilePic, setAuthStatus } = useAuth()
     const navigate = useNavigate()
     const handleChange = (e) => {
         setUserInfo({...userInfo, [e.target.name]: e.target.value})
@@ -29,7 +31,8 @@ export default function Register(){
         setAuthUser(userInfo.username)
         setLoggedIn(true)
         setAuthId(data.id)
-        setProfilePic('src/assets/book-placeholder.jpg')
+        setProfilePic(placeholder)
+        setAuthStatus('authenticated')
         setBio(null)
         navigate(`/profile`)
     }

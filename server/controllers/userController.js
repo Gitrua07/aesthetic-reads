@@ -3,7 +3,7 @@ const bcrypt = require('bcrypt')
 const { setAuthCookie } = require('../utils/authCookie.js')
 const deleteUser = async (request, response) => {
   try{
-    const id = request.params.id
+    const id = request.user.id
     await User.destroy({
       where: { id: id },
     })
