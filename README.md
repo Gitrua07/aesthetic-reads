@@ -20,6 +20,13 @@ Aesthetic reads is a React website that allows users to create mood boards using
 * Create user account
 * Choose profile picture and create a user biography
 
+## Live Demo
+For testing use demo account:
+username: demo
+password: demo1@3
+
+Link to website: https://aesthetic-reads.onrender.com/ 
+
 ## Local Usage
 1. Clone the repo and install dependencies:
 ```bash
