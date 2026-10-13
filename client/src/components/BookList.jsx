@@ -13,9 +13,15 @@ export default function BookList(props) {
 
     const [moodBoardData, setMoodBoardData] = useState([])
     const [selectedMoodBoard, setMoodBoard] = useState('')
+    const [page, setPage] = useState(0)
     const { authId } = useAuth()
     let bookData = []
-    const books = getBooks(props.query)
+    const books = getBooks(props.query, page)
+
+    useEffect(() => {
+        const defaultPage = () => setPage(0)
+        defaultPage()
+    }, [props.query])
 
     //Retrieves moodboard data from backend
     useEffect(() => {
@@ -61,6 +67,16 @@ export default function BookList(props) {
                         setMoodBoard={setMoodBoard}
                     /></li>)) : <div>No search yet...</div>}
             </ul>
+
+            <div className='mx-5 my-2 flex gap-5'>
+                {
+                    page > 0 ? <button className='py-2 px-4 rounded-xl outline' onClick={() => setPage(p => p - 1)} >Back Page</button> : <div></div>
+                }
+                <div className='my-2'>Page {page}</div>
+                {
+                    page < books.length ? <button className='py-2 px-4 rounded-xl outline' onClick={() => setPage(p => p + 1)}>Next Page</button>: <div></div>
+                }
+            </div>
         </div>
 
     )
