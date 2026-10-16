@@ -4,9 +4,11 @@ const { setAuthCookie } = require('../utils/authCookie.js')
 const deleteUser = async (request, response) => {
   try{
     const id = request.user.id
+
     await User.destroy({
       where: { id: id },
     })
+
     response.status(204).end()
   }catch(err){
     response.status(401).json({ error: err })
